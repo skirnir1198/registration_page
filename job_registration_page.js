@@ -191,6 +191,7 @@ new Vue({
   el: 'main',
   data: {
     region: 'region',
+    region_detail: 'region_detail',
     period: 'period',
     income: 'income',
     condition: 'condition',

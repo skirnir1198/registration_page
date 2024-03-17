@@ -30,8 +30,21 @@
       <h1>求人登録ページ</h1>
     </section>
     <section>
+      <h3>職場名</h3>
+      <text-field :input-class="name"></text-field>
+    </section>
+    <section>
+      <h3>タイトル(求職者を惹きつけるタイトル)</h3>
+      <text-area-component input-class="title"></text-area-component>
+    </section>
+   
+    <section>
       <h3>都道府県</h3>
       <area-component></area-component>
+    </section>
+    <section>
+      <h3>都道府県以降の住所</h3>
+      <text-field :input-class="region_detail"></text-field>
     </section>
     <section>
       <h3>地域名</h3>
@@ -49,6 +62,7 @@
       <h3>期間</h3>
       <text-field :input-class="period"></text-field>
     </section>
+    
     <section>
       <h3>おすすめポイント<span class="small_word">※最大５個まで</span></h3>
       <div class="input-group">
@@ -187,6 +201,10 @@
     <section>
       <h3>周辺環境</h3>
       <text-area-component input-class="surrounding_environment"></text-area-component>
+    </section>
+    <section>
+      <h3>交通手段</h3>
+      <text-area-component input-class="transportation"></text-area-component>
     </section>
     <section>
       <h3>写真登録<span class="small_word">※最大5枚</span></h3>

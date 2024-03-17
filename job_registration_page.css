@@ -20,6 +20,11 @@ h5 {
   margin-top: 20px;
 }
 
+h6 {
+  margin: 0;
+  margin-top: 20px;
+}
+
 .small_word {
   font-size: 10px;
   color: #666;
@@ -113,8 +118,8 @@ select {
 select,
 input,
 textarea {
-  padding: 4px;
-  font-size: 12px;
+  padding: 6px 4px;
+  font-size: 14px;
 }
 
 input {
@@ -345,7 +350,7 @@ th {
   text-align: left;
   padding: 8px;
   border: 1px solid #ddd;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
 }
 
@@ -524,6 +529,56 @@ p {
   display: flex; /* リストアイテム内の要素を横並びにする */
   justify-content: space-between; /* テキストと削除ボタンをリストアイテムの両端に配置 */
   align-items: center; /* 縦方向の中心揃え */
+}
+
+.green-dot-list {
+  list-style-type: none; /* 既定のリストスタイルを無効化 */
+  padding-left: 0; /* 既定のパディングを取り除く */
+  margin: 8px 0;
+}
+
+.green-dot-list li {
+  display: flex; /* Flexboxを有効化 */
+  align-items: center; /* アイテムを垂直方向の中央に揃える */
+}
+
+.green-dot-list li::before {
+  content: '\f111'; /* Font Awesomeの円形ドットアイコン */
+  font-family: 'Font Awesome 5 Free'; /* Font Awesomeのフォントファミリーを指定 */
+  color: #86be4f; /* ドットの色 */
+  margin-right: 10px; /* テキストとの間隔 */
+  font-size: 8px; /* アイコンのサイズを調整 */
+}
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f9f9f9;
+  width: 20%;
+}
+
+td {
+  width: 80%;
+}
+
+a {
+  color: blue;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 

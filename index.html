@@ -50,6 +50,14 @@
       <text-field :input-class="period"></text-field>
     </section>
     <section>
+      <h3>おすすめポイント<span class="small_word">※最大５個まで</span></h3>
+      <div class="input-group">
+        <input type="text" id="list-item-input" placeholder="おすすめポイントを入力" />
+        <button id="add-item-button">追加</button>
+      </div>
+      <ul id="list-container"></ul>
+    </section>
+    <section>
       <h3>年齢層</h3>
       <div class="checkbox_parent">
         <checkbox-component v-for="(item, index) in agecheckbox" :key="index" :label="item.text" :value="item.checked"

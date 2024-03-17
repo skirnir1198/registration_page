@@ -143,7 +143,7 @@ Vue.component('text-field', {
 Vue.component('text-area-component', {
   props: ['inputClass'],
   template: `
-    <textarea :class="inputClass" rows="3" cols="50" placeholder="ここにテキストを入力してください..."></textarea>
+    <textarea :class="inputClass" rows="5" cols="70" placeholder="ここにテキストを入力してください..."></textarea>
   `
 });
 
@@ -282,3 +282,53 @@ document.getElementById('image-input').addEventListener('change', function (even
 document.getElementById('image-input2').addEventListener('change', function (event) {
   handleImagePreview(event, 'preview-container2');
 });
+
+const inputField = document.getElementById('list-item-input');
+const addButton = document.getElementById('add-item-button');
+const listContainer = document.getElementById('list-container');
+
+function addListItem() {
+  const itemText = inputField.value.trim();
+  if (itemText !== '') {
+    const listItem = document.createElement('li');
+    listItem.textContent = itemText;
+    listContainer.appendChild(listItem);
+    inputField.value = ''; // 入力フィールドをクリア
+  }
+}
+
+addButton.addEventListener('click', addListItem);
+
+inputField.addEventListener('keypress', function(event) {
+  if (event.key === 'Enter') {
+    addListItem();
+    event.preventDefault(); // フォーム送信を防ぐ
+  }
+});
+
+function addListItem() {
+  const currentItems = listContainer.getElementsByTagName('li').length;
+  if (currentItems >= 5) {
+    alert('最大5個の項目を追加できます。');
+    return; // 既に5個のアイテムがある場合はこれ以上追加しない
+  }
+
+  const itemText = inputField.value.trim();
+  if (itemText !== '') {
+    const listItem = document.createElement('li');
+    const textSpan = document.createElement('span');
+    textSpan.textContent = itemText;
+
+    const removeButton = document.createElement('button');
+    removeButton.textContent = '削除';
+    removeButton.classList.add('remove-item-button');
+    removeButton.onclick = function() {
+      listItem.remove();
+    };
+
+    listItem.appendChild(textSpan);
+    listItem.appendChild(removeButton);
+    listContainer.appendChild(listItem);
+    inputField.value = ''; // 入力フィールドをクリア
+  }
+}

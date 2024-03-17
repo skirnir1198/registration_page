@@ -43,8 +43,8 @@ section {
   background-color: #ffffff;
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-  padding: 20px;
-  border-radius: 12px;
+  padding: 12px;
+  border-radius: 4px;
 }
 
 section img {
@@ -113,8 +113,8 @@ select {
 select,
 input,
 textarea {
-  padding: 8px;
-  font-size: 16px;
+  padding: 4px;
+  font-size: 12px;
 }
 
 input {
@@ -464,6 +464,70 @@ p {
   border-radius: 5px;
 }
 
+.input-group {
+  display: flex; /* フレックスボックスを使って要素を横並びにする */
+  align-items: center; /* アイテムを縦方向の中央に揃える */
+}
+
+#list-item-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px; /* 左側の角を丸くする */
+  margin-right: -1px; /* ボタンとの境界線を除去 */
+}
+
+#add-item-button {
+  padding: 4px;
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
+  border-radius: 12px;
+  cursor: pointer;
+  width: 48px;
+  margin-left: 4px;
+}
+
+#add-item-button:hover {
+  background-color: #45a049;
+}
+
+#list-container {
+  margin-top: 10px;
+  list-style: none;
+  padding-left: 0;
+}
+
+#list-container li {
+  padding: 10px;
+  background-color: #f9f9f9;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+/* 以前のスタイルに追加 */
+
+.remove-item-button {
+  margin-left: 10px; /* テキストと削除ボタンの間にスペースを追加 */
+  padding: 5px 10px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.remove-item-button:hover {
+  background-color: #d32f2f;
+}
+
+#list-container li {
+  display: flex; /* リストアイテム内の要素を横並びにする */
+  justify-content: space-between; /* テキストと削除ボタンをリストアイテムの両端に配置 */
+  align-items: center; /* 縦方向の中心揃え */
+}
+
+
+
 /* スマートフォン向けのスタイル。横幅が600ピクセル未満の場合に適用 */
 @media (max-width: 600px) {
   main {
@@ -473,8 +537,7 @@ p {
 
   input,
   textarea {
-    max-width: 90%;
-    margin: 8px;
+    max-width: 95%;
   }
 
   .checkbox_parent,

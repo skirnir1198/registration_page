@@ -15,7 +15,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="js/firebase_config.js"></script>
+  <script src="firebase_config.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5740691913931441"
@@ -30,14 +30,14 @@
       <h1>求人登録ページ</h1>
     </section>
     <section>
-      <h3>職場名</h3>
+      <h3>施設名</h3>
       <text-field :input-class="name"></text-field>
     </section>
     <section>
-      <h3>タイトル(求職者を惹きつけるタイトル)</h3>
+      <h3>タイトル<span class="small_word">求職者を惹きつけるタイトル</span></h3>
       <text-area-component input-class="title"></text-area-component>
     </section>
-   
+
     <section>
       <h3>都道府県</h3>
       <area-component></area-component>
@@ -62,7 +62,7 @@
       <h3>期間</h3>
       <text-field :input-class="period"></text-field>
     </section>
-    
+
     <section>
       <h3>おすすめポイント<span class="small_word">※最大５個まで</span></h3>
       <div class="input-group">
@@ -213,7 +213,7 @@
         <input type="file" id="image-input" multiple accept="image/*" />
       </div>
     </section>
-    
+
     <section>
       <h3>寮の写真登録<span class="small_word">※最大5枚</span></h3>
       <div id="image-upload-container2">

@@ -1,3 +1,18 @@
+/* 全体 */
+body {
+  margin: 20px;
+}
+
+main {
+  max-width: 600px;
+  /* 最大横幅を600ピクセルに設定 */
+  width: 100%;
+  /* 横幅を画面の幅に合わせて調整 */
+  box-sizing: border-box;
+  margin: auto;
+}
+
+/* フォントスタイル */
 h1 {
   font-size: 32px;
   margin: 0;
@@ -25,24 +40,19 @@ h6 {
   margin-top: 20px;
 }
 
+p {
+  margin: 0;
+  font-size: 14px;
+  /* テキストのサイズ */
+}
+
 .small_word {
   font-size: 10px;
   color: #666;
   margin-left: 8px;
 }
 
-body {
-  margin: 20px;
-}
-
-main {
-  max-width: 600px;
-  /* 最大横幅を600ピクセルに設定 */
-  width: 100%;
-  /* 横幅を画面の幅に合わせて調整 */
-  box-sizing: border-box;
-  margin: auto;
-}
+/* section関連 */
 
 section {
   background-color: #ffffff;
@@ -58,31 +68,8 @@ section img {
   /* 角丸の大きさを設定 */
 }
 
-.slide-container {
-  display: flex;
-  /* Flexboxを使って画像を並べる */
-  justify-content: space-between;
-  /* 画像を均等に分散 */
-}
 
-.slide-container img {
-  flex: 1;
-  /* 画像がコンテナ内で均等に拡張するように */
-  max-width: calc(20% - 10px);
-  /* 5枚の画像なので20%の幅、画像間のマージンを考慮 */
-  height: auto;
-  /* 高さは自動調整 */
-  margin-right: 10px;
-  /* 画像間の余白 */
-}
-
-/* 最後の画像の右マージンを取り除く */
-.slide-container img:last-child {
-  margin-right: 0;
-}
-
-
-
+/* 登録ボタン */
 .submit-button {
   padding: 10px 20px;
   /* ボタン内のパディング */
@@ -109,6 +96,10 @@ section img {
   /* アイコンとテキストの間隔 */
 }
 
+/* ----------------------------------------------------------------- */
+
+
+/* 入力欄 */
 select {
   min-width: 200px;
   border: 1px solid #ccc;
@@ -240,8 +231,10 @@ input[type="text"] {
   border: 2px solid #6200ea;
 }
 
+/* ---------------------------------------------------------------- */
 
-/* job_detail_page */
+
+/* 求人詳細 */
 
 .info-list {
   list-style: none;
@@ -279,6 +272,40 @@ input[type="text"] {
   margin-left: 4px;
   /* アイコンとテキストの間隔 */
 }
+
+/* 画像スライダー */
+.slide-container {
+  display: flex;
+  /* Flexboxを使って画像を並べる */
+  justify-content: space-between;
+  /* 画像を均等に分散 */
+}
+
+.slide-container img {
+  flex: 1;
+  /* 画像がコンテナ内で均等に拡張するように */
+  max-width: calc(20% - 10px);
+  /* 5枚の画像なので20%の幅、画像間のマージンを考慮 */
+  height: auto;
+  /* 高さは自動調整 */
+  margin-right: 10px;
+  /* 画像間の余白 */
+}
+
+/* 最後の画像の右マージンを取り除く */
+.slide-container img:last-child {
+  margin-right: 0;
+}
+
+#preview-container img, #preview-container2 img {
+  width: 100px;
+  height: auto;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+/* --------------------------------------------------------- */
 
 .custom-slider-container {
   display: flex;
@@ -324,6 +351,7 @@ input[type="text"] {
   z-index: 2;
 }
 
+/* チェックボックステキスト */
 .dot-text {
   position: absolute;
   bottom: -24px;
@@ -333,7 +361,7 @@ input[type="text"] {
   font-size: 12px;
 }
 
-
+/* テーブル */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -362,7 +390,9 @@ td {
   border: 1px solid #ddd;
 }
 
-/* 以下、既存のスタイル */
+/* -------------------------------------------------- */
+
+/* リスト */
 ul {
   list-style: none;
   padding-left: 0;
@@ -372,8 +402,9 @@ ul li:before {
   color: #007bff;
   font-weight: bold;
 }
+/* -------------------------------------------------- */
 
-
+/* 背景色が緑の要素 */
 .green-div {
   background-color: #e2f0cb;
   /* 緑色系の背景色 */
@@ -408,7 +439,9 @@ ul li:before {
   /* テキストを太字にする */
   color: #86be4f;
 }
+/* -------------------------------------- */
 
+/* 設備アイコン */
 .icon-list {
   display: flex;
   flex-wrap: wrap;
@@ -448,12 +481,6 @@ ul li:before {
   /* アイコンのサイズ */
 }
 
-p {
-  margin: 0;
-  font-size: 14px;
-  /* テキストのサイズ */
-}
-
 .fas {
   font-size: 24px;
   /* アイコンのサイズを大きくする */
@@ -461,14 +488,11 @@ p {
   /* アイコンの色をダークグレイにする */
 }
 
-#preview-container img, #preview-container2 img {
-  width: 100px;
-  height: auto;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-}
+/* ------------------------------------------- */
 
+
+
+/* おすすめポイント */
 .input-group {
   display: flex; /* フレックスボックスを使って要素を横並びにする */
   align-items: center; /* アイテムを縦方向の中央に揃える */
@@ -509,8 +533,6 @@ p {
   border-radius: 5px;
 }
 
-/* 以前のスタイルに追加 */
-
 .remove-item-button {
   margin-left: 10px; /* テキストと削除ボタンの間にスペースを追加 */
   padding: 5px 10px;
@@ -530,6 +552,8 @@ p {
   justify-content: space-between; /* テキストと削除ボタンをリストアイテムの両端に配置 */
   align-items: center; /* 縦方向の中心揃え */
 }
+
+/* ---------------------------------------------------- */
 
 .green-dot-list {
   list-style-type: none; /* 既定のリストスタイルを無効化 */
@@ -551,27 +575,7 @@ p {
 }
 
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-th, td {
-  border: 1px solid #ccc;
-  padding: 10px;
-  text-align: left;
-}
-
-th {
-  background-color: #f9f9f9;
-  width: 20%;
-}
-
-td {
-  width: 80%;
-}
-
+/* Googleマップ */
 a {
   color: blue;
   text-decoration: none;
@@ -580,7 +584,7 @@ a {
 a:hover {
   text-decoration: underline;
 }
-
+/* -------------------------------------- */
 
 
 /* スマートフォン向けのスタイル。横幅が600ピクセル未満の場合に適用 */

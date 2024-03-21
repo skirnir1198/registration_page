@@ -1,7 +1,5 @@
 $(function () {
   const db = firebase.firestore();
-  var name = '';
-  var selectRegion = '北海道';
   // 入力欄コンポーネント ----------------------------------------------------------------------------
 
   Vue.component('area-component', {
@@ -68,8 +66,17 @@ $(function () {
   });
 
   Vue.component('occupation-component', {
+    methods: {
+      updateSelectedText: function (event) {
+        // 選択されたオプションのテキストを取得
+        const selectedIndex = event.target.selectedIndex;
+        const selectedText = event.target.options[selectedIndex].text;
+        // 選択されたテキストをカスタムイベントを使って親に通知
+        this.$emit('update-occupation', selectedText);
+      },
+    },
     template: `
-  <select>
+  <select @change="updateSelectedText">
   <option value="レストランサービス">レストランサービス</option>
   <option value="バイキングレストラン">バイキングレストラン</option>
   <option value="カフェ">カフェ</option>
@@ -96,8 +103,17 @@ $(function () {
   });
 
   Vue.component('employment-component', {
+    methods: {
+      updateSelectedText: function (event) {
+        // 選択されたオプションのテキストを取得
+        const selectedIndex = event.target.selectedIndex;
+        const selectedText = event.target.options[selectedIndex].text;
+        // 選択されたテキストをカスタムイベントを使って親に通知
+        this.$emit('update-employment', selectedText);
+      },
+    },
     template: `
-  <select>
+  <select @change="updateSelectedText">
     <option value="派遣社員">派遣社員</option>
     <option value="正社員">正社員</option>
     <option value="アルバイト">アルバイト</option>
@@ -106,8 +122,17 @@ $(function () {
   });
 
   Vue.component('clothing-component', {
+    methods: {
+      updateSelectedText: function (event) {
+        // 選択されたオプションのテキストを取得
+        const selectedIndex = event.target.selectedIndex;
+        const selectedText = event.target.options[selectedIndex].text;
+        // 選択されたテキストをカスタムイベントを使って親に通知
+        this.$emit('update-clothing', selectedText);
+      },
+    },
     template: `
-  <select>
+  <select @change="updateSelectedText">
     <option value="洋装">洋装</option>
     <option value="二部式着物">二部式着物</option>
     <option value="本式着物">本式着物</option>
@@ -118,8 +143,17 @@ $(function () {
   });
 
   Vue.component('car-component', {
+    methods: {
+      updateSelectedText: function (event) {
+        // 選択されたオプションのテキストを取得
+        const selectedIndex = event.target.selectedIndex;
+        const selectedText = event.target.options[selectedIndex].text;
+        // 選択されたテキストをカスタムイベントを使って親に通知
+        this.$emit('update-car', selectedText);
+      },
+    },
     template: `
-  <select>
+  <select @change="updateSelectedText">
     <option value="可能">可能</option>
     <option value="不可能">不可能</option>
     <option value="必須">必須</option>
@@ -129,8 +163,17 @@ $(function () {
   });
 
   Vue.component('dormitory-component', {
+    methods: {
+      updateSelectedText: function (event) {
+        // 選択されたオプションのテキストを取得
+        const selectedIndex = event.target.selectedIndex;
+        const selectedText = event.target.options[selectedIndex].text;
+        // 選択されたテキストをカスタムイベントを使って親に通知
+        this.$emit('update-dormitory', selectedText);
+      },
+    },
     template: `
-  <select>
+  <select @change="updateSelectedText">
     <option value="アパート,マンションタイプ">アパート,マンションタイプ</option>
     <option value="個室(共有スペースあり)">個室(共有スペースあり)</option>
     <option value="必須">必須</option>
@@ -140,8 +183,17 @@ $(function () {
   });
 
   Vue.component('network-component', {
+    methods: {
+      updateSelectedText: function (event) {
+        // 選択されたオプションのテキストを取得
+        const selectedIndex = event.target.selectedIndex;
+        const selectedText = event.target.options[selectedIndex].text;
+        // 選択されたテキストをカスタムイベントを使って親に通知
+        this.$emit('update-network', selectedText);
+      },
+    },
     template: `
-  <select>
+  <select @change="updateSelectedText">
     <option value="あり(部屋内)">あり(部屋内)</option>
     <option value="あり(共有スペース)">あり(共有スペース)</option>
     <option value="なし">なし</option>
@@ -165,11 +217,19 @@ $(function () {
 
 
   Vue.component('text-area-component', {
-    props: ['inputClass'],
+    props: ['inputClass', 'value'], // 'value' をプロパティとして追加
     template: `
-    <textarea :class="inputClass" rows="5" cols="70" placeholder="ここにテキストを入力してください..."></textarea>
-  `
+      <textarea 
+        :class="inputClass" 
+        :value="value"
+        @input="$emit('input', $event.target.value)"
+        rows="5" 
+        cols="70" 
+        placeholder="ここにテキストを入力してください..."
+      ></textarea>
+    `
   });
+  
 
   Vue.component('radio-group', {
     props: ['groupClass', 'leftLabel', 'rightLabel'],
@@ -218,14 +278,20 @@ $(function () {
       title: '',
       region_detail: '',
       selectedRegion: '',
+      occupation: '',
       region: '',
+      employment: '',
+      clothing: '',
+      car: '',
       job_description: '',
       period: '',
       income: '',
       working_hours: '',
       condition: '',
+      dietary_conditions: '',
       necessary_work: '',
       necessary_life: '',
+      domitoryType: '',
       domitory_fee: '',
       commuting_time: '',
       welfare: '',
@@ -272,20 +338,39 @@ $(function () {
         { text: '温泉', checked: false },
         { text: 'バス停・駅', checked: false }
       ],
-      necessaryThing: [
-        { text: '必要なもの', checked: false },
-      ],
     },
     methods: {
       handleRegionUpdate: function (region) {
         this.selectedRegion = region; // 選択された地域名をデータプロパティに設定
       },
+      handleOccupationUpdate: function (occupation) {
+        this.occupation = occupation; // 選択された地域名をデータプロパティに設定
+      },
+      handleEmploymentUpdate: function (employment) {
+        this.employment = employment; // 選択された地域名をデータプロパティに設定
+      },
+      handleClothingUpdate: function (clothing) {
+        this.clothing = clothing; // 選択された地域名をデータプロパティに設定
+      },
+      handleCarUpdate: function (car) {
+        this.car = car; // 選択された地域名をデータプロパティに設定
+      },
+      handleDormitoryUpdate: function (domitoryType) {
+        this.domitoryType = domitoryType; // 選択された地域名をデータプロパティに設定
+      },
+      handleNetworkUpdate: function (network) {
+        this.network = network; // 選択された地域名をデータプロパティに設定
+      },
+      
+      
       submitForm() {
-        console.log(this.selectedRegion); // name の値をログに出力
-        // ここでフォームのデータを使用する
-        console.log(this.name); // name の値をログに出力
-        console.log(this.title); // title の値をログに出力
-        console.log(this.region_detail); // region_detail の値をログに出力
+        // console.log(this.selectedRegion); // name の値をログに出力
+        // // ここでフォームのデータを使用する
+        // console.log(this.name); // name の値をログに出力
+        // console.log(this.title); // title の値をログに出力
+        // console.log(this.region_detail); // region_detail の値をログに出力
+        console.log(this.network); // ここでtitleの値を取得して使用
+
         // 他のデータも同様に取得して使用できます。
 
         // 送信処理など

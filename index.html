@@ -31,7 +31,7 @@
     </section>
     <section>
       <h3>施設名</h3>
-      <text-field :input-class="name"></text-field>
+      <text-field :input-class="name" v-model="name"></text-field>
     </section>
     <section>
       <h3>タイトル<span class="small_word">求職者を惹きつけるタイトル</span></h3>
@@ -40,15 +40,15 @@
 
     <section>
       <h3>都道府県</h3>
-      <area-component></area-component>
+      <area-component @update-region="handleRegionUpdate"></area-component>
     </section>
     <section>
       <h3>都道府県以降の住所</h3>
-      <text-field :input-class="region_detail"></text-field>
+      <text-field :input-class="region_detail" v-model="region_detail"></text-field>
     </section>
     <section>
       <h3>地域名</h3>
-      <text-field :input-class="region"></text-field>
+      <text-field :input-class="region" v-model="region"></text-field>
     </section>
     <section>
       <h3>業種</h3>
@@ -60,7 +60,7 @@
     </section>
     <section>
       <h3>期間</h3>
-      <text-field :input-class="period"></text-field>
+      <text-field :input-class="period" v-model="period"></text-field>
     </section>
 
     <section>
@@ -105,7 +105,7 @@
     </section>
     <section>
       <h3>月収予想</h3>
-      <text-field :input-class="income"></text-field>
+      <text-field :input-class="income" v-model="income"></text-field>
     </section>
     <section>
       <h3>勤務時間</h3>
@@ -113,7 +113,7 @@
     </section>
     <section>
       <h3>応募条件</h3>
-      <text-field :input-class="condition"></text-field>
+      <text-field :input-class="condition" v-model="condition"></text-field>
     </section>
     <section>
       <h3>雇用形態</h3>
@@ -139,11 +139,11 @@
     </section>
     <section>
       <h3>仕事で必要なもの</h3>
-      <text-field :input-class="necessary_work"></text-field>
+      <text-field :input-class="necessary_work" v-model="necessary_work"></text-field>
     </section>
     <section>
       <h3>日常生活で必要なもの</h3>
-      <text-field :input-class="necessary_life"></text-field>
+      <text-field :input-class="necessary_life" v-model="necessary_life"></text-field>
 
     </section>
     <section>
@@ -164,11 +164,11 @@
     </section>
     <section>
       <h3>寮費</h3>
-      <text-field :input-class="domitory_fee"></text-field>
+      <text-field :input-class="domitory_fee" v-model="domitory_fee"></text-field>
     </section>
     <section>
       <h3>通勤時間</h3>
-      <text-field :input-class="commuting_time"></text-field>
+      <text-field :input-class="commuting_time" v-model="commuting_time"></text-field>
     </section>
     <section>
       <h3>Wi-Fi</h3>
@@ -221,10 +221,14 @@
         <input type="file" id="image-input2" multiple accept="image/*" />
       </div>
     </section>
-    <div style="
+    <!-- <div style="
     text-align: end;
 "><button type="submit" class="submit-button"><i class="fas fa-paper-plane"></i> 登録
-      </button></div>
+      </button></div> -->
+
+      <form @submit.prevent="submitForm">
+        <button type="submit">送信</button>
+      </form>
 
   </main>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>

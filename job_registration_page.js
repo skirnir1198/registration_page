@@ -1,14 +1,17 @@
 $(function () {
   const db = firebase.firestore();
+  var name = '';
   var selectRegion = '北海道';
   // 入力欄コンポーネント ----------------------------------------------------------------------------
 
   Vue.component('area-component', {
     methods: {
-      updateSelectedText: function(event) {
-        // 選択されたオプションのテキストを取得して更新
+      updateSelectedText: function (event) {
+        // 選択されたオプションのテキストを取得
         const selectedIndex = event.target.selectedIndex;
-        selectRegion = event.target.options[selectedIndex].text;
+        const selectedText = event.target.options[selectedIndex].text;
+        // 選択されたテキストをカスタムイベントを使って親に通知
+        this.$emit('update-region', selectedText);
       },
     },
     template: `
@@ -148,9 +151,18 @@ $(function () {
 
 
   Vue.component('text-field', {
-    props: ['inputClass'],
-    template: '<input :class="inputClass" type="text" placeholder="テキストを入力">'
+    props: ['inputClass', 'value'],
+    template: `
+      <input
+        :class="inputClass"
+        :value="value"
+        @input="$emit('input', $event.target.value)"
+        type="text"
+        placeholder="テキストを入力"
+      >
+    `
   });
+
 
   Vue.component('text-area-component', {
     props: ['inputClass'],
@@ -200,22 +212,25 @@ $(function () {
 
 
   new Vue({
-    el: 'main',
+    el: 'main', // ここを 'main' タグに合わせています。
     data: {
-      region: selectRegion,
-      region_detail: 'region_detail',
-      period: 'period',
-      income: 'income',
-      condition: 'condition',
-      necessary_work: 'necessary_work',
-      necessary_life: 'necessary_life',
-      domitory_fee: 'domitory_fee',
-      commuting_time: 'commuting_time',
-      job_description: 'job_description',
-      working_hours: 'working_hours',
-      dietary_conditions: 'dietary_conditions',
-      welfare: 'welfare',
-      surrounding_environment: 'surrounding_environment',
+      name: '',
+      title: '',
+      region_detail: '',
+      selectedRegion: '',
+      region: '',
+      job_description: '',
+      period: '',
+      income: '',
+      working_hours: '',
+      condition: '',
+      necessary_work: '',
+      necessary_life: '',
+      domitory_fee: '',
+      commuting_time: '',
+      welfare: '',
+      surrounding_environment: '',
+      transportation: '',
       agecheckbox: [
         { text: '10代', checked: false },
         { text: '20代', checked: false },
@@ -259,10 +274,25 @@ $(function () {
       ],
       necessaryThing: [
         { text: '必要なもの', checked: false },
-
       ],
     },
+    methods: {
+      handleRegionUpdate: function (region) {
+        this.selectedRegion = region; // 選択された地域名をデータプロパティに設定
+      },
+      submitForm() {
+        console.log(this.selectedRegion); // name の値をログに出力
+        // ここでフォームのデータを使用する
+        console.log(this.name); // name の値をログに出力
+        console.log(this.title); // title の値をログに出力
+        console.log(this.region_detail); // region_detail の値をログに出力
+        // 他のデータも同様に取得して使用できます。
+
+        // 送信処理など
+      }
+    }
   });
+
 
 
   // ----------------------------------------------------------------------------

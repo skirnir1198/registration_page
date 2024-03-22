@@ -276,9 +276,6 @@ input[type="text"] {
 /* 画像スライダー */
 .slide-container {
   display: flex;
-  /* Flexboxを使って画像を並べる */
-  justify-content: space-between;
-  /* 画像を均等に分散 */
 }
 
 .slide-container img {

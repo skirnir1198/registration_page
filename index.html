@@ -79,17 +79,17 @@
     </section>
     <section>
       <h3>男女比</h3>
-      <radio-group group-class="sex_ratio" left-label="男性が多い" right-label="女性が多い" v-model="sexRatio"></radio-group>
+      <radio-group group-class="sex_ratio" left-label="男性が多い" right-label="女性が多い" v-model="sexRatio" id="rating-system"></radio-group>
 
     </section>
     <section>
       <h3>残業</h3>
-      <radio-group group-class="overtime" left-label="少ない" right-label="多い" v-model="overtime">
+      <radio-group group-class="overtime" left-label="少ない" right-label="多い" v-model="overtime" id="rating-system">
       </radio-group>
     </section>
     <section>
       <h3>雰囲気</h3>
-      <radio-group group-class="atmosphere" left-label="落ち着いている" right-label="にぎやか" v-model="atmosphere">
+      <radio-group group-class="atmosphere" left-label="落ち着いている" right-label="にぎやか" v-model="atmosphere" id="rating-system">
       </radio-group>
     </section>
     <section>
@@ -209,7 +209,6 @@
         <input type="file" id="image-input" multiple accept="image/*" />
       </div>
     </section>
-
     <section>
       <h3>寮の写真登録<span class="small_word">※最大5枚</span></h3>
       <div id="image-upload-container2">
@@ -223,7 +222,7 @@
       </button></div> -->
 
       <form @submit.prevent="submitForm">
-        <button type="submit">送信</button>
+        <button type="submit" class="submit-button">送信</button>
       </form>
 
   </main>

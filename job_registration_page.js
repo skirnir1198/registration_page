@@ -369,11 +369,14 @@ $(function () {
 
 
       submitForm() {
+
+        console.log(this.surroundingEnvironment);
         const db = firebase.firestore();
         // データを保存するための Firestore コレクションを指定
         const jobPostingsCollection = db.collection('jobPostings');
         // フォームデータをオブジェクトにまとめる
         const formData = {
+          docId: docRef.id,
           name: this.name,
           title: this.title,
           region_detail: this.region_detail,
@@ -471,33 +474,6 @@ $(function () {
   $('#list-container').on('click', '.remove-item-button', function () {
     $(this).parent('li').remove();
   });
-
-
-  $('.submit-button').on('click', saveToFirestore);
-
-
-  // データベース追加関数
-  function saveToFirestore() {
-    // 新しいドキュメントの参照を作成
-    const jobPostingRef = db.collection('jobPostings').doc();
-    // 保存するデータオブジェクトを作成
-    const jobPostingData = {
-      region: selectRegion,
-      // region_detail: this.region_detail,
-      // ...他のデータプロパティ
-    };
-
-    // データをFirestoreに保存
-    jobPostingRef.set(jobPostingData)
-      .then(() => {
-        alert('求人情報が保存されました。');
-      })
-      .catch(error => {
-        console.error('エラーが発生しました: ', error);
-      });
-  };
-
-
 });
 
 function validateNumber(input) {
@@ -508,24 +484,47 @@ function validateNumber(input) {
 function uploadImagesAndSaveFormData(docId) {
   const db = firebase.firestore();
   const storageRef = firebase.storage().ref();
-
   const imageFiles = document.getElementById('image-input').files;
+  const imageFiles2 = document.getElementById('image-input2').files;
   let uploadPromises = [];
+  let uploadPromises2 = [];
 
   for (let i = 0; i < imageFiles.length; i++) {
     const uniqueName = `${Date.now()}-${imageFiles[i].name}`;
-    const imageRef = storageRef.child(`jobPostingsimages/${uniqueName}`);
+    const imageRef = storageRef.child(`jobPostingsimages/job_image/${uniqueName}`);
     uploadPromises.push(
       imageRef.put(imageFiles[i]).then(() => imageRef.getDownloadURL())
     );
   }
 
-  Promise.all(uploadPromises).then(imageUrls => {
+  for (let i = 0; i < imageFiles2.length; i++) {
+    const uniqueName = `${Date.now()}-${imageFiles2[i].name}`;
+    const imageRef = storageRef.child(`jobPostingsimages/domitory_image/${uniqueName}`);
+    uploadPromises2.push(
+      imageRef.put(imageFiles2[i]).then(() => imageRef.getDownloadURL())
+    );
+  }
+
+  // すべての画像アップロードプロミスを1つの配列にまとめる
+  let allPromises = [...uploadPromises, ...uploadPromises2];
+
+  // すべてのプロミスが完了するのを待つ
+  Promise.all(allPromises).then(allResults => {
+    // allResults はすべてのプロミスの結果を含む配列
+
+    // allResults からそれぞれの画像URLセットを取得する
+    // (uploadPromises1 と uploadPromises2 の長さがわかっていると仮定)
+    let imageUrls1 = allResults.slice(0, uploadPromises.length);
+    let imageUrls2 = allResults.slice(uploadPromises.length);
+
+    // Firestore に保存するデータオブジェクト
     const formData = {
-      // フォームのその他のデータをここに追加
-      imageUrls: imageUrls
+      // フォームのその他のデータ
+      imageUrls1: imageUrls1, // 1つ目のセットの画像URL
+      imageUrls2: imageUrls2  // 2つ目のセットの画像URL
     };
 
+    // 指定したドキュメントIDでデータを更新
     db.collection('jobPostings').doc(docId).update(formData)
       .then(() => {
         console.log('求人情報と画像のURLが保存されました。');

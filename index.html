@@ -94,12 +94,9 @@
     </section>
     <section>
       <div class="salary-input">
-        <select id="salary-type" name="salary_type">
-          <option value="hourly">時給</option>
-          <option value="daily">日給</option>
-          <option value="monthly">月給</option>
-        </select>
-        <input type="number" id="salary-amount" name="salary_amount" placeholder="金額を入力">円
+        <sarary-component @update-salary_type="handleSalaryTypeUpdate"></sarary-component>
+
+        <input type="number" id="salary-amount" name="salary_amount" placeholder="金額を入力" :input-class="salary-amount" v-model="salary-amount">円
       </div>
     </section>
     <section>

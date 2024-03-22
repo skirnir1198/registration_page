@@ -200,6 +200,25 @@ $(function () {
   `
   });
 
+  Vue.component('sarary-component', {
+    methods: {
+      updateSelectedText: function (event) {
+        // 選択されたオプションのテキストを取得
+        const selectedIndex = event.target.selectedIndex;
+        const selectedText = event.target.options[selectedIndex].text;
+        // 選択されたテキストをカスタムイベントを使って親に通知
+        this.$emit('update-salary_type', selectedText);
+      },
+    },
+    template: `
+    <select class="salary-type" name="salary_type"@change="updateSelectedText" style="min-width: 100px;">
+    <option value="hourly">時給</option>
+    <option value="daily">日給</option>
+    <option value="monthly">月給</option>
+  </select>
+  `
+  });
+
 
   Vue.component('text-field', {
     props: ['inputClass', 'value'],
@@ -286,6 +305,8 @@ $(function () {
       car: '',
       job_description: '',
       period: '',
+      salary_type: '',
+      salary_amount: '',
       income: '',
       working_hours: '',
       condition: '',
@@ -350,6 +371,9 @@ $(function () {
       handleOccupationUpdate: function (occupation) {
         this.occupation = occupation; // 選択された地域名をデータプロパティに設定
       },
+      handleSalaryTypeUpdate: function (salary_type) {
+        this.salary_type = salary_type; // 選択された地域名をデータプロパティに設定
+      },
       handleEmploymentUpdate: function (employment) {
         this.employment = employment; // 選択された地域名をデータプロパティに設定
       },
@@ -373,14 +397,17 @@ $(function () {
         console.log(this.surroundingEnvironment);
         const db = firebase.firestore();
         // データを保存するための Firestore コレクションを指定
-        const jobPostingsCollection = db.collection('jobPostings');
+        const jobPostingsCollection = db.collection('jobPostings').doc();
+        console.log(jobPostingsCollection);
         // フォームデータをオブジェクトにまとめる
         const formData = {
-          docId: docRef.id,
+          docId: jobPostingsCollection.id,
           name: this.name,
           title: this.title,
           region_detail: this.region_detail,
           selectedRegion: this.selectedRegion,
+          salary_type: this.salary_type,
+          salary_amount: this.salary_amount,
           occupation: this.occupation,
           region: this.region,
           employment: this.employment,
@@ -410,10 +437,10 @@ $(function () {
         };
 
         // Firestore にデータを追加
-        jobPostingsCollection.add(formData)
+        jobPostingsCollection.set(formData)
           .then(docRef => {
-            console.log('求人情報が保存されました。ドキュメントID:', docRef.id);
-            uploadImagesAndSaveFormData(docRef.id);
+            console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
+            uploadImagesAndSaveFormData(jobPostingsCollection.id);
           })
           .catch(error => {
             console.error('データの保存中にエラーが発生しました:', error);

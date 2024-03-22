@@ -60,6 +60,8 @@ section {
   margin-bottom: 20px;
   padding: 12px;
   border-radius: 4px;
+  display: flex; /* Flexbox を有効化 */
+  flex-direction: column; /* アイテムを縦方向に並べる */
 }
 
 section img {
@@ -199,7 +201,8 @@ input {
 }
 
 #salary-amount {
-  width: 150px; /* テキストフィールドの幅 */
+  width: 150px;
+  /* テキストフィールドの幅 */
 }
 
 
@@ -278,6 +281,13 @@ input[type="text"] {
   display: flex;
 }
 
+.first_img, .second_img {
+  width: auto;
+  border-radius: 8px;
+  height: 350px;
+  margin-bottom: 12px;
+}
+
 .slide-container img {
   flex: 1;
   /* 画像がコンテナ内で均等に拡張するように */
@@ -294,7 +304,8 @@ input[type="text"] {
   margin-right: 0;
 }
 
-#preview-container img, #preview-container2 img {
+#preview-container img,
+#preview-container2 img {
   width: 100px;
   height: auto;
   margin-right: 10px;
@@ -399,6 +410,7 @@ ul li:before {
   color: #007bff;
   font-weight: bold;
 }
+
 /* -------------------------------------------------- */
 
 /* 背景色が緑の要素 */
@@ -436,6 +448,7 @@ ul li:before {
   /* テキストを太字にする */
   color: #86be4f;
 }
+
 /* -------------------------------------- */
 
 /* 設備アイコン */
@@ -491,15 +504,19 @@ ul li:before {
 
 /* おすすめポイント */
 .input-group {
-  display: flex; /* フレックスボックスを使って要素を横並びにする */
-  align-items: center; /* アイテムを縦方向の中央に揃える */
+  display: flex;
+  /* フレックスボックスを使って要素を横並びにする */
+  align-items: center;
+  /* アイテムを縦方向の中央に揃える */
 }
 
 #list-item-input {
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px 0 0 5px; /* 左側の角を丸くする */
-  margin-right: -1px; /* ボタンとの境界線を除去 */
+  border-radius: 5px 0 0 5px;
+  /* 左側の角を丸くする */
+  margin-right: -1px;
+  /* ボタンとの境界線を除去 */
 }
 
 #add-item-button {
@@ -531,7 +548,8 @@ ul li:before {
 }
 
 .remove-item-button {
-  margin-left: 10px; /* テキストと削除ボタンの間にスペースを追加 */
+  margin-left: 10px;
+  /* テキストと削除ボタンの間にスペースを追加 */
   padding: 5px 10px;
   background-color: #f44336;
   color: white;
@@ -545,30 +563,42 @@ ul li:before {
 }
 
 #list-container li {
-  display: flex; /* リストアイテム内の要素を横並びにする */
-  justify-content: space-between; /* テキストと削除ボタンをリストアイテムの両端に配置 */
-  align-items: center; /* 縦方向の中心揃え */
+  display: flex;
+  /* リストアイテム内の要素を横並びにする */
+  justify-content: space-between;
+  /* テキストと削除ボタンをリストアイテムの両端に配置 */
+  align-items: center;
+  /* 縦方向の中心揃え */
 }
 
 /* ---------------------------------------------------- */
 
 .green-dot-list {
-  list-style-type: none; /* 既定のリストスタイルを無効化 */
-  padding-left: 0; /* 既定のパディングを取り除く */
+  list-style-type: none;
+  /* 既定のリストスタイルを無効化 */
+  padding-left: 0;
+  /* 既定のパディングを取り除く */
   margin: 8px 0;
 }
 
 .green-dot-list li {
-  display: flex; /* Flexboxを有効化 */
-  align-items: center; /* アイテムを垂直方向の中央に揃える */
+  display: flex;
+  /* Flexboxを有効化 */
+  align-items: center;
+  /* アイテムを垂直方向の中央に揃える */
 }
 
 .green-dot-list li::before {
-  content: '\f111'; /* Font Awesomeの円形ドットアイコン */
-  font-family: 'Font Awesome 5 Free'; /* Font Awesomeのフォントファミリーを指定 */
-  color: #86be4f; /* ドットの色 */
-  margin-right: 10px; /* テキストとの間隔 */
-  font-size: 8px; /* アイコンのサイズを調整 */
+  content: '\f111';
+  /* Font Awesomeの円形ドットアイコン */
+  font-family: 'Font Awesome 5 Free';
+  /* Font Awesomeのフォントファミリーを指定 */
+  color: #86be4f;
+  /* ドットの色 */
+  margin-right: 10px;
+  /* テキストとの間隔 */
+  font-size: 8px;
+  /* アイコンのサイズを調整 */
 }
 
 
@@ -581,6 +611,7 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
 /* -------------------------------------- */
 
 

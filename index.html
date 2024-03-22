@@ -79,17 +79,17 @@
     </section>
     <section>
       <h3>男女比</h3>
-      <radio-group group-class="sex_ratio" left-label="男性が多い" right-label="女性が多い">
-      </radio-group>
+      <radio-group group-class="sex_ratio" left-label="男性が多い" right-label="女性が多い" v-model="sexRatio"></radio-group>
+
     </section>
     <section>
       <h3>残業</h3>
-      <radio-group group-class="overtime" left-label="少ない" right-label="多い">
+      <radio-group group-class="overtime" left-label="少ない" right-label="多い" v-model="overtime">
       </radio-group>
     </section>
     <section>
       <h3>雰囲気</h3>
-      <radio-group group-class="atmosphere" left-label="落ち着いている" right-label="にぎやか">
+      <radio-group group-class="atmosphere" left-label="落ち着いている" right-label="にぎやか" v-model="atmosphere">
       </radio-group>
     </section>
     <section>
@@ -108,7 +108,7 @@
     </section>
     <section>
       <h3>勤務時間</h3>
-      <text-area-component input-class="job_description" v-model="job_description"></text-area-component>
+      <text-area-component input-class="working_hours" v-model="working_hours"></text-area-component>
     </section>
     <section>
       <h3>応募条件</h3>

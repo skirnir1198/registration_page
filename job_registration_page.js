@@ -176,7 +176,6 @@ $(function () {
   <select @change="updateSelectedText">
     <option value="アパート,マンションタイプ">アパート,マンションタイプ</option>
     <option value="個室(共有スペースあり)">個室(共有スペースあり)</option>
-    <option value="必須">必須</option>
     <option value="相部屋">相部屋</option>
   </select>
   `
@@ -229,32 +228,34 @@ $(function () {
       ></textarea>
     `
   });
-  
+
 
   Vue.component('radio-group', {
-    props: ['groupClass', 'leftLabel', 'rightLabel'],
-    data: function () {
-      return {
-        picked: null
-      };
-    },
-    methods: {
-      clearSelection: function () {
-        this.picked = null;
+    props: ['groupClass', 'leftLabel', 'rightLabel', 'value'],
+    computed: {
+      internalValue: {
+        get() {
+          // 親コンポーネントから受け取った値を内部的に使用する
+          return this.value;
+        },
+        set(val) {
+          // ラジオボタンが変更された場合、その値を親コンポーネントに伝える
+          this.$emit('input', val);
+        }
       }
     },
     template: `
-      <div :class="groupClass" id="rating-system">
+      <div :class="groupClass">
         <div>{{ leftLabel }}</div>
         <label v-for="number in 5" :key="number" class="custom-radio">
-        <div>{{ number }}</div>
-          <input type="radio" :name="groupClass" :value="number" v-model="picked">
+          <div>{{ number }}</div>
+          <input type="radio" :name="groupClass" :value="number" v-model="internalValue">
         </label>
         <div>{{ rightLabel }}</div>
-
       </div>
-  `
+    `
   });
+
 
   Vue.component('checkbox-component', {
     props: ['label', 'value'],
@@ -297,6 +298,9 @@ $(function () {
       welfare: '',
       surrounding_environment: '',
       transportation: '',
+      sexRatio: null,
+      overtime: null,
+      atmosphere: null,
       agecheckbox: [
         { text: '10代', checked: false },
         { text: '20代', checked: false },
@@ -361,19 +365,56 @@ $(function () {
       handleNetworkUpdate: function (network) {
         this.network = network; // 選択された地域名をデータプロパティに設定
       },
-      
-      
+
+
+
       submitForm() {
-        // console.log(this.selectedRegion); // name の値をログに出力
-        // // ここでフォームのデータを使用する
-        // console.log(this.name); // name の値をログに出力
-        // console.log(this.title); // title の値をログに出力
-        // console.log(this.region_detail); // region_detail の値をログに出力
-        console.log(this.network); // ここでtitleの値を取得して使用
+        const db = firebase.firestore();
+        // データを保存するための Firestore コレクションを指定
+        const jobPostingsCollection = db.collection('jobPostings');
+        // フォームデータをオブジェクトにまとめる
+        const formData = {
+          name: this.name,
+          title: this.title,
+          region_detail: this.region_detail,
+          selectedRegion: this.selectedRegion,
+          occupation: this.occupation,
+          region: this.region,
+          employment: this.employment,
+          clothing: this.clothing,
+          car: this.car,
+          job_description: this.job_description,
+          period: this.period,
+          income: this.income,
+          working_hours: this.working_hours,
+          condition: this.condition,
+          dietary_conditions: this.dietary_conditions,
+          necessary_work: this.necessary_work,
+          necessary_life: this.necessary_life,
+          domitoryType: this.domitoryType,
+          domitory_fee: this.domitory_fee,
+          commuting_time: this.commuting_time,
+          welfare: this.welfare,
+          surrounding_environment: this.surrounding_environment,
+          transportation: this.transportation,
+          sexRatio: this.sexRatio,
+          overtime: this.overtime,
+          atmosphere: this.atmosphere,
+          agecheckbox: this.agecheckbox,
+          insideRoom: this.insideRoom,
+          outsideRoom: this.outsideRoom,
+          surroundingEnvironment: this.surroundingEnvironment
+        };
 
-        // 他のデータも同様に取得して使用できます。
-
-        // 送信処理など
+        // Firestore にデータを追加
+        jobPostingsCollection.add(formData)
+          .then(docRef => {
+            console.log('求人情報が保存されました。ドキュメントID:', docRef.id);
+            uploadImagesAndSaveFormData(docRef.id);
+          })
+          .catch(error => {
+            console.error('データの保存中にエラーが発生しました:', error);
+          });
       }
     }
   });
@@ -459,5 +500,38 @@ $(function () {
 
 });
 
+function validateNumber(input) {
+  // 数字以外の文字を削除
+  input.value = input.value.replace(/[^0-9]/g, '');
+}
 
+function uploadImagesAndSaveFormData(docId) {
+  const db = firebase.firestore();
+  const storageRef = firebase.storage().ref();
 
+  const imageFiles = document.getElementById('image-input').files;
+  let uploadPromises = [];
+
+  for (let i = 0; i < imageFiles.length; i++) {
+    const uniqueName = `${Date.now()}-${imageFiles[i].name}`;
+    const imageRef = storageRef.child(`jobPostingsimages/${uniqueName}`);
+    uploadPromises.push(
+      imageRef.put(imageFiles[i]).then(() => imageRef.getDownloadURL())
+    );
+  }
+
+  Promise.all(uploadPromises).then(imageUrls => {
+    const formData = {
+      // フォームのその他のデータをここに追加
+      imageUrls: imageUrls
+    };
+
+    db.collection('jobPostings').doc(docId).update(formData)
+      .then(() => {
+        console.log('求人情報と画像のURLが保存されました。');
+      })
+      .catch(error => {
+        console.error('データの保存中にエラーが発生しました:', error);
+      });
+  });
+}

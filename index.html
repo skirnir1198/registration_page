@@ -95,8 +95,7 @@
     <section>
       <div class="salary-input">
         <sarary-component @update-salary_type="handleSalaryTypeUpdate"></sarary-component>
-
-        <input type="number" id="salary-amount" name="salary_amount" placeholder="金額を入力" :input-class="salary-amount" v-model="salary-amount">円
+        <input type="number" class="salary-amount" name="salary_amount" v-model="salary_amount" placeholder="金額を入力">円
       </div>
     </section>
     <section>

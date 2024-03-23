@@ -232,6 +232,7 @@ $(function () {
       >
     `
   });
+  
 
 
   Vue.component('text-area-component', {
@@ -394,11 +395,10 @@ $(function () {
 
       submitForm() {
 
-        console.log(this.surroundingEnvironment);
+        // console.log();
         const db = firebase.firestore();
         // データを保存するための Firestore コレクションを指定
         const jobPostingsCollection = db.collection('jobPostings').doc();
-        console.log(jobPostingsCollection);
         // フォームデータをオブジェクトにまとめる
         const formData = {
           docId: jobPostingsCollection.id,
@@ -407,7 +407,7 @@ $(function () {
           region_detail: this.region_detail,
           selectedRegion: this.selectedRegion,
           salary_type: this.salary_type,
-          salary_amount: this.salary_amount,
+          salary_amount: $('.salary-amount').val(),
           occupation: this.occupation,
           region: this.region,
           employment: this.employment,
@@ -436,15 +436,15 @@ $(function () {
           surroundingEnvironment: this.surroundingEnvironment
         };
 
-        // Firestore にデータを追加
-        jobPostingsCollection.set(formData)
-          .then(docRef => {
-            console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
-            uploadImagesAndSaveFormData(jobPostingsCollection.id);
-          })
-          .catch(error => {
-            console.error('データの保存中にエラーが発生しました:', error);
-          });
+        // // Firestore にデータを追加
+        // jobPostingsCollection.set(formData)
+        //   .then(docRef => {
+        //     console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
+        //     uploadImagesAndSaveFormData(jobPostingsCollection.id);
+        //   })
+        //   .catch(error => {
+        //     console.error('データの保存中にエラーが発生しました:', error);
+        //   });
       }
     }
   });

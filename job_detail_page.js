@@ -56,6 +56,8 @@ $(function () {
       $('.region_detail').text(data.region_detail); //地域名
       $('.occupation').text(data.occupation); //職種名
       $('.period').text(data.period); //期間
+      $('.salary_amount').text(data.salary_amount); //期間
+
       
 
 

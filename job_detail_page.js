@@ -8,6 +8,13 @@ $(function () {
     { age: '40代', position: '75%' },
     { age: '50代', position: '100%' }
   ];
+  const sliderPoints = [
+    { position: '0%', label: '男性が多い' },
+    { position: '25%', label: '' },
+    { position: '50%', label: '' },
+    { position: '75%', label: '' },
+    { position: '100%', label: '女性が多い' }
+  ];
   db.collection("jobPostings").doc('N4Yvrfc4dr8Bhtel2kym').get().then((doc) => {
     if (doc.exists) {
       // ドキュメントのデータをコンソールに表示
@@ -65,28 +72,76 @@ $(function () {
       $('.occupation').text(data.occupation); //職種名
       $('.period').text(data.period); //期間
       $('.salary_amount').text(data.salary_amount); //期間
-      const $slider = $('.age-container .custom-slider');
-      $slider.find('.slider-dot').remove(); // 既存のドットを削除
-      // 新しいスライダードットを追加
-      ageGroups.forEach(function (group) {
-        var $dot = $('<div>')
-          .addClass('slider-dot')
-          .css('left', group.position)
-          .data('age', group.age)
-          .append($('<span>').addClass('dot-text').text(group.age));
-        // 条件が合致すれば .select-dot クラスを追加
-        if (data.agecheckbox.includes(group.age)) {
-          $dot.addClass('select-dot');
-        }
-        // 作成した要素を DOM に追加する例
-        $slider.append($dot);
-      });
 
+
+      // スライダー関連----------------------------------------------------------------------------------
+      function addSliderDots($slider, points, selectedPoint, startLabel = '', endLabel = '') {
+        $slider.empty(); // 既存の内容をクリア
+        $('<div>', { class: 'slider-track' }).appendTo($slider); // スライダートラック要素を追加
+
+        points.forEach((point, index) => {
+          const isSelected = index === selectedPoint;
+          const $sliderDot = $('<div>', {
+            class: 'slider-dot' + (isSelected ? ' select-dot' : ''),
+            css: { left: point.position },
+            'data-index': index
+          });
+
+          if (point.label || index === 0 || index === points.length - 1) {
+            const label = point.label || (index === 0 ? startLabel : endLabel);
+            $('<span>', {
+              class: 'dot-text',
+              text: label
+            }).appendTo($sliderDot);
+          }
+
+          $sliderDot.appendTo($slider);
+        });
+      }
+
+      // スライダーの設定
+      const sliders = [
+        {
+          selector: '.age-container .custom-slider',
+          points: ageGroups.map(group => ({ position: group.position, label: group.age })),
+          selectedPoint: ageGroups.findIndex(group => data.agecheckbox.includes(group.age))
+        },
+        {
+          selector: '.sex-container .custom-slider',
+          points: sliderPoints,
+          selectedPoint: data.sexRatio,
+          startLabel: '男性が多い',
+          endLabel: '女性が多い'
+        },
+        {
+          selector: '.overtime-container .custom-slider',
+          points: Array.from({ length: 5 }, (_, i) => ({ position: `${(100 / 4) * i}%` })),
+          selectedPoint: data.overtime,
+          startLabel: '少ない',
+          endLabel: '多い'
+        },
+        {
+          selector: '.atmosphere-container .custom-slider',
+          points: Array.from({ length: 5 }, (_, i) => ({ position: `${(100 / 4) * i}%` })),
+          selectedPoint: data.atmosphere,
+          startLabel: '静か',
+          endLabel: '賑やか'
+        }
+      ];
+
+      // 各スライダーに対してスライダードットを追加
+      sliders.forEach(slider => {
+        const $slider = $(slider.selector);
+        addSliderDots($slider, slider.points, slider.selectedPoint, slider.startLabel, slider.endLabel);
+      });
     } else {
       console.log("No such document!");
     }
   }).catch((error) => {
     console.log("Error getting document:", error);
   });
+
+  // ----------------------------------------------------------------------------------
+
 });
 

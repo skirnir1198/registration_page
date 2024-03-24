@@ -1,5 +1,13 @@
 $(function () {
+
   const db = firebase.firestore();
+  const ageGroups = [
+    { age: '10代', position: '0%' },
+    { age: '20代', position: '25%' },
+    { age: '30代', position: '50%' },
+    { age: '40代', position: '75%' },
+    { age: '50代', position: '100%' }
+  ];
   db.collection("jobPostings").doc('N4Yvrfc4dr8Bhtel2kym').get().then((doc) => {
     if (doc.exists) {
       // ドキュメントのデータをコンソールに表示
@@ -57,9 +65,22 @@ $(function () {
       $('.occupation').text(data.occupation); //職種名
       $('.period').text(data.period); //期間
       $('.salary_amount').text(data.salary_amount); //期間
-
-      
-
+      const $slider = $('.age-container .custom-slider');
+      $slider.find('.slider-dot').remove(); // 既存のドットを削除
+      // 新しいスライダードットを追加
+      ageGroups.forEach(function (group) {
+        var $dot = $('<div>')
+          .addClass('slider-dot')
+          .css('left', group.position)
+          .data('age', group.age)
+          .append($('<span>').addClass('dot-text').text(group.age));
+        // 条件が合致すれば .select-dot クラスを追加
+        if (data.agecheckbox.includes(group.age)) {
+          $dot.addClass('select-dot');
+        }
+        // 作成した要素を DOM に追加する例
+        $slider.append($dot);
+      });
 
     } else {
       console.log("No such document!");
@@ -68,3 +89,4 @@ $(function () {
     console.log("Error getting document:", error);
   });
 });
+

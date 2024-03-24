@@ -350,13 +350,26 @@ input[type="text"] {
 
 .slider-dot {
   position: absolute;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   background-color: #86be4f;
   border-radius: 50%;
-  top: 4px;
+  top: 5px;
   transform: translate(-50%, 0);
   z-index: 2;
+}
+
+.slider-dot.select-dot::after {
+  content: '';
+  position: absolute;
+  width: 24px; /* 外側の円の大きさを調整 */
+  height: 24px; /* 外側の円の大きさを調整 */
+  background-color: rgba(134, 190, 79, 0.3); /* 透明度を持つ色で薄い円を設定 */
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1; /* 元の円よりも後ろに表示 */
 }
 
 /* チェックボックステキスト */

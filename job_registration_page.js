@@ -399,6 +399,11 @@ $(function () {
         const db = firebase.firestore();
         // データを保存するための Firestore コレクションを指定
         const jobPostingsCollection = db.collection('jobPostings').doc();
+
+        const checkedAges = this.agecheckbox
+  .filter(item => item.checked) // true のものだけをフィルタリング
+  .map(item => item.text); // フィルタリングされたオブジェクトから 'text' のみを取り出す
+
         // フォームデータをオブジェクトにまとめる
         const formData = {
           docId: jobPostingsCollection.id,
@@ -430,21 +435,21 @@ $(function () {
           sexRatio: this.sexRatio,
           overtime: this.overtime,
           atmosphere: this.atmosphere,
-          agecheckbox: this.agecheckbox,
+          agecheckbox: checkedAges,
           insideRoom: this.insideRoom,
           outsideRoom: this.outsideRoom,
           surroundingEnvironment: this.surroundingEnvironment
         };
 
-        // // Firestore にデータを追加
-        // jobPostingsCollection.set(formData)
-        //   .then(docRef => {
-        //     console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
-        //     uploadImagesAndSaveFormData(jobPostingsCollection.id);
-        //   })
-        //   .catch(error => {
-        //     console.error('データの保存中にエラーが発生しました:', error);
-        //   });
+        // Firestore にデータを追加
+        jobPostingsCollection.set(formData)
+          .then(docRef => {
+            console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
+            uploadImagesAndSaveFormData(jobPostingsCollection.id);
+          })
+          .catch(error => {
+            console.error('データの保存中にエラーが発生しました:', error);
+          });
       }
     }
   });

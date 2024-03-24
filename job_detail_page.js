@@ -71,8 +71,19 @@ $(function () {
       $('.region_detail').text(data.region_detail); //地域名
       $('.occupation').text(data.occupation); //職種名
       $('.period').text(data.period); //期間
-      $('.salary_amount').text(data.salary_amount); //期間
-
+      $('.salary_type').text(data.salary_type); //給与体系
+      $('.salary_amount').text(data.salary_amount); //給与
+      $('.job_description').text(data.job_description); //仕事内容
+      $('.income').text(data.income); //予想月収
+      $('.working_hours').text(data.working_hours); //勤務時間
+      $('.condition').text(data.condition); //応募条件
+      $('.employment').text(data.employment); //雇用形態
+      $('.dietary_conditions').text(data.dietary_conditions); //食事条件
+      $('.transportation').text(data.transportation); //交通費
+      
+      
+      
+      
 
       // スライダー関連----------------------------------------------------------------------------------
       function addSliderDots($slider, points, selectedPoint, startLabel = '', endLabel = '') {
@@ -142,6 +153,8 @@ $(function () {
   });
 
   // ----------------------------------------------------------------------------------
+
+
 
 });
 

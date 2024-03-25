@@ -232,7 +232,7 @@ $(function () {
       >
     `
   });
-  
+
 
 
   Vue.component('text-area-component', {
@@ -314,6 +314,7 @@ $(function () {
       dietary_conditions: '',
       necessary_work: '',
       necessary_life: '',
+      network: '',
       domitoryType: '',
       domitory_fee: '',
       commuting_time: '',
@@ -395,15 +396,27 @@ $(function () {
 
       submitForm() {
 
-        // console.log();
+        var liTexts = [];
+
+        // 各li要素に対して処理を実行
+        $('#list-container li').each(function () {
+          // li要素の子ノードを取得し、テキストノードだけをフィルタリング
+          var text = $(this).contents().filter(function () {
+            return this.nodeType === 3; // ノードタイプ3はテキストノードを指します
+          }).text().trim();
+          // 配列にテキストを追加
+          liTexts.push(text);
+        });
+
+        // 結果をコンソールに出力
+        console.log(this.network);
         const db = firebase.firestore();
         // データを保存するための Firestore コレクションを指定
         const jobPostingsCollection = db.collection('jobPostings').doc();
 
         const checkedAges = this.agecheckbox
-  .filter(item => item.checked) // true のものだけをフィルタリング
-  .map(item => item.text); // フィルタリングされたオブジェクトから 'text' のみを取り出す
-
+          .filter(item => item.checked) // true のものだけをフィルタリング
+          .map(item => item.text); // フィルタリングされたオブジェクトから 'text' のみを取り出す
         // フォームデータをオブジェクトにまとめる
         const formData = {
           docId: jobPostingsCollection.id,
@@ -419,13 +432,16 @@ $(function () {
           clothing: this.clothing,
           car: this.car,
           job_description: this.job_description,
+          holiday: [$(".holiday-start").val(), $(".holiday-end").val()],
           period: this.period,
           income: this.income,
           working_hours: this.working_hours,
+          good_points: liTexts,
           condition: this.condition,
           dietary_conditions: this.dietary_conditions,
           necessary_work: this.necessary_work,
           necessary_life: this.necessary_life,
+          network: this.network,
           domitoryType: this.domitoryType,
           domitory_fee: this.domitory_fee,
           commuting_time: this.commuting_time,
@@ -442,14 +458,14 @@ $(function () {
         };
 
         // Firestore にデータを追加
-        jobPostingsCollection.set(formData)
-          .then(docRef => {
-            console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
-            uploadImagesAndSaveFormData(jobPostingsCollection.id);
-          })
-          .catch(error => {
-            console.error('データの保存中にエラーが発生しました:', error);
-          });
+        // jobPostingsCollection.set(formData)
+        //   .then(docRef => {
+        //     console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
+        //     uploadImagesAndSaveFormData(jobPostingsCollection.id);
+        //   })
+        //   .catch(error => {
+        //     console.error('データの保存中にエラーが発生しました:', error);
+        //   });
       }
     }
   });

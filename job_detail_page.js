@@ -80,7 +80,34 @@ $(function () {
       $('.employment').text(data.employment); //雇用形態
       $('.dietary_conditions').text(data.dietary_conditions); //食事条件
       $('.transportation').text(data.transportation); //交通費
+      $('.holiday-start').text(data.holiday[0]); //休日１
+      $('.holiday-end').text(data.holiday[1]); //休日２
+      $('.necessary_work').text(data.necessary_work); //仕事で必要なもの
+      $('.necessary_life').text(data.necessary_life); //生活で必要なもの
+      $('.clothing').text(data.clothing); //制服
+      $('.car').text(data.car); //車の持ち込み
+      $('.welfare').text(data.welfare); //福利厚生
+      $('.domitoryType').text(data.domitoryType); //寮タイプ
+      $('.domitory_fee').text(data.domitory_fee); //寮費
+      $('.commuting_time').text(data.commuting_time); //通勤時間
+      $('.network').text(data.network); //Wi-Fi
+      $('.surrounding_environment').text(data.surrounding_environment); //周辺環境テキスト
+      $('.region_detail').text(data.region_detail); //住所詳細
+      $('.transportation').text(data.transportation); //交通手段
+
       
+      
+
+      
+      $.each(data.good_points, function(i, item) {
+        // <li>要素を作成してテキストを設定
+        var $li = $('<li>').text(item);
+    
+        // <li>要素を.ul要素に追加
+        $('.green-dot-list').append($li);
+      });
+      
+   
       
       
       

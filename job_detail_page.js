@@ -15,7 +15,7 @@ $(function () {
     { position: '75%', label: '' },
     { position: '100%', label: '女性が多い' }
   ];
-  db.collection("jobPostings").doc('N4Yvrfc4dr8Bhtel2kym').get().then((doc) => {
+  db.collection("jobPostings").doc('cgn1SOcnIRvcPnPT5dUn').get().then((doc) => {
     if (doc.exists) {
       // ドキュメントのデータをコンソールに表示
       const data = doc.data();
@@ -94,23 +94,33 @@ $(function () {
       $('.surrounding_environment').text(data.surrounding_environment); //周辺環境テキスト
       $('.region_detail').text(data.region_detail); //住所詳細
       $('.transportation').text(data.transportation); //交通手段
+      $('.icon-item').hide();
+      data.insideRoom.forEach(function(item) {
+        $('.icon-list.inside_room').children('.icon-item[data-name="' + item + '"]').show();
+      });  
+      data.outsideRoom.forEach(function(item) {
+        $('.icon-list.outside_room').children('.icon-item[data-name="' + item + '"]').show();
+      });         
+      data.surroundingEnvironment.forEach(function (item) {
+        $('.surrounding-environment').children('.icon-item[data-name="' + item + '"]').show();
+      });
 
-      
-      
 
-      
-      $.each(data.good_points, function(i, item) {
+
+
+
+      $.each(data.good_points, function (i, item) {
         // <li>要素を作成してテキストを設定
         var $li = $('<li>').text(item);
-    
+
         // <li>要素を.ul要素に追加
         $('.green-dot-list').append($li);
       });
-      
-   
-      
-      
-      
+
+
+
+
+
 
       // スライダー関連----------------------------------------------------------------------------------
       function addSliderDots($slider, points, selectedPoint, startLabel = '', endLabel = '') {

@@ -395,9 +395,7 @@ $(function () {
 
 
       submitForm() {
-
         var liTexts = [];
-
         // 各li要素に対して処理を実行
         $('#list-container li').each(function () {
           // li要素の子ノードを取得し、テキストノードだけをフィルタリング
@@ -408,15 +406,23 @@ $(function () {
           liTexts.push(text);
         });
 
-        // 結果をコンソールに出力
-        console.log(this.network);
         const db = firebase.firestore();
         // データを保存するための Firestore コレクションを指定
         const jobPostingsCollection = db.collection('jobPostings').doc();
-
         const checkedAges = this.agecheckbox
           .filter(item => item.checked) // true のものだけをフィルタリング
           .map(item => item.text); // フィルタリングされたオブジェクトから 'text' のみを取り出す
+        const checkedEnvironment = this.surroundingEnvironment
+          .filter(item => item.checked) // checked が true の要素のみをフィルタリング
+          .map(item => item.text); // フィルタリングされた要素の text のみを抽出
+
+          const checkedInsideRoom = this.insideRoom
+          .filter(item => item.checked) // checked が true の要素のみをフィルタリング
+          .map(item => item.text); // フィルタリングされた要素の text のみを抽出
+
+          const checkedOutSide = this.outsideRoom
+          .filter(item => item.checked) // checked が true の要素のみをフィルタリング
+          .map(item => item.text); // フィルタリングされた要素の text のみを抽出
         // フォームデータをオブジェクトにまとめる
         const formData = {
           docId: jobPostingsCollection.id,
@@ -452,20 +458,20 @@ $(function () {
           overtime: this.overtime,
           atmosphere: this.atmosphere,
           agecheckbox: checkedAges,
-          insideRoom: this.insideRoom,
-          outsideRoom: this.outsideRoom,
-          surroundingEnvironment: this.surroundingEnvironment
+          insideRoom: checkedInsideRoom,
+          outsideRoom: checkedOutSide,
+          surroundingEnvironment: checkedEnvironment
         };
 
         // Firestore にデータを追加
-        // jobPostingsCollection.set(formData)
-        //   .then(docRef => {
-        //     console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
-        //     uploadImagesAndSaveFormData(jobPostingsCollection.id);
-        //   })
-        //   .catch(error => {
-        //     console.error('データの保存中にエラーが発生しました:', error);
-        //   });
+        jobPostingsCollection.set(formData)
+          .then(docRef => {
+            console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
+            uploadImagesAndSaveFormData(jobPostingsCollection.id);
+          })
+          .catch(error => {
+            console.error('データの保存中にエラーが発生しました:', error);
+          });
       }
     }
   });

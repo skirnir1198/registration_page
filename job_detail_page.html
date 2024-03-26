@@ -21,6 +21,7 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5740691913931441"
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 </head>
 
@@ -36,9 +37,8 @@
     <section>
       <h2>職場名: <span class="work_place"></span></h2>
     </section>
-    <section>
-      <h3 class="job_description"></h3>
-    </section>
+    <h3 class="job_description"></h3>
+
     <ul class="info-list">
       <li>
         <i class="fas fa-map-marker-alt"></i>
@@ -205,48 +205,132 @@
         </tr>
       </table>
       <h5>部屋内設備</h5>
-      <div class="icon-list">
-        <div class="icon-item">
-          <div class="icon-circle"><i class="fas fa-tv"></i></div>
+      <div class="icon-list inside_room">
+        <div class="icon-item" data-name="TV">
+          <div class="icon-circle"><i class="material-icons">tv</i></div>
           <p>TV</p>
         </div>
-        <div class="icon-item">
-          <div class="icon-circle"><i class="fas fa-bed"></i></div>
+        <div class="icon-item" data-name="Wi-Fi">
+          <div class="icon-circle"><i class="material-icons">wifi</i></div>
+          <p>Wi-Fi</p>
+        </div>
+        <div class="icon-item" data-name="寝具">
+          <div class="icon-circle"><i class="material-icons">hotel</i></div>
           <p>寝具</p>
+        </div>
+        <div class="icon-item" data-name="風呂">
+          <div class="icon-circle"><i class="material-icons">bathtub</i></div>
+          <p>風呂</p>
+        </div>
+        <div class="icon-item" data-name="冷房">
+          <div class="icon-circle"><i class="material-icons">ac_unit</i></div>
+          <p>冷房</p>
+        </div>
+        <div class="icon-item" data-name="暖房">
+          <div class="icon-circle"><i class="material-icons">whatshot</i></div>
+          <p>暖房</p>
+        </div>
+        <div class="icon-item" data-name="トイレ">
+          <div class="icon-circle"><i class="material-icons">wc</i></div>
+          <p>トイレ</p>
+        </div>
+        <div class="icon-item" data-name="キッチン">
+          <div class="icon-circle"><i class="material-icons">kitchen</i></div>
+          <p>キッチン</p>
+        </div>
+        <div class="icon-item" data-name="冷蔵庫">
+          <div class="icon-circle"><i class="material-icons">kitchen</i></div>
+          <p>冷蔵庫</p>
+        </div>
+        <div class="icon-item" data-name="洗濯機">
+          <div class="icon-circle"><i class="material-icons">local_laundry_service</i></div>
+          <p>洗濯機</p>
+        </div>
+        <div class="icon-item" data-name="乾燥機">
+          <div class="icon-circle"><i class="material-icons">dry</i></div>
+          <p>乾燥機</p>
+        </div>
+        <div class="icon-item" data-name="電子レンジ">
+          <div class="icon-circle"><i class="material-icons">microwave</i></div>
+          <p>電子レンジ</p>
         </div>
       </div>
 
       <h5>共有設備</h5>
 
-      <div class="icon-list">
-        <div class="icon-item">
-          <div class="icon-circle"><i class="fas fa-tv"></i></div>
+      <div class="icon-list outside_room">
+        <div class="icon-item" data-name="TV">
+          <div class="icon-circle"><i class="material-icons">tv</i></div>
           <p>TV</p>
         </div>
-        <div class="icon-item">
-          <div class="icon-circle"><i class="fas fa-wifi"></i></div>
+        <div class="icon-item" data-name="Wi-Fi">
+          <div class="icon-circle"><i class="material-icons">wifi</i></div>
           <p>Wi-Fi</p>
         </div>
-        <div class="icon-item">
-          <div class="icon-circle"><i class="fas fa-bath"></i></div>
+        <div class="icon-item" data-name="寝具">
+          <div class="icon-circle"><i class="material-icons">hotel</i></div>
+          <p>寝具</p>
+        </div>
+        <div class="icon-item" data-name="風呂">
+          <div class="icon-circle"><i class="material-icons">bathtub</i></div>
           <p>風呂</p>
+        </div>
+        <div class="icon-item" data-name="冷房">
+          <div class="icon-circle"><i class="material-icons">ac_unit</i></div>
+          <p>冷房</p>
+        </div>
+        <div class="icon-item" data-name="暖房">
+          <div class="icon-circle"><i class="material-icons">whatshot</i></div>
+          <p>暖房</p>
+        </div>
+        <div class="icon-item" data-name="トイレ">
+          <div class="icon-circle"><i class="material-icons">wc</i></div>
+          <p>トイレ</p>
+        </div>
+        <div class="icon-item" data-name="キッチン">
+          <div class="icon-circle"><i class="material-icons">kitchen</i></div>
+          <p>キッチン</p>
+        </div>
+        <div class="icon-item" data-name="冷蔵庫">
+          <div class="icon-circle"><i class="material-icons">kitchen</i></div>
+          <p>冷蔵庫</p>
+        </div>
+        <div class="icon-item" data-name="洗濯機">
+          <div class="icon-circle"><i class="material-icons">local_laundry_service</i></div>
+          <p>洗濯機</p>
+        </div>
+        <div class="icon-item" data-name="乾燥機">
+          <div class="icon-circle"><i class="material-icons">dry</i></div>
+          <p>乾燥機</p>
+        </div>
+        <div class="icon-item" data-name="電子レンジ">
+          <div class="icon-circle"><i class="material-icons">microwave</i></div>
+          <p>電子レンジ</p>
         </div>
       </div>
 
       <h5>周辺環境</h5>
-
-      <div class="icon-list">
-        <div class="icon-item">
-          <div class="icon-circle"><i class="fas fa-tv"></i></div>
-          <p>TV</p>
+      <div class="icon-list surrounding-environment">
+        <!-- 各アイテムに data-name 属性を追加 -->
+        <div class="icon-item" data-name="コンビニ">
+          <div class="icon-circle"><i class="material-icons">store</i></div>
+          <p>コンビニ</p>
         </div>
-        <div class="icon-item">
-          <div class="icon-circle"><i class="fas fa-wifi"></i></div>
-          <p>Wi-Fi</p>
+        <div class="icon-item" data-name="スーパー">
+          <div class="icon-circle"><i class="material-icons">local_grocery_store</i></div>
+          <p>スーパー</p>
         </div>
-        <div class="icon-item">
-          <div class="icon-circle"><i class="fas fa-bath"></i></div>
-          <p>風呂</p>
+        <div class="icon-item" data-name="銀行ATM">
+          <div class="icon-circle"><i class="material-icons">account_balance</i></div>
+          <p>銀行ATM</p>
+        </div>
+        <div class="icon-item" data-name="飲食店">
+          <div class="icon-circle"><i class="material-icons">restaurant</i></div>
+          <p>飲食店</p>
+        </div>
+        <div class="icon-item" data-name="バス停・駅">
+          <div class="icon-circle"><i class="material-icons">directions_bus</i></div>
+          <p>バス停・駅</p>
         </div>
       </div>
       <section>

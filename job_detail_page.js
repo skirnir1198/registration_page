@@ -1,5 +1,5 @@
 $(function () {
-
+  $('#loading').show();
   const db = firebase.firestore();
   const ageGroups = [
     { age: '10代', position: '0%' },
@@ -15,7 +15,7 @@ $(function () {
     { position: '75%', label: '' },
     { position: '100%', label: '女性が多い' }
   ];
-  db.collection("jobPostings").doc('cgn1SOcnIRvcPnPT5dUn').get().then((doc) => {
+  db.collection("jobPostings").doc('U1KohRiIRecljALVrpYk').get().then((doc) => {
     if (doc.exists) {
       // ドキュメントのデータをコンソールに表示
       const data = doc.data();
@@ -74,27 +74,27 @@ $(function () {
       $('.period').text(data.period); //期間
       $('.salary_type').text(data.salary_type); //給与体系
       $('.salary_amount').text(data.salary_amount); //給与
-      $('.job_description').text(data.job_description); //仕事内容
+      $('.job_description').html(data.job_description); //仕事内容
       $('.income').text(data.income); //予想月収
-      $('.working_hours').text(data.working_hours); //勤務時間
-      $('.condition').text(data.condition); //応募条件
+      $('.working_hours').html(data.working_hours); //勤務時間
+      $('.condition').text(data.condition || 'なし'); //応募条件
       $('.employment').text(data.employment); //雇用形態
-      $('.dietary_conditions').text(data.dietary_conditions); //食事条件
-      $('.transportation').text(data.transportation); //交通費
+      $('.dietary_conditions').html(data.dietary_conditions || 'なし'); //食事条件
+      $('.transportation').text(data.transportation || 'なし'); //交通費
       $('.holiday-start').text(data.holiday[0]); //休日１
       $('.holiday-end').text(data.holiday[1]); //休日２
-      $('.necessary_work').text(data.necessary_work); //仕事で必要なもの
-      $('.necessary_life').text(data.necessary_life); //生活で必要なもの
+      $('.necessary_work').text(data.necessary_work || 'なし'); //仕事で必要なもの
+      $('.necessary_life').text(data.necessary_life || 'なし'); //生活で必要なもの
       $('.clothing').text(data.clothing); //制服
       $('.car').text(data.car); //車の持ち込み
-      $('.welfare').text(data.welfare); //福利厚生
+      $('.welfare').html(data.welfare || 'なし'); //福利厚生
       $('.domitoryType').text(data.domitoryType); //寮タイプ
-      $('.domitory_fee').text(data.domitory_fee); //寮費
+      $('.domitory_fee').text(data.domitory_fee || 'なし'); //寮費
       $('.commuting_time').text(data.commuting_time); //通勤時間
       $('.network').text(data.network); //Wi-Fi
-      $('.surrounding_environment').text(data.surrounding_environment); //周辺環境テキスト
+      $('.surrounding_environment').html(data.surrounding_environment || 'なし'); //周辺環境テキスト
       $('.region_detail').text(data.region_detail); //住所詳細
-      $('.transportation').text(data.transportation); //交通手段
+      $('.transportation').html(data.transportation); //交通手段
       $('.icon-item').hide();
       data.insideRoom.forEach(function (item) {
         $('.icon-list.inside_room').children('.icon-item[data-name="' + item + '"]').show();
@@ -108,10 +108,6 @@ $(function () {
       var encodedAddress = encodeURIComponent(data.selectedRegion + ' ' + data.region_detail);
       var googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodedAddress;
       $('td').find('.map').attr('href', googleMapsUrl);
-
-
-
-
       $.each(data.good_points, function (i, item) {
         // <li>要素を作成してテキストを設定
         var $li = $('<li>').text(item);
@@ -184,7 +180,6 @@ $(function () {
         const $slider = $(slider.selector);
         addSliderDots($slider, slider.points, slider.selectedPoint, slider.startLabel, slider.endLabel);
       });
-      console.log(data.agecheckbox);
       data.agecheckbox.forEach(function (index) {
         $('.age-container .custom-slider .slider-dot').eq(index).addClass('select-dot');
       });
@@ -195,6 +190,9 @@ $(function () {
   }).catch((error) => {
     console.log("Error getting document:", error);
   });
+
+  $('#loading').hide();
+
 
   // ----------------------------------------------------------------------------------
 

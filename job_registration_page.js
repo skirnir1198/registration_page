@@ -1,5 +1,6 @@
 $(function () {
   const db = firebase.firestore();
+  $('#loading').hide();
   // 入力欄コンポーネント ----------------------------------------------------------------------------
 
   Vue.component('area-component', {
@@ -303,7 +304,7 @@ $(function () {
       region: '',
       employment: '派遣社員',
       clothing: '',
-      car: '',
+      car: '可能',
       job_description: '',
       period: '',
       salary_type: '',
@@ -315,7 +316,7 @@ $(function () {
       necessary_work: '',
       necessary_life: '',
       network: 'あり(部屋内)',
-      domitoryType: '',
+      domitoryType: 'アパート,マンションタイプ',
       domitory_fee: '',
       commuting_time: '',
       welfare: '',
@@ -395,6 +396,7 @@ $(function () {
 
 
       submitForm() {
+        $('#loading').show();
         var liTexts = [];
         // 各li要素に対して処理を実行
         $('#list-container li').each(function () {
@@ -452,28 +454,28 @@ $(function () {
           domitory_fee: this.domitory_fee,
           commuting_time: this.commuting_time,
           welfare: this.welfare.replace(/\n/g, '<br>'),
-          surrounding_environment: this.surrounding_environment,
+          surrounding_environment: this.surrounding_environment.replace(/\n/g, '<br>'),
+          transportation_expenses: $('.transportation_expenses').val(),
           transportation: this.transportation.replace(/\n/g, '<br>'),
-          sexRatio: this.sexRatio,
-          overtime: this.overtime,
-          atmosphere: this.atmosphere,
+          sexRatio: this.sexRatio-1,
+          overtime: this.overtime-1,
+          atmosphere: this.atmosphere-1,
           agecheckbox: checkedAges,
           insideRoom: checkedInsideRoom,
           outsideRoom: checkedOutSide,
-          surroundingEnvironment: checkedEnvironment.replace(/\n/g, '<br>')
+          surroundingEnvironment: checkedEnvironment
         };
 
-        console.log(this.job_description.replace(/\n/g, '<br>'));
-
         // Firestore にデータを追加
-        // jobPostingsCollection.set(formData)
-        //   .then(docRef => {
-        //     console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
-        //     uploadImagesAndSaveFormData(jobPostingsCollection.id);
-        //   })
-        //   .catch(error => {
-        //     console.error('データの保存中にエラーが発生しました:', error);
-        //   });
+        jobPostingsCollection.set(formData)
+          .then(docRef => {
+            console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
+            uploadImagesAndSaveFormData(jobPostingsCollection.id);
+          })
+          .catch(error => {
+            console.error('データの保存中にエラーが発生しました:', error);
+          });
+          $('#loading').hide();
       }
     }
   });

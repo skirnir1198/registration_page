@@ -25,6 +25,11 @@
 </head>
 
 <body>
+  <div id="loading">
+    <div class="kvArea" id="loading_box">
+      <div class="img_box"><img src="Spinner-3.gif" alt="" class="fadeUp"></div>
+    </div>
+  </div>
   <main>
     <section>
       <h1>求人登録ページ</h1>
@@ -79,7 +84,8 @@
     </section>
     <section>
       <h3>男女比</h3>
-      <radio-group group-class="sex_ratio" left-label="男性が多い" right-label="女性が多い" v-model="sexRatio" id="rating-system"></radio-group>
+      <radio-group group-class="sex_ratio" left-label="男性が多い" right-label="女性が多い" v-model="sexRatio"
+        id="rating-system"></radio-group>
 
     </section>
     <section>
@@ -89,7 +95,8 @@
     </section>
     <section>
       <h3>雰囲気</h3>
-      <radio-group group-class="atmosphere" left-label="落ち着いている" right-label="にぎやか" v-model="atmosphere" id="rating-system">
+      <radio-group group-class="atmosphere" left-label="落ち着いている" right-label="にぎやか" v-model="atmosphere"
+        id="rating-system">
       </radio-group>
     </section>
     <section>
@@ -101,7 +108,7 @@
     </section>
     <section>
       <h3>月収予想</h3>
-      <text-field :input-class="income" v-model="income"></text-field>
+      <text-field :input-class="income" v-model="income"></text-field>円
     </section>
     <section>
       <h3>勤務時間</h3>
@@ -193,7 +200,8 @@
     </section>
     <section>
       <h3>周辺環境</h3>
-      <text-area-component input-class="surrounding_environment" v-model="surrounding_environment"></text-area-component>
+      <text-area-component input-class="surrounding_environment"
+        v-model="surrounding_environment"></text-area-component>
     </section>
     <section>
       <h3>交通手段</h3>
@@ -218,9 +226,9 @@
 "><button type="submit" class="submit-button"><i class="fas fa-paper-plane"></i> 登録
       </button></div> -->
 
-      <form @submit.prevent="submitForm">
-        <button type="submit" class="submit-button">送信</button>
-      </form>
+    <form @submit.prevent="submitForm">
+      <button type="submit" class="submit-button">送信</button>
+    </form>
 
   </main>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>

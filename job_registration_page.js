@@ -299,9 +299,9 @@ $(function () {
       title: '',
       region_detail: '',
       selectedRegion: '',
-      occupation: '',
+      occupation: 'レストランサービス',
       region: '',
-      employment: '',
+      employment: '派遣社員',
       clothing: '',
       car: '',
       job_description: '',
@@ -314,7 +314,7 @@ $(function () {
       dietary_conditions: '',
       necessary_work: '',
       necessary_life: '',
-      network: '',
+      network: 'あり(部屋内)',
       domitoryType: '',
       domitory_fee: '',
       commuting_time: '',
@@ -405,13 +405,13 @@ $(function () {
           // 配列にテキストを追加
           liTexts.push(text);
         });
-
         const db = firebase.firestore();
         // データを保存するための Firestore コレクションを指定
         const jobPostingsCollection = db.collection('jobPostings').doc();
         const checkedAges = this.agecheckbox
-          .filter(item => item.checked) // true のものだけをフィルタリング
-          .map(item => item.text); // フィルタリングされたオブジェクトから 'text' のみを取り出す
+        .map((item, index) => item.checked ? index : -1) // チェックされたもののインデックスを取得、そうでなければ -1
+        .filter(index => index !== -1); // -1 を除外して実際にチェックされたインデックスのみを取得
+       // フィルタリングされたオブジェクトから 'text' のみを取り出す
         const checkedEnvironment = this.surroundingEnvironment
           .filter(item => item.checked) // checked が true の要素のみをフィルタリング
           .map(item => item.text); // フィルタリングされた要素の text のみを抽出
@@ -427,7 +427,7 @@ $(function () {
         const formData = {
           docId: jobPostingsCollection.id,
           name: this.name,
-          title: this.title,
+          title: this.title.replace(/\n/g, '<br>'),
           region_detail: this.region_detail,
           selectedRegion: this.selectedRegion,
           salary_type: this.salary_type,
@@ -437,41 +437,43 @@ $(function () {
           employment: this.employment,
           clothing: this.clothing,
           car: this.car,
-          job_description: this.job_description,
+          job_description: this.job_description.replace(/\n/g, '<br>'),
           holiday: [$(".holiday-start").val(), $(".holiday-end").val()],
           period: this.period,
           income: this.income,
-          working_hours: this.working_hours,
+          working_hours: this.working_hours.replace(/\n/g, '<br>'),
           good_points: liTexts,
           condition: this.condition,
-          dietary_conditions: this.dietary_conditions,
+          dietary_conditions: this.dietary_conditions.replace(/\n/g, '<br>'),
           necessary_work: this.necessary_work,
           necessary_life: this.necessary_life,
           network: this.network,
           domitoryType: this.domitoryType,
           domitory_fee: this.domitory_fee,
           commuting_time: this.commuting_time,
-          welfare: this.welfare,
+          welfare: this.welfare.replace(/\n/g, '<br>'),
           surrounding_environment: this.surrounding_environment,
-          transportation: this.transportation,
+          transportation: this.transportation.replace(/\n/g, '<br>'),
           sexRatio: this.sexRatio,
           overtime: this.overtime,
           atmosphere: this.atmosphere,
           agecheckbox: checkedAges,
           insideRoom: checkedInsideRoom,
           outsideRoom: checkedOutSide,
-          surroundingEnvironment: checkedEnvironment
+          surroundingEnvironment: checkedEnvironment.replace(/\n/g, '<br>')
         };
 
+        console.log(this.job_description.replace(/\n/g, '<br>'));
+
         // Firestore にデータを追加
-        jobPostingsCollection.set(formData)
-          .then(docRef => {
-            console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
-            uploadImagesAndSaveFormData(jobPostingsCollection.id);
-          })
-          .catch(error => {
-            console.error('データの保存中にエラーが発生しました:', error);
-          });
+        // jobPostingsCollection.set(formData)
+        //   .then(docRef => {
+        //     console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
+        //     uploadImagesAndSaveFormData(jobPostingsCollection.id);
+        //   })
+        //   .catch(error => {
+        //     console.error('データの保存中にエラーが発生しました:', error);
+        //   });
       }
     }
   });

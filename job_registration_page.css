@@ -18,6 +18,13 @@ h1 {
   margin: 0;
 }
 
+h2 {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 400; /* 太字を指定 */
+  font-size: 20px; /* フォントサイズを指定、実際の内容に応じて調整してください */
+  line-height: 1.2; /* 行の高さ、必要に応じて調整 */
+}
+
 h3 {
   margin: 0px;
   margin-bottom: 12px;
@@ -52,10 +59,14 @@ p {
   margin-left: 8px;
 }
 
-.job_description {
-  margin: 40px 0px;
-}
 
+.title {
+  margin: 40px 0px 64px;
+  font-size: 20px; /* フォントサイズを指定、実際の内容に応じて調整してください */
+  line-height: 1.2; /* 行の高さ、必要に応じて調整 */
+  white-space: pre-wrap; 
+
+}
 /* section関連 */
 
 section {
@@ -238,6 +249,7 @@ input[type="text"] {
   border: 2px solid #6200ea;
 }
 
+
 /* ---------------------------------------------------------------- */
 
 
@@ -288,7 +300,7 @@ input[type="text"] {
 .first_img, .second_img {
   width: auto;
   border-radius: 8px;
-  height: 350px;
+  max-height: 350px;
   margin-bottom: 12px;
 }
 

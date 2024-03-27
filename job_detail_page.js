@@ -66,8 +66,9 @@ $(function () {
         slideContainer[1].appendChild(img);
       });
       $('.work_place').text(data.name); //職場名
-      $('.job_description').text(data.job_description); //仕事紹介
-      $('.region').text(data.region); //都道府県
+      $('.title').html(data.title.replaceAll(' ', '<br>')); //仕事紹介
+      $('.region').text(data.selectedRegion); //都道府県
+      $('.region_place').text(data.region); //場所名
       $('.region_detail').text(data.region_detail); //地域名
       $('.occupation').text(data.occupation); //職種名
       $('.period').text(data.period); //期間
@@ -95,16 +96,18 @@ $(function () {
       $('.region_detail').text(data.region_detail); //住所詳細
       $('.transportation').text(data.transportation); //交通手段
       $('.icon-item').hide();
-      data.insideRoom.forEach(function(item) {
+      data.insideRoom.forEach(function (item) {
         $('.icon-list.inside_room').children('.icon-item[data-name="' + item + '"]').show();
-      });  
-      data.outsideRoom.forEach(function(item) {
+      });
+      data.outsideRoom.forEach(function (item) {
         $('.icon-list.outside_room').children('.icon-item[data-name="' + item + '"]').show();
-      });         
+      });
       data.surroundingEnvironment.forEach(function (item) {
         $('.surrounding-environment').children('.icon-item[data-name="' + item + '"]').show();
       });
-
+      var encodedAddress = encodeURIComponent(data.selectedRegion + ' ' + data.region_detail);
+      var googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodedAddress;
+      $('td').find('.map').attr('href', googleMapsUrl);
 
 
 
@@ -152,7 +155,6 @@ $(function () {
         {
           selector: '.age-container .custom-slider',
           points: ageGroups.map(group => ({ position: group.position, label: group.age })),
-          selectedPoint: ageGroups.findIndex(group => data.agecheckbox.includes(group.age))
         },
         {
           selector: '.sex-container .custom-slider',
@@ -182,6 +184,11 @@ $(function () {
         const $slider = $(slider.selector);
         addSliderDots($slider, slider.points, slider.selectedPoint, slider.startLabel, slider.endLabel);
       });
+      console.log(data.agecheckbox);
+      data.agecheckbox.forEach(function (index) {
+        $('.age-container .custom-slider .slider-dot').eq(index).addClass('select-dot');
+      });
+
     } else {
       console.log("No such document!");
     }

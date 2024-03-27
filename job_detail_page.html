@@ -20,8 +20,10 @@
   <script type="text/javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5740691913931441"
     crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.js"></script>
 
 </head>
 
@@ -37,13 +39,12 @@
     <section>
       <h2>職場名: <span class="work_place"></span></h2>
     </section>
-    <h3 class="job_description"></h3>
-
+    <h3 class="title"></h3>
     <ul class="info-list">
       <li>
         <i class="fas fa-map-marker-alt"></i>
         <p>勤務地</p>
-        <span class="region"></span>/<span class="region_detail"></span>
+        <span class="region"></span>/<span class="region_place"></span>
       </li>
       <li>
         <i class="fas fa-briefcase"></i>
@@ -340,8 +341,9 @@
         <table>
           <tr>
             <th>住所</th>
-            <td><span class="region"></span><span class="region_detail"></span><br><a
-                href="https://www.google.com/maps/search/?api=1&query=山形県下宿市森2505" target="_blank">Googleマップで確認</a></td>
+            <td><span class="region"></span><span class="region_detail"></span><br>
+              <a class="map" href="" target="_blank">Googleマップで確認</a>
+            </td>
           </tr>
           <tr>
             <th>アクセス</th>

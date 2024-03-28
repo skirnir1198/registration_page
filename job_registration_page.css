@@ -20,9 +20,12 @@ h1 {
 
 h2 {
   font-family: 'Noto Sans JP', sans-serif;
-  font-weight: 400; /* 太字を指定 */
-  font-size: 20px; /* フォントサイズを指定、実際の内容に応じて調整してください */
-  line-height: 1.2; /* 行の高さ、必要に応じて調整 */
+  font-weight: 400;
+  /* 太字を指定 */
+  font-size: 20px;
+  /* フォントサイズを指定、実際の内容に応じて調整してください */
+  line-height: 1.2;
+  /* 行の高さ、必要に応じて調整 */
 }
 
 h3 {
@@ -62,11 +65,14 @@ p {
 
 .title {
   margin: 40px 0px 64px;
-  font-size: 20px; /* フォントサイズを指定、実際の内容に応じて調整してください */
-  line-height: 1.2; /* 行の高さ、必要に応じて調整 */
-  white-space: pre-wrap; 
+  font-size: 20px;
+  /* フォントサイズを指定、実際の内容に応じて調整してください */
+  line-height: 1.2;
+  /* 行の高さ、必要に応じて調整 */
+  white-space: pre-wrap;
 
 }
+
 /* section関連 */
 
 section {
@@ -75,8 +81,10 @@ section {
   margin-bottom: 20px;
   padding: 12px;
   border-radius: 4px;
-  display: flex; /* Flexbox を有効化 */
-  flex-direction: column; /* アイテムを縦方向に並べる */
+  display: flex;
+  /* Flexbox を有効化 */
+  flex-direction: column;
+  /* アイテムを縦方向に並べる */
 }
 
 section img {
@@ -297,28 +305,60 @@ input[type="text"] {
   display: flex;
 }
 
-.first_img, .second_img {
+.first_img,
+.second_img {
   width: auto;
   border-radius: 8px;
   max-height: 350px;
   margin-bottom: 12px;
+  transition: opacity 0.5s ease-in-out; /* 透明度の変化に0.5秒かけて、イージングはease-in-out */
+  opacity: 1; /* 初期状態の透明度は1（完全に不透明） */
 }
 
-.slide-container img {
-  flex: 1;
-  /* 画像がコンテナ内で均等に拡張するように */
-  max-width: calc(20% - 10px);
-  /* 5枚の画像なので20%の幅、画像間のマージンを考慮 */
-  height: auto;
-  /* 高さは自動調整 */
-  margin-right: 10px;
-  /* 画像間の余白 */
+
+.slide-container img:hover::after {
+  content: '';
+  /* 必須 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  /* 白色の半透明のオーバーレイ */
+  z-index: 1;
+  /* 画像の上に表示 */
 }
 
 /* 最後の画像の右マージンを取り除く */
 .slide-container img:last-child {
   margin-right: 0;
 }
+
+.img-wrapper {
+  flex: 1;
+  max-width: calc(20% - 10px);
+  height: auto;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.img-wrapper {
+  position: relative;
+  display: inline-block; /* または必要に応じて他の表示方法 */
+}
+
+.img-wrapper:hover::after {
+  content: ''; /* 必須 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.5); /* 白色の半透明のオーバーレイ */
+  z-index: 1; /* 画像の上に表示 */
+}
+
 
 #preview-container img,
 #preview-container2 img {
@@ -378,14 +418,18 @@ input[type="text"] {
 .slider-dot.select-dot::after {
   content: '';
   position: absolute;
-  width: 24px; /* 外側の円の大きさを調整 */
-  height: 24px; /* 外側の円の大きさを調整 */
-  background-color: rgba(134, 190, 79, 0.3); /* 透明度を持つ色で薄い円を設定 */
+  width: 24px;
+  /* 外側の円の大きさを調整 */
+  height: 24px;
+  /* 外側の円の大きさを調整 */
+  background-color: rgba(134, 190, 79, 0.3);
+  /* 透明度を持つ色で薄い円を設定 */
   border-radius: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1; /* 元の円よりも後ろに表示 */
+  z-index: 1;
+  /* 元の円よりも後ろに表示 */
 }
 
 /* チェックボックステキスト */
@@ -654,22 +698,27 @@ a:hover {
   opacity: 1.0;
   text-align: center;
 }
+
 #loading_box {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 #loading .kvArea {
   width: 100%;
 }
+
 #loading .kvArea .img_box {
   text-align: center;
 }
+
 #loading .kvArea .img_box img {
   max-width: 100%;
   height: auto;
 }
+
 .fadeUp {
   animation-duration: 1.2s;
   animation-delay: 1.2s;

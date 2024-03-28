@@ -35,11 +35,11 @@
       <h1>求人登録ページ</h1>
     </section>
     <section>
-      <h3>施設名</h3>
+      <h3>*施設名</h3>
       <text-field :input-class="name" v-model="name"></text-field>
     </section>
     <section>
-      <h3>タイトル<span class="small_word">求職者を惹きつけるタイトル</span></h3>
+      <h3>*タイトル<span class="small_word">求職者を惹きつけるタイトル</span></h3>
       <text-area-component input-class="title" v-model="title"></text-area-component>
     </section>
     <section>
@@ -47,7 +47,7 @@
       <area-component @update-region="handleRegionUpdate"></area-component>
     </section>
     <section>
-      <h3>都道府県以降の住所</h3>
+      <h3>*都道府県以降の住所</h3>
       <text-field :input-class="region_detail" v-model="region_detail"></text-field>
     </section>
     <section>
@@ -59,11 +59,11 @@
       <occupation-component @update-occupation="handleOccupationUpdate"></occupation-component>
     </section>
     <section>
-      <h3>お仕事内容</h3>
+      <h3>*お仕事内容</h3>
       <text-area-component input-class="job_description" v-model="job_description"></text-area-component>
     </section>
     <section>
-      <h3>期間</h3>
+      <h3>*期間</h3>
       <text-field :input-class="period" v-model="period"></text-field>
     </section>
 
@@ -76,32 +76,32 @@
       <ul id="list-container"></ul>
     </section>
     <section>
-      <h3>年齢層</h3>
+      <h3>*年齢層</h3>
       <div class="checkbox_parent">
         <checkbox-component v-for="(item, index) in agecheckbox" :key="index" :label="item.text" :value="item.checked"
           @change="item.checked = $event"></checkbox-component>
       </div>
     </section>
     <section>
-      <h3>男女比</h3>
+      <h3>*男女比</h3>
       <radio-group group-class="sex_ratio" left-label="男性が多い" right-label="女性が多い" v-model="sexRatio"
         id="rating-system"></radio-group>
 
     </section>
     <section>
-      <h3>残業</h3>
+      <h3>*残業</h3>
       <radio-group group-class="overtime" left-label="少ない" right-label="多い" v-model="overtime" id="rating-system">
       </radio-group>
     </section>
     <section>
-      <h3>雰囲気</h3>
+      <h3>*雰囲気</h3>
       <radio-group group-class="atmosphere" left-label="落ち着いている" right-label="にぎやか" v-model="atmosphere"
         id="rating-system">
       </radio-group>
     </section>
     <section>
       <div class="salary-input">
-        <h3>給与</h3>
+        <h3>*給与</h3>
         <sarary-component @update-salary_type="handleSalaryTypeUpdate"></sarary-component>
         <input type="number" class="salary-amount" name="salary_amount" v-model="salary_amount" placeholder="金額を入力">円
       </div>
@@ -208,24 +208,20 @@
       <text-area-component input-class="transportation" v-model="transportation"></text-area-component>
     </section>
     <section>
-      <h3>写真登録<span class="small_word">※最大5枚</span></h3>
+      <h3>*写真登録<span class="small_word">※最大5枚</span></h3>
       <div id="image-upload-container">
         <div id="preview-container"></div>
         <input type="file" id="image-input" multiple accept="image/*" />
       </div>
     </section>
     <section>
-      <h3>寮の写真登録<span class="small_word">※最大5枚</span></h3>
+      <h3>*寮の写真登録<span class="small_word">※最大5枚</span></h3>
       <div id="image-upload-container2">
         <div id="preview-container2"></div>
         <input type="file" id="image-input2" multiple accept="image/*" />
       </div>
     </section>
-    <!-- <div style="
-    text-align: end;
-"><button type="submit" class="submit-button"><i class="fas fa-paper-plane"></i> 登録
-      </button></div> -->
-
+    <div class="error"></div>
     <form @submit.prevent="submitForm">
       <button type="submit" class="submit-button">送信</button>
     </form>

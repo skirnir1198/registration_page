@@ -425,6 +425,46 @@ $(function () {
           const checkedOutSide = this.outsideRoom
           .filter(item => item.checked) // checked が true の要素のみをフィルタリング
           .map(item => item.text); // フィルタリングされた要素の text のみを抽出
+
+
+          if(!this.name) {
+            $('.error').append($('<p>').text(`「施設名」は必須項目です。`));
+          }
+          if(!this.title) {
+            $('.error').append($('<p>').text(`「タイトル」は必須項目です。`));
+          }
+          if(!this.region_detail) {
+            $('.error').append($('<p>').text(`「都道府県以降の住所」は必須項目です。`));
+          }
+          if(!this.job_description) {
+            $('.error').append($('<p>').text(`「お仕事内容」は必須項目です。`));
+          }
+          if(!this.period) {
+            $('.error').append($('<p>').text(`「期間」は必須項目です。`));
+          }
+          if(checkedAges.length == 0) {
+            $('.error').append($('<p>').text(`「年齢層」は必須項目です。`));
+          }
+          if(!this.sexRatio) {
+            $('.error').append($('<p>').text(`「男女比」は必須項目です。`));
+          }
+          if(!this.overtime) {
+            $('.error').append($('<p>').text(`「残業」は必須項目です。`));
+          }
+          if(!this.atmosphere) {
+            $('.error').append($('<p>').text(`「雰囲気」は必須項目です。`));
+          }
+          if(!this.salary_amount) {
+            $('.error').append($('<p>').text(`「給与」は必須項目です。`));
+          }
+          if(document.getElementById('image-input').files.length == 0) {
+            $('.error').append($('<p>').text(`「写真」は最低一枚必要です。`));
+          }
+          if(document.getElementById('image-input2').files.length == 0) {
+            $('.error').append($('<p>').text(`「寮の写真」は最低一枚必要です。`));
+          }
+          $('#loading').hide();
+
         // フォームデータをオブジェクトにまとめる
         const formData = {
           docId: jobPostingsCollection.id,
@@ -467,15 +507,14 @@ $(function () {
         };
 
         // Firestore にデータを追加
-        jobPostingsCollection.set(formData)
-          .then(docRef => {
-            console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
-            uploadImagesAndSaveFormData(jobPostingsCollection.id);
-          })
-          .catch(error => {
-            console.error('データの保存中にエラーが発生しました:', error);
-          });
-          $('#loading').hide();
+        // jobPostingsCollection.set(formData)
+        //   .then(docRef => {
+        //     console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
+        //     uploadImagesAndSaveFormData(jobPostingsCollection.id);
+        //   })
+        //   .catch(error => {
+        //     console.error('データの保存中にエラーが発生しました:', error);
+        //   });
       }
     }
   });
@@ -549,7 +588,7 @@ function uploadImagesAndSaveFormData(docId) {
 
   for (let i = 0; i < imageFiles.length; i++) {
     const uniqueName = `${Date.now()}-${imageFiles[i].name}`;
-    const imageRef = storageRef.child(`jobPostingsimages/job_image/${uniqueName}`);
+    const imageRef = storageRef.child(`jobPostingsimages/job_image/${docId}/${uniqueName}`);
     uploadPromises.push(
       imageRef.put(imageFiles[i]).then(() => imageRef.getDownloadURL())
     );
@@ -557,7 +596,7 @@ function uploadImagesAndSaveFormData(docId) {
 
   for (let i = 0; i < imageFiles2.length; i++) {
     const uniqueName = `${Date.now()}-${imageFiles2[i].name}`;
-    const imageRef = storageRef.child(`jobPostingsimages/domitory_image/${uniqueName}`);
+    const imageRef = storageRef.child(`jobPostingsimages/domitory_image/${docId}/${uniqueName}`);
     uploadPromises2.push(
       imageRef.put(imageFiles2[i]).then(() => imageRef.getDownloadURL())
     );
@@ -586,9 +625,13 @@ function uploadImagesAndSaveFormData(docId) {
     db.collection('jobPostings').doc(docId).update(formData)
       .then(() => {
         console.log('求人情報と画像のURLが保存されました。');
+        $('#loading').hide();
+        window.location.href = 'job_list_page.html';
+
       })
       .catch(error => {
         console.error('データの保存中にエラーが発生しました:', error);
+        $('#loading').hide();
       });
   });
 }

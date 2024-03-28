@@ -1,5 +1,12 @@
 $(function () {
   $('#loading').show();
+  // 現在のページのURLからクエリストリングを取得
+  const queryString = window.location.search;
+  // URLSearchParamsオブジェクトを作成
+  const urlParams = new URLSearchParams(queryString);
+
+  // 特定のパラメーターの値を取得
+  const param1 = urlParams.get('param'); // 'value1'
   const db = firebase.firestore();
   const ageGroups = [
     { age: '10代', position: '0%' },
@@ -15,7 +22,7 @@ $(function () {
     { position: '75%', label: '' },
     { position: '100%', label: '女性が多い' }
   ];
-  db.collection("jobPostings").doc('U1KohRiIRecljALVrpYk').get().then((doc) => {
+  db.collection("jobPostings").doc(param1).get().then((doc) => {
     if (doc.exists) {
       // ドキュメントのデータをコンソールに表示
       const data = doc.data();
@@ -30,18 +37,29 @@ $(function () {
         firstImage.alt = "画像1"; // Set an appropriate alt text
       }
       imageUrls.forEach(url => {
+        // imgタグを作成
         const img = document.createElement('img');
         img.src = url;
         img.alt = "画像"; // Set an appropriate alt text
 
-        // Add an event listener to each img tag
-        img.addEventListener('click', () => {
-          // Update the src of the .first_img image to the src of the clicked image
-          firstImage.src = img.src;
-          firstImage.alt = img.alt; // Update alt text if necessary
+        // imgタグを含む新しいdiv要素を作成
+        const imgWrapper = document.createElement('div');
+        imgWrapper.classList.add('img-wrapper'); // クラス名を追加（スタイリング用）
+        imgWrapper.appendChild(img);
+
+        // imgタグにイベントリスナーを追加
+        imgWrapper.addEventListener('click', () => {
+          firstImage.style.opacity = 0; // 一旦透明度を0にする
+          // 少し遅延してから画像ソースを変更し、透明度を元に戻す
+          setTimeout(() => {
+            firstImage.src = img.src;
+            firstImage.alt = img.alt;
+            firstImage.style.opacity = 1; // 透明度を1に戻す
+          }, 250); // 250ミリ秒後に実行
         });
 
-        slideContainer[0].appendChild(img);
+        // 新しいdiv要素をスライドコンテナに追加
+        slideContainer[0].appendChild(imgWrapper);
       });
 
 
@@ -57,13 +75,24 @@ $(function () {
         const img = document.createElement('img');
         img.src = url;
         img.alt = "画像"; // Set an appropriate alt text
-        // Add an event listener to each img tag
-        img.addEventListener('click', () => {
-          // Update the src of the .first_img image to the src of the clicked image
-          firstImage2.src = img.src;
-          firstImage2.alt = img.alt; // Update alt text if necessary
+        // imgタグを含む新しいdiv要素を作成
+        const imgWrapper = document.createElement('div');
+        imgWrapper.classList.add('img-wrapper'); // クラス名を追加（スタイリング用）
+        imgWrapper.appendChild(img);
+
+        // imgタグにイベントリスナーを追加
+        imgWrapper.addEventListener('click', () => {
+          firstImage2.style.opacity = 0; // 一旦透明度を0にする
+          // 少し遅延してから画像ソースを変更し、透明度を元に戻す
+          setTimeout(() => {
+            firstImage2.src = img.src;
+            firstImage2.alt = img.alt;
+            firstImage2.style.opacity = 1; // 透明度を1に戻す
+          }, 250); // 250ミリ秒後に実行
         });
-        slideContainer[1].appendChild(img);
+
+        // 新しいdiv要素をスライドコンテナに追加
+        slideContainer[1].appendChild(imgWrapper);
       });
       $('.work_place').text(data.name); //職場名
       $('.title').html(data.title.replaceAll(' ', '<br>')); //仕事紹介
@@ -187,13 +216,13 @@ $(function () {
     } else {
       console.log("No such document!");
     }
+  }).then(() => {
+    $('#loading').hide();
+
   }).catch((error) => {
     console.log("Error getting document:", error);
+    $('#loading').hide();
   });
-
-  $('#loading').hide();
-
-
   // ----------------------------------------------------------------------------------
 
 

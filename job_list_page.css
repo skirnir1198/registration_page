@@ -1,0 +1,10 @@
+#jobPostingsList li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* アイテム間に境界線を追加 */
+}
+
+#jobPostingsList li:hover {
+  background-color: #f0f0f0; /* マウスオーバー時の背景色 */
+  color: #333; /* マウスオーバー時のテキスト色 */
+  cursor: pointer; /* マウスカーソルをポインターに変更 */
+}

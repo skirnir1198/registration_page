@@ -62,6 +62,10 @@ p {
   margin-left: 8px;
 }
 
+.error {
+  color: red;
+}
+
 
 .title {
   margin: 40px 0px 64px;

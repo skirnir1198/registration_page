@@ -397,6 +397,7 @@ $(function () {
 
       submitForm() {
         $('#loading').show();
+        $('.error').empty();
         var liTexts = [];
         // 各li要素に対して処理を実行
         $('#list-container li').each(function () {
@@ -411,59 +412,82 @@ $(function () {
         // データを保存するための Firestore コレクションを指定
         const jobPostingsCollection = db.collection('jobPostings').doc();
         const checkedAges = this.agecheckbox
-        .map((item, index) => item.checked ? index : -1) // チェックされたもののインデックスを取得、そうでなければ -1
-        .filter(index => index !== -1); // -1 を除外して実際にチェックされたインデックスのみを取得
-       // フィルタリングされたオブジェクトから 'text' のみを取り出す
+          .map((item, index) => item.checked ? index : -1) // チェックされたもののインデックスを取得、そうでなければ -1
+          .filter(index => index !== -1); // -1 を除外して実際にチェックされたインデックスのみを取得
+        // フィルタリングされたオブジェクトから 'text' のみを取り出す
         const checkedEnvironment = this.surroundingEnvironment
           .filter(item => item.checked) // checked が true の要素のみをフィルタリング
           .map(item => item.text); // フィルタリングされた要素の text のみを抽出
 
-          const checkedInsideRoom = this.insideRoom
+        const checkedInsideRoom = this.insideRoom
           .filter(item => item.checked) // checked が true の要素のみをフィルタリング
           .map(item => item.text); // フィルタリングされた要素の text のみを抽出
 
-          const checkedOutSide = this.outsideRoom
+        const checkedOutSide = this.outsideRoom
           .filter(item => item.checked) // checked が true の要素のみをフィルタリング
           .map(item => item.text); // フィルタリングされた要素の text のみを抽出
 
 
-          if(!this.name) {
-            $('.error').append($('<p>').text(`「施設名」は必須項目です。`));
-          }
-          if(!this.title) {
-            $('.error').append($('<p>').text(`「タイトル」は必須項目です。`));
-          }
-          if(!this.region_detail) {
-            $('.error').append($('<p>').text(`「都道府県以降の住所」は必須項目です。`));
-          }
-          if(!this.job_description) {
-            $('.error').append($('<p>').text(`「お仕事内容」は必須項目です。`));
-          }
-          if(!this.period) {
-            $('.error').append($('<p>').text(`「期間」は必須項目です。`));
-          }
-          if(checkedAges.length == 0) {
-            $('.error').append($('<p>').text(`「年齢層」は必須項目です。`));
-          }
-          if(!this.sexRatio) {
-            $('.error').append($('<p>').text(`「男女比」は必須項目です。`));
-          }
-          if(!this.overtime) {
-            $('.error').append($('<p>').text(`「残業」は必須項目です。`));
-          }
-          if(!this.atmosphere) {
-            $('.error').append($('<p>').text(`「雰囲気」は必須項目です。`));
-          }
-          if(!this.salary_amount) {
-            $('.error').append($('<p>').text(`「給与」は必須項目です。`));
-          }
-          if(document.getElementById('image-input').files.length == 0) {
-            $('.error').append($('<p>').text(`「写真」は最低一枚必要です。`));
-          }
-          if(document.getElementById('image-input2').files.length == 0) {
-            $('.error').append($('<p>').text(`「寮の写真」は最低一枚必要です。`));
-          }
+        if (!this.name) {
+          $('.error').append($('<p>').text(`「施設名」は必須項目です。`));
           $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.title) {
+          $('.error').append($('<p>').text(`「タイトル」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.region_detail) {
+          $('.error').append($('<p>').text(`「都道府県以降の住所」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.job_description) {
+          $('.error').append($('<p>').text(`「お仕事内容」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.period) {
+          $('.error').append($('<p>').text(`「期間」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (checkedAges.length == 0) {
+          $('.error').append($('<p>').text(`「年齢層」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.sexRatio) {
+          $('.error').append($('<p>').text(`「男女比」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.overtime) {
+          $('.error').append($('<p>').text(`「残業」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.atmosphere) {
+          $('.error').append($('<p>').text(`「雰囲気」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.salary_amount) {
+          $('.error').append($('<p>').text(`「給与」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (document.getElementById('image-input').files.length == 0) {
+          $('.error').append($('<p>').text(`「写真」は最低一枚必要です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (document.getElementById('image-input2').files.length == 0) {
+          $('.error').append($('<p>').text(`「寮の写真」は最低一枚必要です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
 
         // フォームデータをオブジェクトにまとめる
         const formData = {
@@ -497,9 +521,9 @@ $(function () {
           surrounding_environment: this.surrounding_environment.replace(/\n/g, '<br>'),
           transportation_expenses: $('.transportation_expenses').val(),
           transportation: this.transportation.replace(/\n/g, '<br>'),
-          sexRatio: this.sexRatio-1,
-          overtime: this.overtime-1,
-          atmosphere: this.atmosphere-1,
+          sexRatio: this.sexRatio - 1,
+          overtime: this.overtime - 1,
+          atmosphere: this.atmosphere - 1,
           agecheckbox: checkedAges,
           insideRoom: checkedInsideRoom,
           outsideRoom: checkedOutSide,
@@ -507,14 +531,15 @@ $(function () {
         };
 
         // Firestore にデータを追加
-        // jobPostingsCollection.set(formData)
-        //   .then(docRef => {
-        //     console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
-        //     uploadImagesAndSaveFormData(jobPostingsCollection.id);
-        //   })
-        //   .catch(error => {
-        //     console.error('データの保存中にエラーが発生しました:', error);
-        //   });
+        jobPostingsCollection.set(formData)
+          .then(docRef => {
+            console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
+            uploadImagesAndSaveFormData(jobPostingsCollection.id);
+            
+          })
+          .catch(error => {
+            console.error('データの保存中にエラーが発生しました:', error);
+          });
       }
     }
   });

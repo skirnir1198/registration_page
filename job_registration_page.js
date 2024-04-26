@@ -297,18 +297,20 @@ $(function () {
     el: 'main', // ここを 'main' タグに合わせています。
     data: {
       name: '',
+      company:'',
+      email: '',
       title: '',
       region_detail: '',
       selectedRegion: '',
-      occupation: 'レストランサービス',
+      type: 'レストランサービス',
       region: '',
       employment: '派遣社員',
-      clothing: '',
+      clothing: '洋装',
       car: '可能',
       job_description: '',
       period: '',
       salary_type: '時給',
-      salary_amount: '',
+      wage: '',
       income: '',
       working_hours: '',
       condition: '',
@@ -371,8 +373,8 @@ $(function () {
       handleRegionUpdate: function (region) {
         this.selectedRegion = region; // 選択された地域名をデータプロパティに設定
       },
-      handleOccupationUpdate: function (occupation) {
-        this.occupation = occupation; // 選択された地域名をデータプロパティに設定
+      handleOccupationUpdate: function (type) {
+        this.type = type; // 選択された地域名をデータプロパティに設定
       },
       handleSalaryTypeUpdate: function (salary_type) {
         this.salary_type = salary_type; // 選択された地域名をデータプロパティに設定
@@ -396,6 +398,7 @@ $(function () {
 
 
       submitForm() {
+        console.log(this.email);
         $('#loading').show();
         $('.error').empty();
         var liTexts = [];
@@ -427,78 +430,89 @@ $(function () {
           .filter(item => item.checked) // checked が true の要素のみをフィルタリング
           .map(item => item.text); // フィルタリングされた要素の text のみを抽出
 
-
-        // if (!this.name) {
-        //   $('.error').append($('<p>').text(`「施設名」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.title) {
-        //   $('.error').append($('<p>').text(`「タイトル」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.region_detail) {
-        //   $('.error').append($('<p>').text(`「都道府県以降の住所」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.job_description) {
-        //   $('.error').append($('<p>').text(`「お仕事内容」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.period) {
-        //   $('.error').append($('<p>').text(`「期間」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (checkedAges.length == 0) {
-        //   $('.error').append($('<p>').text(`「年齢層」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.sexRatio) {
-        //   $('.error').append($('<p>').text(`「男女比」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.overtime) {
-        //   $('.error').append($('<p>').text(`「残業」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.atmosphere) {
-        //   $('.error').append($('<p>').text(`「雰囲気」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.salary_amount) {
-        //   $('.error').append($('<p>').text(`「給与」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (document.getElementById('image-input').files.length == 0) {
-        //   $('.error').append($('<p>').text(`「写真」は最低一枚必要です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (document.getElementById('image-input2').files.length == 0) {
-        //   $('.error').append($('<p>').text(`「寮の写真」は最低一枚必要です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-
+          if (!this.company) {
+            $('.error').append($('<p>').text(`「会社名」は必須項目です。`));
+            $('#loading').hide();
+            return; // 処理を停止
+          }
+          if (!this.email) {
+            $('.error').append($('<p>').text(`「メールアドレス」は必須項目です。`));
+            $('#loading').hide();
+            return; // 処理を停止
+          }
+        if (!this.name) {
+          $('.error').append($('<p>').text(`「施設名」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.title) {
+          $('.error').append($('<p>').text(`「タイトル」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.region_detail) {
+          $('.error').append($('<p>').text(`「都道府県以降の住所」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.job_description) {
+          $('.error').append($('<p>').text(`「お仕事内容」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.period) {
+          $('.error').append($('<p>').text(`「期間」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (checkedAges.length == 0) {
+          $('.error').append($('<p>').text(`「年齢層」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.sexRatio) {
+          $('.error').append($('<p>').text(`「男女比」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.overtime) {
+          $('.error').append($('<p>').text(`「残業」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.atmosphere) {
+          $('.error').append($('<p>').text(`「雰囲気」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.wage) {
+          $('.error').append($('<p>').text(`「給与」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (document.getElementById('image-input').files.length == 0) {
+          $('.error').append($('<p>').text(`「写真」は最低一枚必要です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (document.getElementById('image-input2').files.length == 0) {
+          $('.error').append($('<p>').text(`「寮の写真」は最低一枚必要です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
         // フォームデータをオブジェクトにまとめる
         const formData = {
           docId: jobPostingsCollection.id,
+          link:jobPostingsCollection.id,
+          company: this.company,
+          email: this.email,
           name: this.name,
           title: this.title.replace(/\n/g, '<br>'),
           region_detail: this.region_detail,
           selectedRegion: this.selectedRegion,
           salary_type: this.salary_type,
-          salary_amount: $('.salary-amount').val(),
-          occupation: this.occupation,
+          wage: $('.wage').val(),
+          type: this.type,
           region: this.region,
           employment: this.employment,
           clothing: this.clothing,

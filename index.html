@@ -36,6 +36,14 @@
       <p>*は必須です</p>
     </section>
     <section>
+      <h3>*会社名</h3>
+      <text-field :input-class="company" v-model="company"></text-field>
+    </section>
+    <section>
+      <h3>*ご連絡できるメールアドレス</h3>
+      <input type="email" class="email" name="email" v-model="email" placeholder="rizoto_baito@example.com">
+    </section>
+    <section>
       <h3>*施設名</h3>
       <text-field :input-class="name" v-model="name"></text-field>
     </section>
@@ -104,7 +112,7 @@
       <div class="salary-input">
         <h3>*給与</h3>
         <sarary-component @update-salary_type="handleSalaryTypeUpdate"></sarary-component>
-        <input type="number" class="salary-amount" name="salary_amount" v-model="salary_amount" placeholder="金額を入力">円
+        <input type="number" class="wage" name="wage" v-model="wage" placeholder="金額を入力">円
       </div>
     </section>
     <section>

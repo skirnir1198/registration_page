@@ -297,11 +297,11 @@ $(function () {
     el: 'main', // ここを 'main' タグに合わせています。
     data: {
       name: '',
-      company:'',
+      company: '',
       email: '',
       title: '',
       region_detail: '',
-      selectedRegion: '',
+      selectedRegion: '北海道',
       type: 'レストランサービス',
       region: '',
       employment: '派遣社員',
@@ -398,7 +398,6 @@ $(function () {
 
 
       submitForm() {
-        console.log(this.email);
         $('#loading').show();
         $('.error').empty();
         var liTexts = [];
@@ -430,16 +429,16 @@ $(function () {
           .filter(item => item.checked) // checked が true の要素のみをフィルタリング
           .map(item => item.text); // フィルタリングされた要素の text のみを抽出
 
-          if (!this.company) {
-            $('.error').append($('<p>').text(`「会社名」は必須項目です。`));
-            $('#loading').hide();
-            return; // 処理を停止
-          }
-          if (!this.email) {
-            $('.error').append($('<p>').text(`「メールアドレス」は必須項目です。`));
-            $('#loading').hide();
-            return; // 処理を停止
-          }
+        if (!this.company) {
+          $('.error').append($('<p>').text(`「会社名」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.email) {
+          $('.error').append($('<p>').text(`「メールアドレス」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
         if (!this.name) {
           $('.error').append($('<p>').text(`「施設名」は必須項目です。`));
           $('#loading').hide();
@@ -503,7 +502,7 @@ $(function () {
         // フォームデータをオブジェクトにまとめる
         const formData = {
           docId: jobPostingsCollection.id,
-          link:jobPostingsCollection.id,
+          link: jobPostingsCollection.id,
           company: this.company,
           email: this.email,
           name: this.name,
@@ -549,7 +548,7 @@ $(function () {
           .then(docRef => {
             console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
             uploadImagesAndSaveFormData(jobPostingsCollection.id);
-            
+
           })
           .catch(error => {
             console.error('データの保存中にエラーが発生しました:', error);
@@ -625,21 +624,68 @@ function uploadImagesAndSaveFormData(docId) {
   let uploadPromises = [];
   let uploadPromises2 = [];
 
+  function resizeAndUploadImage(file, directory, uniqueName) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const maxSize = 250; // 最大の幅または高さ
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height && width > maxSize) {
+            height *= maxSize / width;
+            width = maxSize;
+          } else if (height > maxSize) {
+            width *= maxSize / height;
+            height = maxSize;
+          }
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob((blob) => {
+            const imageRef = storageRef.child(`${directory}/${docId}/${uniqueName}`);
+            imageRef.put(blob).then(() => {
+              imageRef.getDownloadURL().then((url) => {
+                resolve(url);
+              }).catch(reject);
+            }).catch(reject);
+          }, 'image/jpeg');
+        };
+        img.src = event.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
   for (let i = 0; i < imageFiles.length; i++) {
     const uniqueName = `${Date.now()}-${imageFiles[i].name}`;
-    const imageRef = storageRef.child(`jobPostingsimages/job_image/${docId}/${uniqueName}`);
-    uploadPromises.push(
-      imageRef.put(imageFiles[i]).then(() => imageRef.getDownloadURL())
-    );
+    uploadPromises.push(resizeAndUploadImage(imageFiles[i], 'jobPostingsimages/job_image', uniqueName));
   }
 
   for (let i = 0; i < imageFiles2.length; i++) {
     const uniqueName = `${Date.now()}-${imageFiles2[i].name}`;
-    const imageRef = storageRef.child(`jobPostingsimages/domitory_image/${docId}/${uniqueName}`);
-    uploadPromises2.push(
-      imageRef.put(imageFiles2[i]).then(() => imageRef.getDownloadURL())
-    );
+    uploadPromises2.push(resizeAndUploadImage(imageFiles2[i], 'jobPostingsimages/domitory_image', uniqueName));
   }
+
+  Promise.all(uploadPromises).then((urls) => {
+    console.log('All job images uploaded:', urls);
+  }).catch((error) => {
+    console.error('Error uploading job images:', error);
+  });
+
+  Promise.all(uploadPromises2).then((urls) => {
+    console.log('All domitory images uploaded:', urls);
+  }).catch((error) => {
+    console.error('Error uploading domitory images:', error);
+  });
+
 
   // すべての画像アップロードプロミスを1つの配列にまとめる
   let allPromises = [...uploadPromises, ...uploadPromises2];

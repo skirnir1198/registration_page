@@ -45,7 +45,6 @@ $(function () {
 
   $('#loginBtn').click(function () {
     // 実際のログインページのURLにリダイレクトする
-    // window.location.href = 'login.html'; // 実際のログインページのURLに置き換えてください
-    alert('ログインページに移動します。'); // デモ用の仮実装
+    window.location.href = 'sign_in.html'; // 実際のログインページのURLに置き換えてください
   });
 });

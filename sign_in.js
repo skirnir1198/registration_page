@@ -5,6 +5,8 @@ $(function () {
     var password = $('#password').val();
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
         // ログイン成功
         alert('ログイン成功！');
         // ログイン後のページにリダイレクトするなどの処理をここに書く

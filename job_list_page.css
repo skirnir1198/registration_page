@@ -8,3 +8,30 @@
   color: #333; /* マウスオーバー時のテキスト色 */
   cursor: pointer; /* マウスカーソルをポインターに変更 */
 }
+
+.header {
+  display: flex;
+  justify-content: space-between; /* 子要素を両端に配置 */
+  align-items: center; /* 中央揃え（垂直方向） */
+  padding: 10px 20px; /* 上下10px、左右20pxのパディング */
+  background-color: #f7f7f7; /* 背景色 */
+  border-bottom: 1px solid #ddd; /* 下部に薄い境界線 */
+}
+
+#companyName {
+  font-size: 20px; /* フォントサイズの指定 */
+  color: #333; /* フォントカラー */
+}
+
+#actionButton {
+  padding: 8px 16px; /* ボタン内のパディング */
+  background-color: #007BFF; /* ボタンの背景色 */
+  color: white; /* ボタンのテキストカラー */
+  border: none; /* ボーダーの削除 */
+  border-radius: 5px; /* 角を丸くする */
+  cursor: pointer; /* ホバー時のカーソル変更 */
+}
+
+#actionButton:hover {
+  background-color: #0056b3; /* ホバー時の背景色変更 */
+}

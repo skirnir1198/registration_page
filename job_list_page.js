@@ -1,7 +1,23 @@
 $(function () {
+  const db = firebase.firestore();
+
+  // ログイン状態の変更を監視する
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (!user) {
+      window.location.href = 'sign_in.html'; // 実際のログインページのURLに置き換えてください
+    } else {
+      db.collection("user").doc(user.uid).get().then((doc) => {
+        if (doc.exists) {
+          $('#companyName').text(doc.data().userName);
+        }
+      }).catch((error) => {
+        // エラー処理
+        console.error("Error getting document:", error);
+      });
+    }
+  });
   // jobPostingsコレクションのドキュメントを全て取得してリストを作成する関数
   function fetchJobPostingsAndCreateList() {
-    const db = firebase.firestore();
     db.collection("jobPostings").get().then((querySnapshot) => {
       const listElement = document.getElementById("jobPostingsList");
       listElement.innerHTML = ''; // 既存のリストアイテムをクリア
@@ -15,21 +31,19 @@ $(function () {
         listItem.textContent = name;
         listItem.setAttribute("data-doc-id", doc.id);
 
+        // 削除ボタンを追加
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "削除";
+        deleteButton.onclick = function () {
+          if (confirm("この求人を削除してもよろしいですか？")) {
+            deleteJobPosting(doc.id);
+          }
+        };
+        // リストアイテムに削除ボタンを追加
+        listItem.appendChild(deleteButton);
+
         // リスト要素にリストアイテムを追加
         listElement.appendChild(listItem);
-      });
-      // #jobPostingsList内のすべてのli要素にイベントリスナーを設定
-      document.querySelectorAll('#jobPostingsList li').forEach(item => {
-        item.addEventListener('click', event => {
-          // クリックされたli要素からdocIdを取得
-          const docId = event.currentTarget.getAttribute('data-doc-id');
-
-          // 新しいページのURLを構築（ここではdetails.htmlとし、paramとしてdocIdを追加）
-          const newPageUrl = `job_detail_page.html?param=${docId}`;
-
-          // 新しいページを新しいタブで開く
-          window.open(newPageUrl, '_blank');
-        });
       });
 
     }).then(() => {
@@ -38,6 +52,16 @@ $(function () {
       console.error("Error fetching documents: ", error);
     });
   }
+
+  function deleteJobPosting(docId) {
+    db.collection("jobPostings").doc(docId).delete().then(() => {
+      console.log("Document successfully deleted!");
+      fetchJobPostingsAndCreateList(); // リストを再読み込みして更新
+    }).catch((error) => {
+      console.error("Error removing document: ", error);
+    });
+  }
+
   // 関数を呼び出してリストを表示
   fetchJobPostingsAndCreateList();
 

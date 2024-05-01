@@ -1,13 +1,37 @@
-#jobPostingsList li {
-  padding: 10px;
-  border-bottom: 1px solid #ddd; /* アイテム間に境界線を追加 */
-}
 
 #jobPostingsList li:hover {
   background-color: #f0f0f0; /* マウスオーバー時の背景色 */
   color: #333; /* マウスオーバー時のテキスト色 */
   cursor: pointer; /* マウスカーソルをポインターに変更 */
 }
+
+#jobPostingsList {
+  list-style: none; /* リストマーカーを非表示 */
+  padding: 0; /* デフォルトのパディングを削除 */
+}
+
+#jobPostingsList li {
+  display: flex; /* Flexboxの使用 */
+  justify-content: space-between; /* 子要素を両端に配置 */
+  align-items: center; /* 垂直方向の中心揃え */
+  padding: 10px; /* パディングを追加 */
+  background-color: #f8f8f8; /* 背景色を設定 */
+  border-bottom: 1px solid #ddd; /* 下部に境界線を追加 */
+}
+
+#jobPostingsList li button {
+  padding: 5px 10px; /* ボタンのパディング */
+  background-color: #ff6347; /* ボタンの背景色 */
+  color: white; /* テキスト色 */
+  border: none; /* 枠線なし */
+  border-radius: 5px; /* 角を丸く */
+  cursor: pointer; /* カーソルをポインターに */
+}
+
+#jobPostingsList li button:hover {
+  background-color: #e5533d; /* ホバー時の背景色変更 */
+}
+
 
 .header {
   display: flex;

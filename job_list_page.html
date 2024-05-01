@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <title>求人リストページ</title>
-  <link rel="stylesheet" href="job_list_page.css">
+  <link rel="stylesheet" href="css/job_list_page.css">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
     integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
@@ -16,7 +16,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="firebase_config.js"></script>
+  <script src="js/firebase_config.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5740691913931441"
@@ -37,11 +37,11 @@
   <main>
     <div class="header">
       <div id="companyName"></div>
-      <button id="actionButton">求人を登録</button>
+      <button id="actionButton" onclick="window.location.href='index.html';">求人を登録</button>
     </div>
     <ul id="jobPostingsList"></ul>
   </main>
-  <script src="job_list_page.js"></script>
+  <script src="js/job_list_page.js"></script>
 
 </body>
 

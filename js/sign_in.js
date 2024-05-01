@@ -6,10 +6,8 @@ $(function () {
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        window.location.href = 'index.html'; // 実際のログインページのURLに置き換えてください
 
-        // ログイン成功
-        alert('ログイン成功！');
-        // ログイン後のページにリダイレクトするなどの処理をここに書く
       })
       .catch((error) => {
         // ログイン失敗

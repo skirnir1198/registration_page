@@ -31,6 +31,13 @@ $(function () {
         listItem.textContent = name;
         listItem.setAttribute("data-doc-id", doc.id);
 
+        // リストアイテムにクリックイベントを追加
+        listItem.addEventListener('click', (event) => {
+          const docId = event.currentTarget.getAttribute('data-doc-id');
+          const newPageUrl = `job_detail_page.html?param=${docId}`;
+          window.open(newPageUrl, '_blank');
+        });
+
         // 削除ボタンを追加
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "削除";

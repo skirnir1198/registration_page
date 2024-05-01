@@ -369,7 +369,30 @@ $(function () {
         { text: 'バス停・駅', checked: false }
       ],
     },
+    created: function () {
+      this.checkAuth();
+    },
     methods: {
+      checkAuth: function () {
+        firebase.auth().onAuthStateChanged((user) => {
+          if (!user) {
+            window.location.href = 'sign_in.html'; // ログインページへリダイレクト
+          } else {
+            db.collection("user").doc(user.uid).get().then((doc) => {
+              console.log(doc.data());
+              if (doc.exists) {
+                this.company = doc.data().userName; 
+                this.email = doc.data().email; 
+
+              } else {
+                console.log("No such document!");
+              }
+            }).catch((error) => {
+              console.error("Error getting document:", error);
+            });
+          }
+        });
+      },
       handleRegionUpdate: function (region) {
         this.selectedRegion = region; // 選択された地域名をデータプロパティに設定
       },
@@ -540,7 +563,8 @@ $(function () {
           agecheckbox: checkedAges,
           insideRoom: checkedInsideRoom,
           outsideRoom: checkedOutSide,
-          surroundingEnvironment: checkedEnvironment
+          surroundingEnvironment: checkedEnvironment,
+          createdAt: firebase.firestore.Timestamp.now(),
         };
 
         // Firestore にデータを追加
@@ -631,7 +655,7 @@ function uploadImagesAndSaveFormData(docId) {
         const img = new Image();
         img.onload = () => {
           const canvas = document.createElement('canvas');
-          const maxSize = 250; // 最大の幅または高さ
+          const maxSize = 600; // 最大の幅または高さ
           let width = img.width;
           let height = img.height;
 
@@ -655,7 +679,7 @@ function uploadImagesAndSaveFormData(docId) {
                 resolve(url);
               }).catch(reject);
             }).catch(reject);
-          }, 'image/jpeg');
+          }, 'image/jpeg', 0.95);
         };
         img.src = event.target.result;
       };

@@ -12,9 +12,10 @@ $(function () {
       .then((userCredential) => {
         const uid = userCredential.user.uid;
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        // サインアップ成功
-        alert('サインアップ成功！');
-        saveUserData(uid, email, password, company, phone)
+        saveUserData(uid, email, password, company, phone).then(() => {
+          window.location.href = 'index.html'; // 実際のログインページのURLに置き換えてください
+        });
+
       })
       .catch((error) => {
         // サインアップ失敗

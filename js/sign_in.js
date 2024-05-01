@@ -5,7 +5,7 @@ $(function () {
     var password = $('#password').val();
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION); 
         window.location.href = 'index.html'; // 実際のログインページのURLに置き換えてください
 
       })

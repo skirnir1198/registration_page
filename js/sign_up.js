@@ -11,7 +11,7 @@ $(function () {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         const uid = userCredential.user.uid;
-        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION); 
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL); 
         return saveUserData(uid, email, password, company, phone);
       })
       .then(() => {

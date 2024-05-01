@@ -374,12 +374,11 @@ $(function () {
     },
     methods: {
       checkAuth: function () {
-        firebase.auth().onAuthStateChanged((user) => {
-          if (!user) {
+        var uid = localStorage.getItem('uid');
+          if (!uid) {
             window.location.href = 'sign_in.html'; // ログインページへリダイレクト
           } else {
-            db.collection("user").doc(user.uid).get().then((doc) => {
-              console.log(doc.data());
+            db.collection("user").doc(uid).get().then((doc) => {
               if (doc.exists) {
                 this.company = doc.data().userName; 
                 this.email = doc.data().email; 
@@ -391,7 +390,6 @@ $(function () {
               console.error("Error getting document:", error);
             });
           }
-        });
       },
       handleRegionUpdate: function (region) {
         this.selectedRegion = region; // 選択された地域名をデータプロパティに設定

@@ -9,5 +9,4 @@
     appId: "1:1043757292649:web:a65e564cf2f157194996f8",
     measurementId: "G-DL6QKE1FJC"
   });
-  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
 }

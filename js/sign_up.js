@@ -11,38 +11,39 @@ $(function () {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         const uid = userCredential.user.uid;
-        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        saveUserData(uid, email, password, company, phone).then(() => {
-          window.location.href = 'index.html'; // 実際のログインページのURLに置き換えてください
-        });
-
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL); 
+        return saveUserData(uid, email, password, company, phone);
+      })
+      .then(() => {
+        // データ保存が完了した後、ページ遷移
+        window.location.href = 'index.html'; // 実際のログインページのURLに置き換えてください
       })
       .catch((error) => {
-        // サインアップ失敗
-        var errorMessage = error.message;
-        $('#error-message').text('エラー: ' + errorMessage);
+        // サインアップまたはデータ保存失敗
+        $('#error-message').text('エラー: ' + error.message);
       });
   });
 
-  function saveUserData(uid, email, password, userName,phone) {
-    db.collection("user").doc(uid).set({
+  function saveUserData(uid, email, password, userName, phone) {
+
+    return new Promise((resolve, reject) => {
+      db.collection("user").doc(uid).set({
         email: email,
         password: password,
-        favorite_work: [],
         userName: userName,
-        phone:phone,
+        phone: phone,
         createdAt: firebase.firestore.Timestamp.now(),
         profile: '',
         uid: uid,
-        token: '',
-    })
-    .then(() => {
-        console.log("Document successfully written!");
-    })
-    .catch((error) => {
-        console.error("Error writing document: ", error);
+      })
+        .then(() => {
+          resolve();
+        })
+        .catch((error) => {
+          reject(error);
+        });
     });
-}
+  }
 
   $('#loginBtn').click(function () {
     // 実際のログインページのURLにリダイレクトする

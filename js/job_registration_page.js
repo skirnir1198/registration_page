@@ -375,21 +375,21 @@ $(function () {
     methods: {
       checkAuth: function () {
         var uid = localStorage.getItem('uid');
-          if (!uid) {
-            window.location.href = 'sign_in.html'; // ログインページへリダイレクト
-          } else {
-            db.collection("user").doc(uid).get().then((doc) => {
-              if (doc.exists) {
-                this.company = doc.data().userName; 
-                this.email = doc.data().email; 
+        if (!uid) {
+          window.location.href = 'sign_in.html'; // ログインページへリダイレクト
+        } else {
+          db.collection("user").doc(uid).get().then((doc) => {
+            if (doc.exists) {
+              this.company = doc.data().userName;
+              this.email = doc.data().email;
 
-              } else {
-                console.log("No such document!");
-              }
-            }).catch((error) => {
-              console.error("Error getting document:", error);
-            });
-          }
+            } else {
+              console.log("No such document!");
+            }
+          }).catch((error) => {
+            console.error("Error getting document:", error);
+          });
+        }
       },
       handleRegionUpdate: function (region) {
         this.selectedRegion = region; // 選択された地域名をデータプロパティに設定
@@ -583,20 +583,55 @@ $(function () {
 
   // ----------------------------------------------------------------------------
 
+  var selectedFiles1 = [];  // 選択されたファイルを保持する配列
+  var selectedFiles2 = [];  // 選択されたファイルを保持する配列
+
+
   // 画像プレビューの処理を関数で一括管理
   function handleImagePreview(event, previewContainerSelector) {
     var files = event.target.files;
     var $previewContainer = $(previewContainerSelector);
     $previewContainer.empty(); // 既存のプレビューをクリア
+    var cleanId = previewContainerSelector.replace('#', '');
 
+    if (previewContainerSelector == '#preview-container') {
+      Array.from(event.target.files).forEach(file => {
+        selectedFiles1.push(file);  // 新しく選択されたファイルを配列に追加
+        previewImage(file,cleanId);        // プレビューの表示
+        this.value = '';  // inputタグの選択をクリア（新たな選択を可能にするため）
+      });
+    } else {
+      Array.from(event.target.files).forEach(file => {
+        selectedFiles2.push(file);  // 新しく選択されたファイルを配列に追加
+        previewImage(file,cleanId);        // プレビューの表示
+        this.value = '';  // inputタグの選択をクリア（新たな選択を可能にするため）
+      });
+    }
     for (let i = 0; i < files.length && i < 5; i++) { // 最大5枚までの画像をプレビュー
       const file = files[i];
       const reader = new FileReader();
       reader.onload = function (e) {
-        $('<img>').attr('src', e.target.result).appendTo($previewContainer);
+        $('<img>').attr('src', e.target.result).appendTo(previewContainer);
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  function previewImage(file,container) {
+    const containers = document.getElementById('images-' +container);
+    containers.innerHTML = '';  // コンテナをクリア
+    selectedFiles1.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const imgElement = document.createElement('img');
+            imgElement.src = e.target.result;  // 画像のデータURLをsrc属性に設定
+            imgElement.style.maxHeight = '60px';  // 画像の最大幅を設定
+            imgElement.style.maxWidth = '80px';  // 画像の最大幅を設定
+            imgElement.style.margin = '4px';  // 余白を設定
+            containers.appendChild(imgElement);  // コンテナに画像を追加
+        };
+        reader.readAsDataURL(file);  // ファイルをデータURLとして読み込む
+    });
   }
 
   // 画像入力フィールドのイベントリスナーを設定
@@ -653,7 +688,7 @@ function uploadImagesAndSaveFormData(docId) {
         const img = new Image();
         img.onload = () => {
           const canvas = document.createElement('canvas');
-          const maxSize = 600; // 最大の幅または高さ
+          const maxSize = 800; // 最大の幅または高さ
           let width = img.width;
           let height = img.height;
 

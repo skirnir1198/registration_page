@@ -25,11 +25,11 @@ $(function () {
 
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        const name = data.name; // nameフィールドの値を取得
 
         // リストアイテムを作成
         const listItem = document.createElement("li");
-        listItem.textContent = name;
+        // 名前を表示するためのspan要素を作成
+        listItem.innerHTML = `<div class="text_content"><h4>${data.name}</h4><h6>${data.title}</h6><p style="font-size:12px;">${data.type}</p></div>`;
         listItem.setAttribute("data-doc-id", doc.id);
 
         // リストアイテムにクリックイベントを追加
@@ -42,6 +42,9 @@ $(function () {
         // 削除ボタンを追加
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "削除";
+        deleteButton.style.minWidth = '60px';  // ボタンの最小横幅を100pxに設定
+        deleteButton.style.padding = '8px';  // ボタンのパディングを設定
+        deleteButton.style.cursor = 'pointer';  // カーソルをポインターに設定し、クリッカブルで
         deleteButton.onclick = function (e) {
           e.stopPropagation(); // イベントのバブリングを停止
           if (confirm("この求人を削除してもよろしいですか？")) {
@@ -96,18 +99,18 @@ $(function () {
     }).then(() => {
       // すべての削除が完了した後に実行される
       console.log("All files deleted successfully");
-       db.collection("jobPostings").doc(docId).delete().then(() => {
-      console.log("Document successfully deleted!");
-      fetchJobPostingsAndCreateList(); // リストを再読み込みして更新
-    }).catch((error) => {
-      console.error("Error removing document: ", error);
-    });
+      db.collection("jobPostings").doc(docId).delete().then(() => {
+        console.log("Document successfully deleted!");
+        fetchJobPostingsAndCreateList(); // リストを再読み込みして更新
+      }).catch((error) => {
+        console.error("Error removing document: ", error);
+      });
     }).catch((error) => {
       // エラー処理
       console.error("Error during document fetch or file deletion:", error);
     });
 
-   
+
   }
 
   // 関数を呼び出してリストを表示

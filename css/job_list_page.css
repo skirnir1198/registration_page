@@ -59,3 +59,12 @@
 #actionButton:hover {
   background-color: #0056b3; /* ホバー時の背景色変更 */
 }
+
+.text_content {
+  display: block;
+}
+
+.text_content h4,.text_content h6, .text_content p {
+  margin: 0;
+  margin-bottom: 4px;
+}

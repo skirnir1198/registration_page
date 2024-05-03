@@ -102,8 +102,8 @@ $(function () {
       $('.region_detail').text(data.region_detail ? '/' + data.region_detail : ''); //地域名
       $('.type').text(data.type); //職種名
       $('.period').text(data.period); //期間
-      $('.salary_type').text(data.salary_amount ? data.salary_type : ''); //給与体系
-      $('.salary_amount').text(data.salary_amount ? data.salary_amount+ '円':''); //給与
+      $('.salary_type').text(data.wage ? data.salary_type : ''); //給与体系
+      $('.wage').text(data.wage ? data.wage+ '円':''); //給与
       $('.job_description').html(data.job_description); //仕事内容
       $('.income').text(data.income); //予想月収
       $('.working_hours').html(data.working_hours); //勤務時間

@@ -1,4 +1,5 @@
 $(function () {
+  var uid = localStorage.getItem('uid');
   const db = firebase.firestore();
   $('#loading').hide();
   // 入力欄コンポーネント ----------------------------------------------------------------------------
@@ -450,78 +451,79 @@ $(function () {
           .filter(item => item.checked) // checked が true の要素のみをフィルタリング
           .map(item => item.text); // フィルタリングされた要素の text のみを抽出
 
-        if (!this.company) {
-          $('.error').append($('<p>').text(`「会社名」は必須項目です。`));
-          $('#loading').hide();
-          return; // 処理を停止
-        }
-        if (!this.email) {
-          $('.error').append($('<p>').text(`「メールアドレス」は必須項目です。`));
-          $('#loading').hide();
-          return; // 処理を停止
-        }
-        if (!this.name) {
-          $('.error').append($('<p>').text(`「施設名」は必須項目です。`));
-          $('#loading').hide();
-          return; // 処理を停止
-        }
-        if (!this.title) {
-          $('.error').append($('<p>').text(`「タイトル」は必須項目です。`));
-          $('#loading').hide();
-          return; // 処理を停止
-        }
-        if (!this.region_detail) {
-          $('.error').append($('<p>').text(`「都道府県以降の住所」は必須項目です。`));
-          $('#loading').hide();
-          return; // 処理を停止
-        }
-        if (!this.job_description) {
-          $('.error').append($('<p>').text(`「お仕事内容」は必須項目です。`));
-          $('#loading').hide();
-          return; // 処理を停止
-        }
-        if (!this.period) {
-          $('.error').append($('<p>').text(`「期間」は必須項目です。`));
-          $('#loading').hide();
-          return; // 処理を停止
-        }
-        if (checkedAges.length == 0) {
-          $('.error').append($('<p>').text(`「年齢層」は必須項目です。`));
-          $('#loading').hide();
-          return; // 処理を停止
-        }
-        if (!this.sexRatio) {
-          $('.error').append($('<p>').text(`「男女比」は必須項目です。`));
-          $('#loading').hide();
-          return; // 処理を停止
-        }
-        if (!this.overtime) {
-          $('.error').append($('<p>').text(`「残業」は必須項目です。`));
-          $('#loading').hide();
-          return; // 処理を停止
-        }
-        if (!this.atmosphere) {
-          $('.error').append($('<p>').text(`「雰囲気」は必須項目です。`));
-          $('#loading').hide();
-          return; // 処理を停止
-        }
-        if (!this.wage) {
-          $('.error').append($('<p>').text(`「給与」は必須項目です。`));
-          $('#loading').hide();
-          return; // 処理を停止
-        }
-        if (document.getElementById('image-input').files.length == 0) {
-          $('.error').append($('<p>').text(`「写真」は最低一枚必要です。`));
-          $('#loading').hide();
-          return; // 処理を停止
-        }
-        if (document.getElementById('image-input2').files.length == 0) {
-          $('.error').append($('<p>').text(`「寮の写真」は最低一枚必要です。`));
-          $('#loading').hide();
-          return; // 処理を停止
-        }
+        // if (!this.company) {
+        //   $('.error').append($('<p>').text(`「会社名」は必須項目です。`));
+        //   $('#loading').hide();
+        //   return; // 処理を停止
+        // }
+        // if (!this.email) {
+        //   $('.error').append($('<p>').text(`「メールアドレス」は必須項目です。`));
+        //   $('#loading').hide();
+        //   return; // 処理を停止
+        // }
+        // if (!this.name) {
+        //   $('.error').append($('<p>').text(`「施設名」は必須項目です。`));
+        //   $('#loading').hide();
+        //   return; // 処理を停止
+        // }
+        // if (!this.title) {
+        //   $('.error').append($('<p>').text(`「タイトル」は必須項目です。`));
+        //   $('#loading').hide();
+        //   return; // 処理を停止
+        // }
+        // if (!this.region_detail) {
+        //   $('.error').append($('<p>').text(`「都道府県以降の住所」は必須項目です。`));
+        //   $('#loading').hide();
+        //   return; // 処理を停止
+        // }
+        // if (!this.job_description) {
+        //   $('.error').append($('<p>').text(`「お仕事内容」は必須項目です。`));
+        //   $('#loading').hide();
+        //   return; // 処理を停止
+        // }
+        // if (!this.period) {
+        //   $('.error').append($('<p>').text(`「期間」は必須項目です。`));
+        //   $('#loading').hide();
+        //   return; // 処理を停止
+        // }
+        // if (checkedAges.length == 0) {
+        //   $('.error').append($('<p>').text(`「年齢層」は必須項目です。`));
+        //   $('#loading').hide();
+        //   return; // 処理を停止
+        // }
+        // if (!this.sexRatio) {
+        //   $('.error').append($('<p>').text(`「男女比」は必須項目です。`));
+        //   $('#loading').hide();
+        //   return; // 処理を停止
+        // }
+        // if (!this.overtime) {
+        //   $('.error').append($('<p>').text(`「残業」は必須項目です。`));
+        //   $('#loading').hide();
+        //   return; // 処理を停止
+        // }
+        // if (!this.atmosphere) {
+        //   $('.error').append($('<p>').text(`「雰囲気」は必須項目です。`));
+        //   $('#loading').hide();
+        //   return; // 処理を停止
+        // }
+        // if (!this.wage) {
+        //   $('.error').append($('<p>').text(`「給与」は必須項目です。`));
+        //   $('#loading').hide();
+        //   return; // 処理を停止
+        // }
+        // if (document.getElementById('image-input').files.length == 0) {
+        //   $('.error').append($('<p>').text(`「写真」は最低一枚必要です。`));
+        //   $('#loading').hide();
+        //   return; // 処理を停止
+        // }
+        // if (document.getElementById('image-input2').files.length == 0) {
+        //   $('.error').append($('<p>').text(`「寮の写真」は最低一枚必要です。`));
+        //   $('#loading').hide();
+        //   return; // 処理を停止
+        // }
         // フォームデータをオブジェクトにまとめる
         const formData = {
+          uid: uid,
           docId: jobPostingsCollection.id,
           link: jobPostingsCollection.id,
           company: this.company,
@@ -583,188 +585,85 @@ $(function () {
 
   // ----------------------------------------------------------------------------
 
-  var selectedFiles1 = [];  // 選択されたファイルを保持する配列
-  var selectedFiles2 = [];  // 選択されたファイルを保持する配列
+  let filesToUpload = []; // アップロードするファイルを保持する配列
+  let filesToUpload2 = []; // アップロードするファイルを保持する配列
 
+  // 1セット目の画像選択と処理
+  document.getElementById('image-input1').addEventListener('change', function (event) {
+    handleFileSelection(event, filesToUpload, 'image-preview1', 'image-input1');
+  });
 
-  // 画像プレビューの処理を関数で一括管理
-  function handleImagePreview(event, previewContainerSelector) {
-    var files = event.target.files;
-    var $previewContainer = $(previewContainerSelector);
-    $previewContainer.empty(); // 既存のプレビューをクリア
-    var cleanId = previewContainerSelector.replace('#', '');
+  // 2セット目の画像選択と処理
+  document.getElementById('image-input2').addEventListener('change', function (event) {
+    handleFileSelection(event, filesToUpload2, 'image-preview2', 'image-input2');
+  });
 
-    if (previewContainerSelector == '#preview-container') {
-      Array.from(event.target.files).forEach(file => {
-        selectedFiles1.push(file);  // 新しく選択されたファイルを配列に追加
-        previewImage(file,cleanId);        // プレビューの表示
-        this.value = '';  // inputタグの選択をクリア（新たな選択を可能にするため）
-      });
-    } else {
-      Array.from(event.target.files).forEach(file => {
-        selectedFiles2.push(file);  // 新しく選択されたファイルを配列に追加
-        previewImage(file,cleanId);        // プレビューの表示
-        this.value = '';  // inputタグの選択をクリア（新たな選択を可能にするため）
-      });
-    }
-    for (let i = 0; i < files.length && i < 5; i++) { // 最大5枚までの画像をプレビュー
-      const file = files[i];
+  // 共通のファイル選択処理関数
+  function handleFileSelection(event, filesArray, previewId, uploadButtonId) {
+    const currentImages = document.querySelectorAll(`#${previewId} .image-container`).length;
+    const filesToAdd = Array.from(event.target.files).slice(0, 5 - currentImages);
+
+    filesToAdd.forEach(file => {
+      if (!file.type.startsWith('image/')) { return; }
+
       const reader = new FileReader();
-      reader.onload = function (e) {
-        $('<img>').attr('src', e.target.result).appendTo(previewContainer);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
+      reader.onload = (e) => {
+        const imgElement = document.createElement('img');
+        imgElement.src = e.target.result;
 
-  function previewImage(file,container) {
-    const containers = document.getElementById('images-' +container);
-    containers.innerHTML = '';  // コンテナをクリア
-    selectedFiles1.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const imgElement = document.createElement('img');
-            imgElement.src = e.target.result;  // 画像のデータURLをsrc属性に設定
-            imgElement.style.maxHeight = '60px';  // 画像の最大幅を設定
-            imgElement.style.maxWidth = '80px';  // 画像の最大幅を設定
-            imgElement.style.margin = '4px';  // 余白を設定
-            containers.appendChild(imgElement);  // コンテナに画像を追加
-        };
-        reader.readAsDataURL(file);  // ファイルをデータURLとして読み込む
-    });
-  }
+        const container = document.createElement('div');
+        container.classList.add('image-container');
 
-  // 画像入力フィールドのイベントリスナーを設定
-  $('#image-input, #image-input2').on('change', function (event) {
-    var previewContainerId = $(this).is('#image-input') ? '#preview-container' : '#preview-container2';
-    handleImagePreview(event, previewContainerId);
-  });
-
-  // リストアイテム追加の処理
-  function addListItem() {
-    var itemText = $('#list-item-input').val().trim();
-    if (itemText !== '' && $('#list-container li').length < 5) {
-      $('<li>').text(itemText).appendTo('#list-container').append($('<button>').text('削除').click(function () {
-        $(this).parent().remove();
-      }));
-      $('#list-item-input').val(''); // 入力フィールドをクリア
-    } else {
-      alert('最大5個の項目を追加できます。');
-    }
-  }
-
-  // 追加ボタンとEnterキーでのイベントハンドラー設定
-  $('#add-item-button').on('click', addListItem);
-  $('#list-item-input').on('keypress', function (event) {
-    if (event.which === 13) { // Enterキーが押された場合
-      addListItem();
-      event.preventDefault(); // フォーム送信を防ぐ
-    }
-  });
-
-  // リストアイテムの削除機能
-  $('#list-container').on('click', '.remove-item-button', function () {
-    $(this).parent('li').remove();
-  });
-});
-
-function validateNumber(input) {
-  // 数字以外の文字を削除
-  input.value = input.value.replace(/[^0-9]/g, '');
-}
-
-function uploadImagesAndSaveFormData(docId) {
-  const db = firebase.firestore();
-  const storageRef = firebase.storage().ref();
-  const imageFiles = document.getElementById('image-input').files;
-  const imageFiles2 = document.getElementById('image-input2').files;
-  let uploadPromises = [];
-  let uploadPromises2 = [];
-
-  function resizeAndUploadImage(file, directory, uniqueName) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const maxSize = 800; // 最大の幅または高さ
-          let width = img.width;
-          let height = img.height;
-
-          if (width > height && width > maxSize) {
-            height *= maxSize / width;
-            width = maxSize;
-          } else if (height > maxSize) {
-            width *= maxSize / height;
-            height = maxSize;
+        const deleteBtn = document.createElement('button');
+        deleteBtn.classList.add('delete-btn');
+        deleteBtn.textContent = '×';
+        deleteBtn.onclick = () => {
+          const index = filesArray.indexOf(file);
+          if (index > -1) {
+            filesArray.splice(index, 1); // 配列からファイルを削除
           }
-          canvas.width = width;
-          canvas.height = height;
-
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-
-          canvas.toBlob((blob) => {
-            const imageRef = storageRef.child(`${directory}/${docId}/${uniqueName}`);
-            imageRef.put(blob).then(() => {
-              imageRef.getDownloadURL().then((url) => {
-                resolve(url);
-              }).catch(reject);
-            }).catch(reject);
-          }, 'image/jpeg', 0.95);
+          container.remove();
+          checkFileButtonDisabled(uploadButtonId);
         };
-        img.src = event.target.result;
+
+        container.appendChild(imgElement);
+        container.appendChild(deleteBtn);
+        document.getElementById(previewId).appendChild(container);
+        filesArray.push(file);
+        checkFileButtonDisabled(uploadButtonId);
       };
-      reader.onerror = reject;
       reader.readAsDataURL(file);
     });
   }
 
-  for (let i = 0; i < imageFiles.length; i++) {
-    const uniqueName = `${Date.now()}-${imageFiles[i].name}`;
-    uploadPromises.push(resizeAndUploadImage(imageFiles[i], 'jobPostingsimages/job_image', uniqueName));
+
+  // アップロードボタン活性・非活性のチェック
+  function checkFileButtonDisabled(buttonId) {
+    const uploadButton = document.getElementById(buttonId);
+    const numberOfImages = document.querySelectorAll(`#${buttonId} .image-container`).length;
+    uploadButton.disabled = numberOfImages === 0;
   }
 
-  for (let i = 0; i < imageFiles2.length; i++) {
-    const uniqueName = `${Date.now()}-${imageFiles2[i].name}`;
-    uploadPromises2.push(resizeAndUploadImage(imageFiles2[i], 'jobPostingsimages/domitory_image', uniqueName));
+  // Firebaseへのアップロード
+  async function uploadImageToFirebase(file, url) {
+    const storageRef = firebase.storage().ref();
+    const fileRef = storageRef.child(`jobPostingsimages/${url}/${file.name}`);
+    await fileRef.put(file);
+    return fileRef.getDownloadURL();
   }
 
-  Promise.all(uploadPromises).then((urls) => {
-    console.log('All job images uploaded:', urls);
-  }).catch((error) => {
-    console.error('Error uploading job images:', error);
-  });
-
-  Promise.all(uploadPromises2).then((urls) => {
-    console.log('All domitory images uploaded:', urls);
-  }).catch((error) => {
-    console.error('Error uploading domitory images:', error);
-  });
-
-
-  // すべての画像アップロードプロミスを1つの配列にまとめる
-  let allPromises = [...uploadPromises, ...uploadPromises2];
-
-  // すべてのプロミスが完了するのを待つ
-  Promise.all(allPromises).then(allResults => {
-    // allResults はすべてのプロミスの結果を含む配列
-
-    // allResults からそれぞれの画像URLセットを取得する
-    // (uploadPromises1 と uploadPromises2 の長さがわかっていると仮定)
-    let imageUrls1 = allResults.slice(0, uploadPromises.length);
-    let imageUrls2 = allResults.slice(uploadPromises.length);
+  async function uploadImagesAndSaveFormData(id,) {
+    const urls = await Promise.all(filesToUpload.map(file => uploadImageToFirebase(file, `job_image/${id}`)));
+    const urls2 = await Promise.all(filesToUpload2.map(file => uploadImageToFirebase(file, `domitory_image/${id}`)));
 
     // Firestore に保存するデータオブジェクト
     const formData = {
       // フォームのその他のデータ
-      imageUrls1: imageUrls1, // 1つ目のセットの画像URL
-      imageUrls2: imageUrls2  // 2つ目のセットの画像URL
+      imageUrls1: urls, // 1つ目のセットの画像URL
+      imageUrls2: urls2  // 2つ目のセットの画像URL
     };
-
     // 指定したドキュメントIDでデータを更新
-    db.collection('jobPostings').doc(docId).update(formData)
+    db.collection('jobPostings').doc(id).update(formData)
       .then(() => {
         console.log('求人情報と画像のURLが保存されました。');
         $('#loading').hide();
@@ -775,5 +674,5 @@ function uploadImagesAndSaveFormData(docId) {
         console.error('データの保存中にエラーが発生しました:', error);
         $('#loading').hide();
       });
-  });
-}
+  }
+});

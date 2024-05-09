@@ -740,6 +740,52 @@ a:hover {
   opacity: 1;
 }
 
+
+.file-input-button {
+  display: inline-block;
+  background-color: rgb(236, 236, 236);
+  color: black;
+  padding: 4px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.image-preview {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.image-preview .image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-preview img {
+  width: 100px;
+  height: auto;
+  border: 1px solid #ccc;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+
 /* -------------------------------------- */
 
 

@@ -222,17 +222,19 @@
       <text-area-component input-class="transportation" v-model="transportation"></text-area-component>
     </section>
     <section>
-      <h3>*写真登録<span class="small_word">※最大5枚</span></h3>
-      <div id="image-upload-container">
-        <div id="images-preview-container"></div>
-        <input type="file" id="image-input" multiple accept="image/*" />
+      <h3>*職場の写真登録<span class="small_word">※最大5枚</span></h3>
+      <div id="image-upload-container1">
+        <div id="image-preview1" class="image-preview"></div>
+        <label for="image-input1" class="file-input-button">画像を選択</label>
+        <input type="file" id="image-input1" accept="image/*" multiple hidden />
       </div>
     </section>
     <section>
       <h3>*寮の写真登録<span class="small_word">※最大5枚</span></h3>
       <div id="image-upload-container2">
-        <div id="preview-container2"></div>
-        <input type="file" id="image-input2" multiple accept="image/*" />
+        <div id="image-preview2" class="image-preview"></div>
+        <label for="image-input2" class="file-input-button">画像を選択</label>
+        <input type="file" id="image-input2" accept="image/*" multiple hidden />
       </div>
     </section>
     <div class="error"></div>

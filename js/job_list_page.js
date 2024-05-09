@@ -1,9 +1,7 @@
 $(function () {
   const db = firebase.firestore();
   const storage = firebase.storage();
-
   var uid = localStorage.getItem('uid');
-
   // ログイン状態の変更を監視する
   if (!uid) {
     window.location.href = 'sign_in.html'; // 実際のログインページのURLに置き換えてください
@@ -19,7 +17,8 @@ $(function () {
   }
   // jobPostingsコレクションのドキュメントを全て取得してリストを作成する関数
   function fetchJobPostingsAndCreateList() {
-    db.collection("jobPostings").get().then((querySnapshot) => {
+    db.collection("jobPostings").where("uid", "==", uid)
+    .get().then((querySnapshot) => {
       const listElement = document.getElementById("jobPostingsList");
       listElement.innerHTML = ''; // 既存のリストアイテムをクリア
 

@@ -451,76 +451,76 @@ $(function () {
           .filter(item => item.checked) // checked が true の要素のみをフィルタリング
           .map(item => item.text); // フィルタリングされた要素の text のみを抽出
 
-        // if (!this.company) {
-        //   $('.error').append($('<p>').text(`「会社名」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.email) {
-        //   $('.error').append($('<p>').text(`「メールアドレス」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.name) {
-        //   $('.error').append($('<p>').text(`「施設名」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.title) {
-        //   $('.error').append($('<p>').text(`「タイトル」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.region_detail) {
-        //   $('.error').append($('<p>').text(`「都道府県以降の住所」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.job_description) {
-        //   $('.error').append($('<p>').text(`「お仕事内容」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.period) {
-        //   $('.error').append($('<p>').text(`「期間」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (checkedAges.length == 0) {
-        //   $('.error').append($('<p>').text(`「年齢層」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.sexRatio) {
-        //   $('.error').append($('<p>').text(`「男女比」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.overtime) {
-        //   $('.error').append($('<p>').text(`「残業」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.atmosphere) {
-        //   $('.error').append($('<p>').text(`「雰囲気」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (!this.wage) {
-        //   $('.error').append($('<p>').text(`「給与」は必須項目です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (document.getElementById('image-input').files.length == 0) {
-        //   $('.error').append($('<p>').text(`「写真」は最低一枚必要です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
-        // if (document.getElementById('image-input2').files.length == 0) {
-        //   $('.error').append($('<p>').text(`「寮の写真」は最低一枚必要です。`));
-        //   $('#loading').hide();
-        //   return; // 処理を停止
-        // }
+        if (!this.company) {
+          $('.error').append($('<p>').text(`「会社名」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.email) {
+          $('.error').append($('<p>').text(`「メールアドレス」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.name) {
+          $('.error').append($('<p>').text(`「施設名」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.title) {
+          $('.error').append($('<p>').text(`「タイトル」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.region_detail) {
+          $('.error').append($('<p>').text(`「都道府県以降の住所」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.job_description) {
+          $('.error').append($('<p>').text(`「お仕事内容」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.period) {
+          $('.error').append($('<p>').text(`「期間」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (checkedAges.length == 0) {
+          $('.error').append($('<p>').text(`「年齢層」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.sexRatio) {
+          $('.error').append($('<p>').text(`「男女比」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.overtime) {
+          $('.error').append($('<p>').text(`「残業」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.atmosphere) {
+          $('.error').append($('<p>').text(`「雰囲気」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (!this.wage) {
+          $('.error').append($('<p>').text(`「給与」は必須項目です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (document.getElementById('image-input1').files.length == 0) {
+          $('.error').append($('<p>').text(`「写真」は最低一枚必要です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
+        if (document.getElementById('image-input2').files.length == 0) {
+          $('.error').append($('<p>').text(`「寮の写真」は最低一枚必要です。`));
+          $('#loading').hide();
+          return; // 処理を停止
+        }
         // フォームデータをオブジェクトにまとめる
         const formData = {
           uid: uid,
@@ -700,5 +700,37 @@ $(function () {
         console.error('データの保存中にエラーが発生しました:', error);
         $('#loading').hide();
       });
+  }
+
+    // リストアイテム追加の処理
+    function addListItem() {
+      var itemText = $('#list-item-input').val().trim();
+      if (itemText !== '' && $('#list-container li').length < 5) {
+        $('<li>').text(itemText).appendTo('#list-container').append($('<button>').text('削除').click(function () {
+          $(this).parent().remove();
+        }));
+        $('#list-item-input').val(''); // 入力フィールドをクリア
+      } else {
+        alert('最大5個の項目を追加できます。');
+      }
+    }
+  
+    // 追加ボタンとEnterキーでのイベントハンドラー設定
+    $('#add-item-button').on('click', addListItem);
+    $('#list-item-input').on('keypress', function (event) {
+      if (event.which === 13) { // Enterキーが押された場合
+        addListItem();
+        event.preventDefault(); // フォーム送信を防ぐ
+      }
+    });
+  
+    // リストアイテムの削除機能
+    $('#list-container').on('click', '.remove-item-button', function () {
+      $(this).parent('li').remove();
+    });
+  
+  function validateNumber(input) {
+    // 数字以外の文字を削除
+    input.value = input.value.replace(/[^0-9]/g, '');
   }
 });

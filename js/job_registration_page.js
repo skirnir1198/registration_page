@@ -605,15 +605,12 @@ $(function () {
 
     filesToAdd.forEach(file => {
       if (!file.type.startsWith('image/')) { return; }
-
       const reader = new FileReader();
       reader.onload = (e) => {
         const imgElement = document.createElement('img');
         imgElement.src = e.target.result;
-
         const container = document.createElement('div');
         container.classList.add('image-container');
-
         const deleteBtn = document.createElement('button');
         deleteBtn.classList.add('delete-btn');
         deleteBtn.textContent = '×';
@@ -643,32 +640,61 @@ $(function () {
     const numberOfImages = document.querySelectorAll(`#${buttonId} .image-container`).length;
     uploadButton.disabled = numberOfImages === 0;
   }
+  // 画像をリサイズする関数
+  function resizeImage(file, maxWidth = 600, quality = 0.9) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.src = URL.createObjectURL(file);
+      image.onload = () => {
+        let width = image.width;
+        let height = image.height;
 
-  // Firebaseへのアップロード
+        // 幅が最大幅を超える場合はサイズを調整
+        if (width > maxWidth) {
+          height *= maxWidth / width;
+          width = maxWidth;
+        }
+
+        // canvasを使用して画像をリサイズ
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(image, 0, 0, width, height);
+        canvas.toBlob((blob) => {
+          resolve(new File([blob], file.name, {
+            type: 'image/jpeg', lastModified: Date.now()
+          }));
+        }, 'image/jpeg', quality);
+      };
+      image.onerror = error => reject(error);
+    });
+  }
+
+  // リサイズした画像をFirebaseへアップロード
   async function uploadImageToFirebase(file, url) {
+    const resizedImage = await resizeImage(file);
     const storageRef = firebase.storage().ref();
     const fileRef = storageRef.child(`jobPostingsimages/${url}/${file.name}`);
-    await fileRef.put(file);
+    await fileRef.put(resizedImage);
     return fileRef.getDownloadURL();
   }
 
-  async function uploadImagesAndSaveFormData(id,) {
+  // アップロードとフォームデータの保存
+  async function uploadImagesAndSaveFormData(id) {
     const urls = await Promise.all(filesToUpload.map(file => uploadImageToFirebase(file, `job_image/${id}`)));
     const urls2 = await Promise.all(filesToUpload2.map(file => uploadImageToFirebase(file, `domitory_image/${id}`)));
 
-    // Firestore に保存するデータオブジェクト
     const formData = {
-      // フォームのその他のデータ
-      imageUrls1: urls, // 1つ目のセットの画像URL
+      imageUrls1: urls,  // 1つ目のセットの画像URL
       imageUrls2: urls2  // 2つ目のセットの画像URL
     };
-    // 指定したドキュメントIDでデータを更新
+
     db.collection('jobPostings').doc(id).update(formData)
       .then(() => {
         console.log('求人情報と画像のURLが保存されました。');
         $('#loading').hide();
         window.location.href = 'job_list_page.html';
-
       })
       .catch(error => {
         console.error('データの保存中にエラーが発生しました:', error);

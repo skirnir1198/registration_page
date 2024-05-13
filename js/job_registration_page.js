@@ -601,7 +601,8 @@ $(function () {
   // 共通のファイル選択処理関数
   function handleFileSelection(event, filesArray, previewId, uploadButtonId) {
     const currentImages = document.querySelectorAll(`#${previewId} .image-container`).length;
-    const filesToAdd = Array.from(event.target.files).slice(0, 5 - currentImages);
+    const maxFiles = 5;
+    const filesToAdd = Array.from(event.target.files).slice(0, maxFiles - currentImages);
 
     filesToAdd.forEach(file => {
       if (!file.type.startsWith('image/')) { return; }
@@ -620,7 +621,8 @@ $(function () {
             filesArray.splice(index, 1); // 配列からファイルを削除
           }
           container.remove();
-          checkFileButtonDisabled(uploadButtonId);
+          checkFileButtonDisabled(uploadButtonId); // アップロードボタンの状態を更新
+          checkAddMoreFiles(previewId, uploadButtonId); // 追加可能なファイル数を再チェック
         };
 
         container.appendChild(imgElement);
@@ -633,13 +635,21 @@ $(function () {
     });
   }
 
-
-  // アップロードボタン活性・非活性のチェック
   function checkFileButtonDisabled(buttonId) {
     const uploadButton = document.getElementById(buttonId);
     const numberOfImages = document.querySelectorAll(`#${buttonId} .image-container`).length;
     uploadButton.disabled = numberOfImages === 0;
   }
+
+  function checkAddMoreFiles(previewId, buttonId) {
+    const uploadButton = document.getElementById(buttonId);
+    const numberOfImages = document.querySelectorAll(`#${previewId} .image-container`).length;
+    const maxFiles = 5;
+    if (numberOfImages < maxFiles) {
+      uploadButton.disabled = false; // アップロードボタンを再度有効化
+    }
+  }
+
   // 画像をリサイズする関数
   function resizeImage(file, maxWidth = 600, quality = 0.9) {
     return new Promise((resolve, reject) => {
@@ -702,33 +712,33 @@ $(function () {
       });
   }
 
-    // リストアイテム追加の処理
-    function addListItem() {
-      var itemText = $('#list-item-input').val().trim();
-      if (itemText !== '' && $('#list-container li').length < 5) {
-        $('<li>').text(itemText).appendTo('#list-container').append($('<button>').text('削除').click(function () {
-          $(this).parent().remove();
-        }));
-        $('#list-item-input').val(''); // 入力フィールドをクリア
-      } else {
-        alert('最大5個の項目を追加できます。');
-      }
+  // リストアイテム追加の処理
+  function addListItem() {
+    var itemText = $('#list-item-input').val().trim();
+    if (itemText !== '' && $('#list-container li').length < 5) {
+      $('<li>').text(itemText).appendTo('#list-container').append($('<button>').text('削除').click(function () {
+        $(this).parent().remove();
+      }));
+      $('#list-item-input').val(''); // 入力フィールドをクリア
+    } else {
+      alert('最大5個の項目を追加できます。');
     }
-  
-    // 追加ボタンとEnterキーでのイベントハンドラー設定
-    $('#add-item-button').on('click', addListItem);
-    $('#list-item-input').on('keypress', function (event) {
-      if (event.which === 13) { // Enterキーが押された場合
-        addListItem();
-        event.preventDefault(); // フォーム送信を防ぐ
-      }
-    });
-  
-    // リストアイテムの削除機能
-    $('#list-container').on('click', '.remove-item-button', function () {
-      $(this).parent('li').remove();
-    });
-  
+  }
+
+  // 追加ボタンとEnterキーでのイベントハンドラー設定
+  $('#add-item-button').on('click', addListItem);
+  $('#list-item-input').on('keypress', function (event) {
+    if (event.which === 13) { // Enterキーが押された場合
+      addListItem();
+      event.preventDefault(); // フォーム送信を防ぐ
+    }
+  });
+
+  // リストアイテムの削除機能
+  $('#list-container').on('click', '.remove-item-button', function () {
+    $(this).parent('li').remove();
+  });
+
   function validateNumber(input) {
     // 数字以外の文字を削除
     input.value = input.value.replace(/[^0-9]/g, '');

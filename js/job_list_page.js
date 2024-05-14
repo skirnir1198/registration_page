@@ -2,6 +2,7 @@ $(function () {
   const db = firebase.firestore();
   const storage = firebase.storage();
   var uid = localStorage.getItem('uid');
+  
   // ログイン状態の変更を監視する
   if (!uid) {
     window.location.href = 'sign_in.html'; // 実際のログインページのURLに置き換えてください
@@ -65,6 +66,7 @@ $(function () {
   }
 
   function deleteJobPosting(docId) {
+    $('#loading').show();
     const docRef = db.collection("jobPostings").doc(docId);
     // ドキュメントのデータを取得
     docRef.get().then((doc) => {
@@ -97,14 +99,14 @@ $(function () {
       }
     }).then(() => {
       // すべての削除が完了した後に実行される
-      console.log("All files deleted successfully");
       db.collection("jobPostings").doc(docId).delete().then(() => {
-        console.log("Document successfully deleted!");
+        $('#loading').hide();
         fetchJobPostingsAndCreateList(); // リストを再読み込みして更新
       }).catch((error) => {
         console.error("Error removing document: ", error);
       });
     }).catch((error) => {
+      $('#loading').hide();
       // エラー処理
       console.error("Error during document fetch or file deletion:", error);
     });

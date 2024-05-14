@@ -1,7 +1,6 @@
 $(function () {
   var uid = localStorage.getItem('uid');
   const db = firebase.firestore();
-  $('#loading').hide();
   // 入力欄コンポーネント ----------------------------------------------------------------------------
 
   Vue.component('area-component', {
@@ -743,4 +742,7 @@ $(function () {
     // 数字以外の文字を削除
     input.value = input.value.replace(/[^0-9]/g, '');
   }
+
+  $('#loading').hide();
+
 });

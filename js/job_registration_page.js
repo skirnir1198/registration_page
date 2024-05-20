@@ -520,6 +520,12 @@ $(function () {
           $('#loading').hide();
           return; // 処理を停止
         }
+
+        // Firestoreから現在のTimestampを取得
+        const timestamp = firebase.firestore.Timestamp.now();
+        // TimestampをDateオブジェクトに変換
+        const date = timestamp.toDate();
+        const isoString = date.toISOString();
         // フォームデータをオブジェクトにまとめる
         const formData = {
           uid: uid,
@@ -563,7 +569,7 @@ $(function () {
           insideRoom: checkedInsideRoom,
           outsideRoom: checkedOutSide,
           surroundingEnvironment: checkedEnvironment,
-          createdAt: firebase.firestore.Timestamp.now(),
+          createdAt: isoString,
         };
 
         // Firestore にデータを追加

@@ -751,4 +751,38 @@ $(function () {
 
   $('#loading').hide();
 
+// ランダムなIDを生成する関数
+function generateRandomId(length) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
+// データを複製する関数
+// async function duplicateDocument(sourceCollection, sourceDoc, targetCollection) {
+//   try {
+//       const docRef = db.collection(sourceCollection).doc(sourceDoc);
+//       const docSnapshot = await docRef.get();
+
+//       if (docSnapshot.exists) {
+//           const data = docSnapshot.data();
+//           const randomId = generateRandomId(16); // 16文字のランダムなIDを生成
+//           await db.collection(targetCollection).doc(randomId).set(data);
+//           console.log(`ドキュメントが ${sourceCollection}/${sourceDoc} から ${targetCollection}/${randomId} に複製されました。`);
+//       } else {
+//           console.log(`${sourceCollection}/${sourceDoc} が存在しません。`);
+//       }
+//   } catch (error) {
+//       console.error('複製中にエラーが発生しました: ', error);
+//   }
+// }
+
+// // ドキュメント名を指定してデータを複製
+// duplicateDocument('jobPostings', 'XmgL9nCzRMOv9ediqnR0', 'jobPostings');
+
+
 });
+

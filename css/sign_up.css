@@ -7,6 +7,26 @@ body {
   background-color: #f7f7f7;
 }
 
+/* デスクトップサイズのスタイル */
+h2 {
+  font-size: 1.5rem;
+}
+
+/* タブレットサイズのスタイル */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1rem;
+  }
+}
+
+/* スマートフォンサイズのスタイル */
+@media (max-width: 480px) {
+  h2 {
+    font-size: .6rem;
+  }
+}
+
+
 .signup-form {
   background: white;
   padding: 20px;

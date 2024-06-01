@@ -91,9 +91,10 @@ section {
   /* アイテムを縦方向に並べる */
 }
 
-section img {
+.img-wrapper img {
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-height: 50px;
   border-radius: 8px;
   object-fit: cover;
 }
@@ -324,7 +325,7 @@ input[type="text"] {
 .second_img {
   width: auto;
   border-radius: 8px;
-  max-height: 350px;
+  max-height: 260px;
   margin-bottom: 12px;
   transition: opacity 0.5s ease-in-out; /* 透明度の変化に0.5秒かけて、イージングはease-in-out */
   opacity: 1; /* 初期状態の透明度は1（完全に不透明） */

@@ -119,10 +119,9 @@ $(function () {
   fetchJobPostingsAndCreateList();
 
   // 使用例
-  const imageUrl = 'https://firebasestorage.googleapis.com/v0/b/rizoba-app.appspot.com/o/jobPostingsimages%2Fdomitory_image%2F031P1Ko6KKTMLfBb%2FQRtifivJ.jpg?alt=media&token=9f0e5f6c-e205-444a-b254-47e51e22828d';
+  const imageUrl = 'https://firebasestorage.googleapis.com/v0/b/rizoba-app.appspot.com/o/jobPostingsimages%2Fdomitory_image%2FXmgL9nCzRMOv9ediqnR0%2FQRtifivJ.jpg?alt=media&token=174eaee5-7cc4-4175-b922-a5e9a4750c05';
   const newWidth = 250; // 新しい幅
   const newHeight = 250; // 新しい高さ
-
   // processImage(imageUrl, newWidth, newHeight);
 });
 

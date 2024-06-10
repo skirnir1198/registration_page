@@ -656,26 +656,17 @@ $(function () {
   }
 
   // 画像をリサイズする関数
-  function resizeImage(file, maxWidth = 600, quality = 0.9) {
+  function resizeImage(file, newWidth = 250, newHeight = 250, quality = 0.9) {
     return new Promise((resolve, reject) => {
       const image = new Image();
       image.src = URL.createObjectURL(file);
       image.onload = () => {
-        let width = image.width;
-        let height = image.height;
-
-        // 幅が最大幅を超える場合はサイズを調整
-        if (width > maxWidth) {
-          height *= maxWidth / width;
-          width = maxWidth;
-        }
-
         // canvasを使用して画像をリサイズ
         const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
+        canvas.width = newWidth;
+        canvas.height = newHeight;
         const ctx = canvas.getContext('2d');
-        ctx.drawImage(image, 0, 0, width, height);
+        ctx.drawImage(image, 0, 0, newWidth, newHeight);
         canvas.toBlob((blob) => {
           resolve(new File([blob], file.name, {
             type: 'image/jpeg', lastModified: Date.now()
@@ -751,37 +742,37 @@ $(function () {
 
   $('#loading').hide();
 
-// ランダムなIDを生成する関数
-function generateRandomId(length) {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
-  for (let i = 0; i < length; i++) {
+  // ランダムなIDを生成する関数
+  function generateRandomId(length) {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
       result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
   }
-  return result;
-}
 
-// データを複製する関数
-// async function duplicateDocument(sourceCollection, sourceDoc, targetCollection) {
-//   try {
-//       const docRef = db.collection(sourceCollection).doc(sourceDoc);
-//       const docSnapshot = await docRef.get();
+  // データを複製する関数
+  // async function duplicateDocument(sourceCollection, sourceDoc, targetCollection) {
+  //   try {
+  //       const docRef = db.collection(sourceCollection).doc(sourceDoc);
+  //       const docSnapshot = await docRef.get();
 
-//       if (docSnapshot.exists) {
-//           const data = docSnapshot.data();
-//           const randomId = generateRandomId(16); // 16文字のランダムなIDを生成
-//           await db.collection(targetCollection).doc(randomId).set(data);
-//           console.log(`ドキュメントが ${sourceCollection}/${sourceDoc} から ${targetCollection}/${randomId} に複製されました。`);
-//       } else {
-//           console.log(`${sourceCollection}/${sourceDoc} が存在しません。`);
-//       }
-//   } catch (error) {
-//       console.error('複製中にエラーが発生しました: ', error);
-//   }
-// }
+  //       if (docSnapshot.exists) {
+  //           const data = docSnapshot.data();
+  //           const randomId = generateRandomId(16); // 16文字のランダムなIDを生成
+  //           await db.collection(targetCollection).doc(randomId).set(data);
+  //           console.log(`ドキュメントが ${sourceCollection}/${sourceDoc} から ${targetCollection}/${randomId} に複製されました。`);
+  //       } else {
+  //           console.log(`${sourceCollection}/${sourceDoc} が存在しません。`);
+  //       }
+  //   } catch (error) {
+  //       console.error('複製中にエラーが発生しました: ', error);
+  //   }
+  // }
 
-// // ドキュメント名を指定してデータを複製
-// duplicateDocument('jobPostings', 'XmgL9nCzRMOv9ediqnR0', 'jobPostings');
+  // // ドキュメント名を指定してデータを複製
+  // duplicateDocument('jobPostings', 'XmgL9nCzRMOv9ediqnR0', 'jobPostings');
 
 
 });

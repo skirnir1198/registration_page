@@ -19,7 +19,7 @@ $(function () {
   // jobPostingsコレクションのドキュメントを全て取得してリストを作成する関数
   function fetchJobPostingsAndCreateList() {
     db.collection("jobPostings")
-    .where("uid", "==", uid)
+      .where("uid", "==", uid)
       .get().then((querySnapshot) => {
         const listElement = document.getElementById("jobPostingsList");
         listElement.innerHTML = ''; // 既存のリストアイテムをクリア
@@ -120,13 +120,10 @@ $(function () {
 
   // 使用例
   const imageUrl = 'https://firebasestorage.googleapis.com/v0/b/rizoba-app.appspot.com/o/jobPostingsimages%2Fdomitory_image%2FXmgL9nCzRMOv9ediqnR0%2FQRtifivJ.jpg?alt=media&token=174eaee5-7cc4-4175-b922-a5e9a4750c05';
-  const newWidth = 250; // 新しい幅
-  const newHeight = 250; // 新しい高さ
-  // processImage(imageUrl, newWidth, newHeight);
+  // processImage(imageUrl);
 });
-
 // Firebase Storageから画像を取得し解像度を下げて再アップロードする関数
-function processImage(imageUrl, newWidth, newHeight) {
+function processImage(imageUrl, maxWidth = 480, quality = 0.9) {
   // 画像を読み込む
   fetch(imageUrl)
     .then(response => response.blob())
@@ -135,12 +132,21 @@ function processImage(imageUrl, newWidth, newHeight) {
       img.src = URL.createObjectURL(blob);
 
       img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = newWidth;
-        canvas.height = newHeight;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, newWidth, newHeight);
+        let width = img.width;
+        let height = img.height;
 
+        // 幅が最大幅を超える場合はサイズを調整
+        if (width > maxWidth) {
+          height *= maxWidth / width;
+          width = maxWidth;
+        }
+
+        // canvasを使用して画像をリサイズ
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
         canvas.toBlob((resizedBlob) => {
           // Firebase Storageに再アップロード
           const storageRef = firebase.storage().refFromURL(imageUrl); // imageUrlから参照を取得
@@ -149,7 +155,7 @@ function processImage(imageUrl, newWidth, newHeight) {
           }).catch((error) => {
             console.error('アップロード中にエラーが発生しました:', error);
           });
-        }, 'image/jpeg');
+        }, 'image/jpeg', quality);
       };
     }).catch((error) => {
       console.error('画像の取得中にエラーが発生しました:', error);

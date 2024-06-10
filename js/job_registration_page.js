@@ -656,17 +656,26 @@ $(function () {
   }
 
   // 画像をリサイズする関数
-  function resizeImage(file, newWidth = 250, newHeight = 250, quality = 0.9) {
+  function resizeImage(file, maxWidth = 250, quality = 0.9) {
     return new Promise((resolve, reject) => {
       const image = new Image();
       image.src = URL.createObjectURL(file);
       image.onload = () => {
+        let width = image.width;
+        let height = image.height;
+
+        // 幅が最大幅を超える場合はサイズを調整
+        if (width > maxWidth) {
+          height *= maxWidth / width;
+          width = maxWidth;
+        }
+
         // canvasを使用して画像をリサイズ
         const canvas = document.createElement('canvas');
-        canvas.width = newWidth;
-        canvas.height = newHeight;
+        canvas.width = width;
+        canvas.height = height;
         const ctx = canvas.getContext('2d');
-        ctx.drawImage(image, 0, 0, newWidth, newHeight);
+        ctx.drawImage(image, 0, 0, width, height);
         canvas.toBlob((blob) => {
           resolve(new File([blob], file.name, {
             type: 'image/jpeg', lastModified: Date.now()

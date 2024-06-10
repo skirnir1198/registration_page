@@ -19,7 +19,7 @@ $(function () {
   // jobPostingsコレクションのドキュメントを全て取得してリストを作成する関数
   function fetchJobPostingsAndCreateList() {
     db.collection("jobPostings")
-    // .where("uid", "==", uid)
+    .where("uid", "==", uid)
       .get().then((querySnapshot) => {
         const listElement = document.getElementById("jobPostingsList");
         listElement.innerHTML = ''; // 既存のリストアイテムをクリア

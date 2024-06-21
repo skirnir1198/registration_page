@@ -570,6 +570,7 @@ $(function () {
           outsideRoom: checkedOutSide,
           surroundingEnvironment: checkedEnvironment,
           createdAt: isoString,
+          release: true,
         };
 
         // Firestore にデータを追加

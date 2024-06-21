@@ -16,6 +16,19 @@ $(function () {
       console.error("Error getting document:", error);
     });
   }
+
+  function updateReleaseField(docId, newValue) {
+    db.collection("jobPostings").doc(docId).update({
+      release: newValue
+    })
+    .then(() => {
+      console.log("Document successfully updated!");
+    })
+    .catch((error) => {
+      console.error("Error updating document: ", error);
+    });
+  }
+
   // jobPostingsコレクションのドキュメントを全て取得してリストを作成する関数
   function fetchJobPostingsAndCreateList() {
     db.collection("jobPostings")
@@ -40,18 +53,32 @@ $(function () {
             window.open(newPageUrl, '_blank');
           });
 
+          // トグルボタンを追加
+          const toggleButton = document.createElement("div");
+          toggleButton.classList.add("toggleButton");
+          if (data.release) {
+            toggleButton.classList.add("on");
+          }
+
+          toggleButton.onclick = function (e) {
+            e.stopPropagation();
+            const newValue = !toggleButton.classList.contains("on");
+            toggleButton.classList.toggle("on");
+            updateReleaseField(doc.id, newValue);
+          };
+
+
           // 削除ボタンを追加
           const deleteButton = document.createElement("button");
-          deleteButton.textContent = "削除";
-          deleteButton.style.minWidth = '60px';  // ボタンの最小横幅を100pxに設定
-          deleteButton.style.padding = '8px';  // ボタンのパディングを設定
-          deleteButton.style.cursor = 'pointer';  // カーソルをポインターに設定し、クリッカブルで
+          deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>'; // Font Awesomeアイコンを設定
           deleteButton.onclick = function (e) {
             e.stopPropagation(); // イベントのバブリングを停止
             if (confirm("この求人を削除してもよろしいですか？")) {
               deleteJobPosting(doc.id);
             }
           };
+
+          listItem.appendChild(toggleButton);
           // リストアイテムに削除ボタンを追加
           listItem.appendChild(deleteButton);
 
@@ -117,6 +144,20 @@ $(function () {
 
   // 関数を呼び出してリストを表示
   fetchJobPostingsAndCreateList();
+
+  $('#signOutButton').on('click', function () {
+    console.log('click');
+    firebase.auth().signOut().then(function () {
+      localStorage.removeItem('uid');
+      window.location.href = 'sign_in.html'; // 遷移先のURLを入力してください
+    }).catch(function (error) {
+      // サインアウトに失敗した場合
+      console.error('Sign Out Error', error);
+    });
+  });
+
+
+
 
   // 使用例
   const imageUrl = 'https://firebasestorage.googleapis.com/v0/b/rizoba-app.appspot.com/o/jobPostingsimages%2Fdomitory_image%2FXmgL9nCzRMOv9ediqnR0%2FQRtifivJ.jpg?alt=media&token=174eaee5-7cc4-4175-b922-a5e9a4750c05';

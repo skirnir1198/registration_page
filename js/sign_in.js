@@ -1,4 +1,5 @@
 $(function () {
+  console.log(localStorage.getItem('uid'));
   // ログイン機能
   $('#loginBtn').click(function () {
     var email = $('#email').val();
@@ -8,7 +9,7 @@ $(function () {
         const user = userCredential.user;
         const uid = user.uid;
         localStorage.setItem('uid', uid);
-        window.location.href = 'index.html'; // 実際のログインページのURLに置き換えてください
+        window.location.href = 'job_list_page.html';
 
       })
       .catch((error) => {
@@ -21,6 +22,6 @@ $(function () {
   
   $('#sign_up').click(function () {
     // 実際のログインページのURLにリダイレクトする
-    window.location.href = 'sign_up.html'; // 実際のログインページのURLに置き換えてください
+    window.location.href = 'sign_up.html';
   });
 });

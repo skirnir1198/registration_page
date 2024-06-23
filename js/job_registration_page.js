@@ -1,6 +1,74 @@
 $(function () {
   var uid = localStorage.getItem('uid');
   const db = firebase.firestore();
+
+
+  $(document).ready(function () {
+    const inputs = $('input');
+    const textareas = $('textarea');
+    const select = $('select');
+
+    inputs.each(function (index) {
+      if ($(this).is('input[type="checkbox"]')) {
+        $(this).on('change', function (e) {
+          if ($(this).is(':checked')) {
+            const nextElement = formElements.eq(index + 1);
+            if (nextElement.length) {
+              nextElement.focus();
+            }
+          }
+        });
+      }
+      $(this).on('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault(); // デフォルトのEnterキー動作を防ぐ
+          if (index === 2) { // 3つ目のinputの場合
+            textareas.eq(0).focus(); // 1つ目のtextareaにフォーカスを当てる
+          } else if (index === 4) { // 3つ目のinputの場合
+            select.eq(1).focus(); // 1つ目のtextareaにフォーカスを当てる
+          } else if (index === 6) { // 3つ目のinputの場合
+            addListItem();
+          } else {
+            const nextInput = inputs.eq(index + 1);
+            if (nextInput.length) {
+              nextInput.focus();
+            }
+          }
+        }
+      });
+     
+    });
+
+    textareas.each(function (index) {
+      $(this).on('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault(); // デフォルトのEnterキー動作を防ぐ
+          if (index === 0) { // 1つ目のtextareaの場合
+            select.eq(0).focus();
+          } else if (index === 1) { // 1つ目のtextareaの場合
+            inputs.eq(5).focus();
+          } else {
+            const nextTextarea = textareas.eq(index + 1);
+            if (nextTextarea.length) {
+              nextTextarea.focus();
+            }
+          }
+        }
+      });
+    });
+
+    select.each(function (index) {
+      $(this).on('change', function (e) {
+        if (index === 0) { // 1つ目のselectの場合
+          inputs.eq(3).focus();
+        } else if (index === 1) { // 1つ目のselectの場合
+          textareas.eq(1).focus();
+        }
+      });
+    });
+  });
+
+
   // 入力欄コンポーネント ----------------------------------------------------------------------------
 
   Vue.component('area-component', {
@@ -726,7 +794,7 @@ $(function () {
         $(this).parent().remove();
       }));
       $('#list-item-input').val(''); // 入力フィールドをクリア
-    } else {
+    } else if (itemText == '') { } else {
       alert('最大5個の項目を追加できます。');
     }
   }

@@ -160,3 +160,9 @@
   padding: 10px;
   border-bottom: 1px solid #ccc;
 }
+
+.button-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

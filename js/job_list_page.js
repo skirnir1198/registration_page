@@ -21,12 +21,11 @@ $(function () {
     db.collection("jobPostings").doc(docId).update({
       release: newValue
     })
-    .then(() => {
-      console.log("Document successfully updated!");
-    })
-    .catch((error) => {
-      console.error("Error updating document: ", error);
-    });
+      .then(() => {
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+      });
   }
 
   // jobPostingsコレクションのドキュメントを全て取得してリストを作成する関数
@@ -53,20 +52,35 @@ $(function () {
             window.open(newPageUrl, '_blank');
           });
 
-          // トグルボタンを追加
+          // トグルボタンとテキストを追加
           const toggleButton = document.createElement("div");
           toggleButton.classList.add("toggleButton");
           if (data.release) {
             toggleButton.classList.add("on");
           }
 
+          const toggleText = document.createElement("p");
+          toggleText.style.margin = "0";
+          toggleText.style.fontSize = "12px";
+          toggleText.textContent = data.release ? "公開" : "非公開";
+
           toggleButton.onclick = function (e) {
             e.stopPropagation();
             const newValue = !toggleButton.classList.contains("on");
             toggleButton.classList.toggle("on");
+            toggleText.textContent = newValue ? "公開" : "非公開";
             updateReleaseField(doc.id, newValue);
           };
 
+          // トグルボタンとテキストを囲むdivを作成
+          const toggleContainer = document.createElement("div");
+          toggleContainer.style.display = "flex";
+          toggleContainer.style.flexDirection = "column";
+          toggleContainer.style.alignItems = "center";
+          toggleContainer.style.marginRight = "8px";
+
+          toggleContainer.appendChild(toggleText);
+          toggleContainer.appendChild(toggleButton);
 
           // 削除ボタンを追加
           const deleteButton = document.createElement("button");
@@ -78,14 +92,18 @@ $(function () {
             }
           };
 
-          listItem.appendChild(toggleButton);
-          // リストアイテムに削除ボタンを追加
-          listItem.appendChild(deleteButton);
+          // ボタンを囲むdivを作成
+          const containerDiv = document.createElement("div");
+          containerDiv.classList.add("button-box");
+          containerDiv.appendChild(toggleContainer);
+          containerDiv.appendChild(deleteButton);
+
+          // <div>をlistItemに追加
+          listItem.appendChild(containerDiv);
 
           // リスト要素にリストアイテムを追加
           listElement.appendChild(listItem);
         });
-
       }).then(() => {
         $('#loading').hide();
       }).catch((error) => {

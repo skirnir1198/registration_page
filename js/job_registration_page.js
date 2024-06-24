@@ -9,18 +9,9 @@ $(function () {
     const select = $('select');
 
     inputs.each(function (index) {
-      if ($(this).is('input[type="checkbox"]')) {
-        $(this).on('change', function (e) {
-          if ($(this).is(':checked')) {
-            const nextElement = formElements.eq(index + 1);
-            if (nextElement.length) {
-              nextElement.focus();
-            }
-          }
-        });
-      }
       $(this).on('keydown', function (e) {
         if (e.key === 'Enter') {
+          console.log(index);
           e.preventDefault(); // デフォルトのEnterキー動作を防ぐ
           if (index === 2) { // 3つ目のinputの場合
             textareas.eq(0).focus(); // 1つ目のtextareaにフォーカスを当てる
@@ -28,6 +19,16 @@ $(function () {
             select.eq(1).focus(); // 1つ目のtextareaにフォーカスを当てる
           } else if (index === 6) { // 3つ目のinputの場合
             addListItem();
+          } else if (index === 27) { // 3つ目のinputの場合
+            inputs.eq(28).focus();
+          } else if (index === 28) { // 3つ目のinputの場合
+            textareas.eq(2).focus();
+          } else if (index === 29) { // 3つ目のinputの場合
+            select.eq(3).focus();
+          } else if (index === 34) { // 3つ目のinputの場合
+            select.eq(4).focus();
+          } else if (index === 36) { // 3つ目のinputの場合
+            select.eq(7).focus();
           } else {
             const nextInput = inputs.eq(index + 1);
             if (nextInput.length) {
@@ -36,7 +37,7 @@ $(function () {
           }
         }
       });
-     
+
     });
 
     textareas.each(function (index) {
@@ -47,6 +48,12 @@ $(function () {
             select.eq(0).focus();
           } else if (index === 1) { // 1つ目のtextareaの場合
             inputs.eq(5).focus();
+          } else if (index === 2) { // 1つ目のtextareaの場合
+            inputs.eq(29).focus();
+          } else if (index === 3) { // 1つ目のtextareaの場合
+            inputs.eq(30).focus();
+          } else if (index === 4) { // 1つ目のtextareaの場合
+            select.eq(6).focus();
           } else {
             const nextTextarea = textareas.eq(index + 1);
             if (nextTextarea.length) {
@@ -59,10 +66,24 @@ $(function () {
 
     select.each(function (index) {
       $(this).on('change', function (e) {
+        console.log(index);
         if (index === 0) { // 1つ目のselectの場合
           inputs.eq(3).focus();
         } else if (index === 1) { // 1つ目のselectの場合
           textareas.eq(1).focus();
+        } else if (index == 2) {
+          inputs.eq(27).focus();
+        } else if (index == 3) {
+          textareas.eq(3).focus();
+        } else if (index == 5) {
+          textareas.eq(4).focus();
+        } else if (index === 6) { // 1つ目のtextareaの場合
+          inputs.eq(35).focus();
+        } else {
+          const nextSelect = select.eq(index + 1);
+          if (nextSelect.length) {
+            nextSelect.focus();
+          }
         }
       });
     });

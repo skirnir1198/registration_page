@@ -24,11 +24,7 @@
   background: none;
   cursor: pointer; /* カーソルをポインターに */
   color: red;
-  font-size: 16px;
-}
-
-#jobPostingsList li button:hover {
-  background-color: #e5533d; /* ホバー時の背景色変更 */
+  font-size: 22px;
 }
 
 

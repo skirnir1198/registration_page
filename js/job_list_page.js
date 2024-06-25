@@ -84,13 +84,24 @@ $(function () {
 
           // 削除ボタンを追加
           const deleteButton = document.createElement("button");
-          deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>'; // Font Awesomeアイコンを設定
+          deleteButton.innerHTML = '<i class="fas fa-trash-alt" style="font-weight: 100;"></i>'; // Font Awesomeアイコンを設定
           deleteButton.onclick = function (e) {
             e.stopPropagation(); // イベントのバブリングを停止
             if (confirm("この求人を削除してもよろしいですか？")) {
               deleteJobPosting(doc.id);
             }
           };
+
+          // ホバーイベントの追加
+          deleteButton.addEventListener('mouseover', function () {
+            const icon = deleteButton.querySelector('i');
+            icon.style.fontWeight = '900'; // ホバー時のフォントウェイトを変更
+          });
+
+          deleteButton.addEventListener('mouseout', function () {
+            const icon = deleteButton.querySelector('i');
+            icon.style.fontWeight = '100'; // ホバーが解除されたら元のフォントウェイトに戻す
+          });
 
           // ボタンを囲むdivを作成
           const containerDiv = document.createElement("div");

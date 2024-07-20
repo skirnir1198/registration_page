@@ -7,6 +7,11 @@ body {
   background-color: #f7f7f7;
 }
 
+#login-error-message {
+  color: red;
+  font-size: 12px;
+}
+
 /* デスクトップサイズのスタイル */
 h2 {
   font-size: 1.5rem;

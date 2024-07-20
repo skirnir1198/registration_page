@@ -1,6 +1,52 @@
 $(function () {
   var db = firebase.firestore();
 
+  $('#email').on('keydown', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // デフォルトのEnterキー動作を防ぐ
+      $('#password').focus(); // passwordフィールドにフォーカスを移動
+    }
+  });
+
+  $('#password').on('keydown', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // デフォルトのEnterキー動作を防ぐ
+      $('#company').focus(); // passwordフィールドにフォーカスを移動
+    }
+  });
+
+  $('#company').on('keydown', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // デフォルトのEnterキー動作を防ぐ
+      $('#phone').focus(); // passwordフィールドにフォーカスを移動
+    }
+  });
+
+  $('#phone').on('keydown', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // デフォルトのEnterキー動作を防ぐ
+      var email = $('#email').val();
+      var password = $('#password').val();
+      var company = $('#company').val();
+      var phone = $('#phone').val();
+
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          const uid = userCredential.user.uid;
+          localStorage.setItem('uid', uid);
+          return saveUserData(uid, email, password, company, phone);
+        })
+        .then(() => {
+          // データ保存が完了した後、ページ遷移
+          window.location.href = 'job_list_page.html'; // 実際のログインページのURLに置き換えてください
+        })
+        .catch((error) => {
+          // サインアップまたはデータ保存失敗
+          $('#error-message').text('エラー: ' + error.message);
+        });
+    }
+  });
+
   // サインアップ機能
   $('#signupBtn').click(function () {
     var email = $('#email').val();
@@ -11,7 +57,7 @@ $(function () {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         const uid = userCredential.user.uid;
-        localStorage.setItem('uid', uid); 
+        localStorage.setItem('uid', uid);
         return saveUserData(uid, email, password, company, phone);
       })
       .then(() => {

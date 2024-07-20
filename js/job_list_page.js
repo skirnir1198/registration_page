@@ -28,6 +28,10 @@ $(function () {
       });
   }
 
+  $('.image_link').on('click', function () {
+    window.location.href = `job_detail_page.html`; // 遷移先のURLを入力してください
+  });
+
   // jobPostingsコレクションのドキュメントを全て取得してリストを作成する関数
   function fetchJobPostingsAndCreateList() {
     db.collection("jobPostings")
@@ -42,7 +46,8 @@ $(function () {
           // リストアイテムを作成
           const listItem = document.createElement("li");
           // 名前を表示するためのspan要素を作成
-          listItem.innerHTML = `<div class="text_content"><h4>${data.name}</h4><h6>${data.title}</h6><p style="font-size:12px;">${data.type}</p></div>`;
+          const name = data.name == "" ? '未入力' : data.name;
+          listItem.innerHTML = `<div class="text_content"><h4>${name}<span class="image_link">掲載イメージ<i class="fa-solid fa-arrow-up-right-from-square" style="margin-left: 4px;"></i></span></h4><h6>${data.title}</h6><p style="font-size:12px;">${data.type}</p></div>`;
           listItem.setAttribute("data-doc-id", doc.id);
 
           // リストアイテムにクリックイベントを追加
@@ -67,6 +72,61 @@ $(function () {
           toggleButton.onclick = function (e) {
             e.stopPropagation();
             const newValue = !toggleButton.classList.contains("on");
+            if(newValue) {
+              if (!data.company) {
+                alert('会社名が入力されていません');
+                return;
+              }
+              if (!data.email) {
+                alert('メールアドレスが入力されていません');
+                return;
+              }
+              if (!data.name) {
+                alert('職場名が入力されていません');
+                return;
+              }
+              if (!data.title) {
+                alert('タイトルが入力されていません');
+                return;
+              }
+              if (!data.region_detail) {
+                alert('都道府県以降が入力されていません');
+                return;
+              }
+              if (!data.job_description) {
+                alert('お仕事内容が入力されていません');
+                return;
+              }
+              if (!data.period) {
+                alert('勤務期間が入力されていません');
+                return;
+              }
+              if (data.agecheckbox.length == 0) {
+                alert('年齢層が入力されていません');
+                return;
+              }
+              if (data.sexRatio < 0) {
+                alert('性別が入力されていません');
+                return;
+              }
+              if (data.overtime < 0) {
+                alert('残業が入力されていません');
+                return;
+              }
+              if (data.atmosphere < 0) {
+                alert('雰囲気が入力されていません');
+                return;
+              }
+    
+              if (data.imageUrls1.length == 0) {
+                alert('職場の画像は最低1枚必須です');
+                return;
+              }
+              if (data.imageUrls2.length == 0) {
+                alert('寮の画像は最低1枚必須です');
+                return;
+              }
+            }
             toggleButton.classList.toggle("on");
             toggleText.textContent = newValue ? "公開" : "非公開";
             updateReleaseField(doc.id, newValue);
@@ -78,13 +138,12 @@ $(function () {
           toggleContainer.style.flexDirection = "column";
           toggleContainer.style.alignItems = "center";
           toggleContainer.style.marginRight = "8px";
-
           toggleContainer.appendChild(toggleText);
           toggleContainer.appendChild(toggleButton);
 
           // 削除ボタンを追加
           const deleteButton = document.createElement("button");
-          deleteButton.innerHTML = '<i class="fas fa-trash-alt" style="font-weight: 100;"></i>'; // Font Awesomeアイコンを設定
+          deleteButton.innerHTML = '<i class="fas fa-trash-alt" style="font-weight: 100; color: red;"></i>'; // Font Awesomeアイコンを設定
           deleteButton.onclick = function (e) {
             e.stopPropagation(); // イベントのバブリングを停止
             if (confirm("この求人を削除してもよろしいですか？")) {
@@ -103,10 +162,18 @@ $(function () {
             icon.style.fontWeight = '100'; // ホバーが解除されたら元のフォントウェイトに戻す
           });
 
+          const editButton = document.createElement("button");
+          editButton.innerHTML = '<i class="fas fa-edit" style="font-weight: 100;  color: orange;"></i>'; // Font Awesomeアイコンを設定
+          editButton.onclick = function (e) {
+            e.stopPropagation(); // イベントのバブリングを停止
+            window.location.href = `job_edit_page.html?param=${doc.id}`; // 遷移先のURLを入力してください
+          };
+
           // ボタンを囲むdivを作成
           const containerDiv = document.createElement("div");
           containerDiv.classList.add("button-box");
           containerDiv.appendChild(toggleContainer);
+          containerDiv.appendChild(editButton);
           containerDiv.appendChild(deleteButton);
 
           // <div>をlistItemに追加

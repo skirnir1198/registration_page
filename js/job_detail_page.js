@@ -26,7 +26,7 @@ $(function () {
     if (doc.exists) {
       // ドキュメントのデータをコンソールに表示
       const data = doc.data();
-
+console.log(data);
       // 画像1----------------------------------------
       const imageUrls = data.imageUrls1; // Assuming 'imageUrls' is the field containing the array of image URLs
       const slideContainer = document.querySelectorAll('.slide-container');
@@ -102,7 +102,7 @@ $(function () {
       $('.region_detail').text(data.region_detail ? '/' + data.region_detail : ''); //地域名
       $('.type').text(data.type); //職種名
       $('.period').text(data.period); //期間
-      $('.salary_type').text(data.wage ? data.salary_type : ''); //給与体系
+      $('.salary_type').text(data.salary_type ? data.salary_type : ''); //給与体系
       $('.wage').text(data.wage ? data.wage+ '円':''); //給与
       $('.job_description').html(data.job_description); //仕事内容
       $('.income').text(data.income); //予想月収

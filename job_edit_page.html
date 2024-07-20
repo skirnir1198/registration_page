@@ -3,9 +3,11 @@
 
 <head>
   <meta charset="utf-8">
-  <title>求人登録ページ</title>
+  <title>求人編集ページ</title>
   <link rel="stylesheet" href="./css/job_registration_page.css">
+  <link rel="stylesheet" href="./css/job_edit_page.css">
   <link rel="stylesheet" href="./css/modal_window.css">
+
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
     integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
@@ -22,17 +24,16 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5740691913931441"
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
 </head>
 
 <body>
-   <!-- モーダルウィンドウ -->
-   <div id="myModal" class="modal">
+  <!-- モーダルウィンドウ -->
+  <div id="myModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
       <h2>求人を公開しますか？</h2>
-      <div class="modal-buttons">
-        <button class="modal-button" data-choice="0">非公開</button>
+      <div class="modal-buttons form-container">
+        <button class="modal-button" data-choice="0" style="background-color: grey;">非公開</button>
         <button class="modal-button" data-choice="1">公開</button>
       </div>
     </div>
@@ -68,7 +69,7 @@
     </section>
     <section>
       <h3>都道府県</h3>
-      <area-component @update-region="handleRegionUpdate"></area-component>
+      <area-component v-model="selectedRegion"></area-component>
     </section>
     <section>
       <h3>*都道府県以降の住所</h3>
@@ -80,7 +81,7 @@
     </section>
     <section>
       <h3>業種</h3>
-      <occupation-component @update-occupation="handleOccupationUpdate"></occupation-component>
+      <occupation-component v-model="type"></occupation-component>
     </section>
     <section>
       <h3>*お仕事内容</h3>
@@ -90,7 +91,6 @@
       <h3>*期間</h3>
       <text-field :input-class="period" v-model="period"></text-field>
     </section>
-
     <section>
       <h3>おすすめポイント<span class="small_word">※最大５個まで</span></h3>
       <div class="input-group">
@@ -125,11 +125,12 @@
     </section>
     <section>
       <div class="salary-input">
-        <h3>*給与</h3>
-        <sarary-component @update-salary_type="handleSalaryTypeUpdate"></sarary-component>
+        <h3>給与</h3>
+        <sarary-component v-model="salary_type"></sarary-component>
         <input type="number" class="wage" name="wage" v-model="wage" placeholder="金額を入力">円
       </div>
     </section>
+
     <section>
       <h3>月収予想</h3>
       <div style="display: flex;">
@@ -146,7 +147,7 @@
     </section>
     <section>
       <h3>雇用形態</h3>
-      <employment-component @update-employment="handleEmploymentUpdate"></employment-component>
+      <employment-component v-model="employment"></employment-component>
     </section>
     <section>
       <h3>食事条件</h3>
@@ -177,20 +178,23 @@
     </section>
     <section>
       <h3>制服</h3>
-      <clothing-component @update-clothing="handleClothingUpdate"></clothing-component>
+      <clothing-component v-model="clothing"></clothing-component>
     </section>
+
     <section>
       <h3>車の持ち込み</h3>
-      <car-component @update-car="handleCarUpdate"></car-component>
+      <car-component v-model="car"></car-component>
     </section>
+
     <section>
       <h3>福利厚生</h3>
       <text-area-component input-class="welfare" v-model="welfare"></text-area-component>
     </section>
     <section>
       <h3>寮タイプ</h3>
-      <dormitory-component @update-dormitory="handleDormitoryUpdate"></dormitory-component>
+      <dormitory-component v-model="domitoryType"></dormitory-component>
     </section>
+
     <section>
       <h3>寮費</h3>
       <text-field :input-class="domitory_fee" v-model="domitory_fee"></text-field>
@@ -201,8 +205,9 @@
     </section>
     <section>
       <h3>Wi-Fi</h3>
-      <network-component @update-network="handleNetworkUpdate"></network-component>
+      <network-component v-model="network"></network-component>
     </section>
+
     <section>
       <h3>部屋内設備</h3>
       <div class="checkbox_parent">
@@ -238,7 +243,8 @@
       <div id="image-upload-container1">
         <div id="image-preview1" class="image-preview"></div>
         <label for="image-input1" class="file-input-button">画像を選択</label>
-        <input type="file" id="image-input1" accept="image/*" multiple hidden />
+        <input type="file" id="image-input1" accept="image/*" multiple hidden
+          @change="handleFileSelection($event,imageUrls1,imageUrls1, 'image-preview1')" />
       </div>
     </section>
     <section>
@@ -246,23 +252,20 @@
       <div id="image-upload-container2">
         <div id="image-preview2" class="image-preview"></div>
         <label for="image-input2" class="file-input-button">画像を選択</label>
-        <input type="file" id="image-input2" accept="image/*" multiple hidden />
+        <input type="file" id="image-input2" accept="image/*" multiple hidden
+          @change="handleFileSelection($event, imageUrls2, imageUrls2, 'image-preview2')" />
       </div>
     </section>
     <div class="error"></div>
     <div class="form-container">
-      <form @submit.prevent="saveForm">
-        <button type="submit" class="save_button">一時保存</button>
-      </form>
-      <form @submit.prevent="submitForm">
-        <button type="submit" class="submit-button">送信</button>
+      <form @submit.prevent="openModal">
+        <button type="submit" class="submit-button">保存</button>
       </form>
     </div>
-  
-
   </main>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-  <script src="./js/job_registration_page.js"></script>
+  <script src="./js/modal_window.js"></script>
+  <script src="./js/job_edit_page.js"></script>
 </body>
 
 </html>

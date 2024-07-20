@@ -16,7 +16,7 @@ $(function () {
       })
       .then(() => {
         // データ保存が完了した後、ページ遷移
-        window.location.href = 'index.html'; // 実際のログインページのURLに置き換えてください
+        window.location.href = 'job_list_page.html'; // 実際のログインページのURLに置き換えてください
       })
       .catch((error) => {
         // サインアップまたはデータ保存失敗

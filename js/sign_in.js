@@ -1,5 +1,4 @@
 $(function () {
-  console.log(localStorage.getItem('uid'));
   // ログイン機能
   $('#loginBtn').click(function () {
     var email = $('#email').val();

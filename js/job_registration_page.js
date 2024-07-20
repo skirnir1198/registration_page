@@ -227,6 +227,7 @@ $(function () {
     <option value="二部式着物">二部式着物</option>
     <option value="本式着物">本式着物</option>
     <option value="作務衣">作務衣</option>
+    <option value="作務衣またはスーツ">作務衣またはスーツ</option>
     <option value="その他">その他</option>
   </select>
   `
@@ -506,7 +507,100 @@ $(function () {
       },
 
 
+      saveForm() {
+        $('#loading').show();
+        $('.error').empty();
+        var liTexts = [];
+        // 各li要素に対して処理を実行
+        $('#list-container li').each(function () {
+          // li要素の子ノードを取得し、テキストノードだけをフィルタリング
+          var text = $(this).contents().filter(function () {
+            return this.nodeType === 3; // ノードタイプ3はテキストノードを指します
+          }).text().trim();
+          // 配列にテキストを追加
+          liTexts.push(text);
+        });
+        const db = firebase.firestore();
+        // データを保存するための Firestore コレクションを指定
+        const jobPostingsCollection = db.collection('jobPostings').doc();
+        const checkedAges = this.agecheckbox
+          .map((item, index) => item.checked ? index : -1) // チェックされたもののインデックスを取得、そうでなければ -1
+          .filter(index => index !== -1); // -1 を除外して実際にチェックされたインデックスのみを取得
+        // フィルタリングされたオブジェクトから 'text' のみを取り出す
+        const checkedEnvironment = this.surroundingEnvironment
+          .filter(item => item.checked) // checked が true の要素のみをフィルタリング
+          .map(item => item.text); // フィルタリングされた要素の text のみを抽出
 
+        const checkedInsideRoom = this.insideRoom
+          .filter(item => item.checked) // checked が true の要素のみをフィルタリング
+          .map(item => item.text); // フィルタリングされた要素の text のみを抽出
+
+        const checkedOutSide = this.outsideRoom
+          .filter(item => item.checked) // checked が true の要素のみをフィルタリング
+          .map(item => item.text); // フィルタリングされた要素の text のみを抽出
+        // Firestoreから現在のTimestampを取得
+        const timestamp = firebase.firestore.Timestamp.now();
+        // TimestampをDateオブジェクトに変換
+        const date = timestamp.toDate();
+        const isoString = date.toISOString();
+        // フォームデータをオブジェクトにまとめる
+        const formData = {
+          uid: uid,
+          docId: jobPostingsCollection.id,
+          link: jobPostingsCollection.id,
+          company: this.company,
+          email: this.email,
+          name: this.name,
+          title: this.title.replace(/\n/g, '<br>'),
+          region_detail: this.region_detail,
+          selectedRegion: this.selectedRegion,
+          salary_type: this.salary_type,
+          wage: $('.wage').val(),
+          type: this.type,
+          region: this.region,
+          employment: this.employment,
+          clothing: this.clothing,
+          car: this.car,
+          job_description: this.job_description.replace(/\n/g, '<br>'),
+          holiday: [$(".holiday-start").val(), $(".holiday-end").val()],
+          period: this.period,
+          income: this.income,
+          working_hours: this.working_hours.replace(/\n/g, '<br>'),
+          good_points: liTexts,
+          condition: this.condition,
+          dietary_conditions: this.dietary_conditions.replace(/\n/g, '<br>'),
+          necessary_work: this.necessary_work,
+          necessary_life: this.necessary_life,
+          network: this.network,
+          domitoryType: this.domitoryType,
+          domitory_fee: this.domitory_fee,
+          commuting_time: this.commuting_time,
+          welfare: this.welfare.replace(/\n/g, '<br>'),
+          surrounding_environment: this.surrounding_environment.replace(/\n/g, '<br>'),
+          transportation_expenses: $('.transportation_expenses').val(),
+          transportation: this.transportation.replace(/\n/g, '<br>'),
+          sexRatio: this.sexRatio - 1,
+          overtime: this.overtime - 1,
+          atmosphere: this.atmosphere - 1,
+          agecheckbox: checkedAges,
+          insideRoom: checkedInsideRoom,
+          outsideRoom: checkedOutSide,
+          surroundingEnvironment: checkedEnvironment,
+          createdAt: isoString,
+          release: false,
+        };
+
+        // Firestore にデータを追加
+        jobPostingsCollection.set(formData)
+          .then(docRef => {
+            console.log('求人情報が保存されました。ドキュメントID:', jobPostingsCollection.id);
+            uploadImagesAndSaveFormData(jobPostingsCollection.id);
+
+          })
+          .catch(error => {
+            console.error('データの保存中にエラーが発生しました:', error);
+          });
+      },
       submitForm() {
         $('#loading').show();
         $('.error').empty();
@@ -684,14 +778,20 @@ $(function () {
   let filesToUpload2 = []; // アップロードするファイルを保持する配列
 
   // 1セット目の画像選択と処理
-  document.getElementById('image-input1').addEventListener('change', function (event) {
-    handleFileSelection(event, filesToUpload, 'image-preview1', 'image-input1');
-  });
+  const imageInput1 = document.getElementById('image-input1');
+  if (imageInput1) {
+    imageInput1.addEventListener('change', function(event) {
+      handleFileSelection(event, filesToUpload, 'image-preview1', 'image-input1');
+    });
+  }
 
   // 2セット目の画像選択と処理
-  document.getElementById('image-input2').addEventListener('change', function (event) {
-    handleFileSelection(event, filesToUpload2, 'image-preview2', 'image-input2');
-  });
+  const imageInput2 = document.getElementById('image-input2');
+  if (imageInput2) {
+    imageInput2.addEventListener('change', function(event) {
+      handleFileSelection(event, filesToUpload, 'image-preview2', 'image-input2');
+    });
+  }
 
   // 共通のファイル選択処理関数
   function handleFileSelection(event, filesArray, previewId, uploadButtonId) {

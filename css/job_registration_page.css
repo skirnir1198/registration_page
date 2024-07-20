@@ -96,15 +96,21 @@ section {
   height: auto;
   max-height: 50px;
   border-radius: 8px;
-  object-fit: cover;
+  object-fit: contain;
+  display: block; /* 画像をブロック要素として表示 */
+  margin: 0 auto; /* 画像を中央揃え */
+}
+
+.form-container {
+  display: flex;
+  justify-content: space-between; /* 中央揃え */
+  gap: 10px; /* フォーム間の間隔 */
 }
 
 
 /* 登録ボタン */
-.submit-button {
-  padding: 10px 20px;
-  /* ボタン内のパディング */
-  background-color: #4CAF50;
+.form-container button{
+  padding: 4px 16px;  /* ボタン内のパディング */
   /* ボタンの背景色 */
   color: white;
   /* テキスト色 */
@@ -121,6 +127,13 @@ section {
   align-items: center;
   /* アイコンとテキストを中央揃え */
 }
+.submit-button {
+  background-color: #4CAF50;
+}
+
+.save_button {
+  background-color: #a4a4a4;
+}
 
 .submit-button i {
   margin-right: 10px;
@@ -128,8 +141,6 @@ section {
 }
 
 /* ページ遷移ボタン ----------------------------------------------------------------- */
-
-
 .header {
   padding: 10px 4px; /* パディングを設定 */
 }
@@ -323,12 +334,14 @@ input[type="text"] {
 
 .first_img,
 .second_img {
-  width: auto;
-  border-radius: 8px;
-  max-height: 260px;
-  margin-bottom: 12px;
-  transition: opacity 0.5s ease-in-out; /* 透明度の変化に0.5秒かけて、イージングはease-in-out */
-  opacity: 1; /* 初期状態の透明度は1（完全に不透明） */
+  max-height: 260px; /* 最大高さを設定 */
+  width: auto; /* 幅は自動調整 */
+  height: auto; /* 高さは自動調整 */
+  border-radius: 8px; /* 角を丸くする */
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+  display: block; /* 画像をブロック要素として表示 */
+  margin: 0 auto; /* 画像を中央揃え */
 }
 
 
@@ -356,11 +369,12 @@ input[type="text"] {
   max-width: calc(20% - 4px);
   margin-right: 4px;
   cursor: pointer;
+  position: relative;
+  display: inline-block; /* または必要に応じて他の表示方法 */
 }
 
 .img-wrapper {
-  position: relative;
-  display: inline-block; /* または必要に応じて他の表示方法 */
+
 }
 
 .img-wrapper:hover::after {
@@ -783,6 +797,10 @@ a:hover {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+}
+
+.holiday-start, .holiday-end {
+  width: 60px;
 }
 
 

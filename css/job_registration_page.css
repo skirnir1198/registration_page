@@ -803,6 +803,10 @@ a:hover {
   width: 60px;
 }
 
+.list_link:hover {
+  cursor: pointer;
+  background-color: #b1b1b1;
+}
 
 /* -------------------------------------- */
 

@@ -1049,6 +1049,8 @@ $(function () {
     }
   }
 
+  
+
   $('#add-item-button').on('click', addListItem);
   $('#list-item-input').on('keypress', function (event) {
     if (event.which === 13) {

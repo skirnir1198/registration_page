@@ -303,11 +303,12 @@ $(function () {
     },
     template: `
     <select class="salary-type" name="salary_type"@change="updateSelectedText" style="min-width: 100px;">
-    <option value="hourly">時給</option>
-    <option value="daily">日給</option>
-    <option value="monthly">月給</option>
-  </select>
-  `
+      <option value="hourly">時給</option>
+      <option value="daily">日給</option>
+      <option value="monthly">月給</option>
+      <option value="other">その他</option>
+    </select>
+    `
   });
 
 
@@ -685,11 +686,6 @@ $(function () {
         }
         if (!this.atmosphere) {
           $('.error').append($('<p>').text(`「雰囲気」は必須項目です。`));
-          $('#loading').hide();
-          return; // 処理を停止
-        }
-        if (!this.wage) {
-          $('.error').append($('<p>').text(`「給与」は必須項目です。`));
           $('#loading').hide();
           return; // 処理を停止
         }
